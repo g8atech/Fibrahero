@@ -9,8 +9,11 @@ export const SITE = {
   phone: '345 178 33 03',
   whatsapp: '393451783303',
   whatsappText: 'Ciao FibraHero, vorrei un\'offerta per la connessione della mia azienda.',
-  // TODO: partita IVA di G8A Technology S.r.l. per il footer.
-  vat: '',
+  // Dati societari (registro imprese). Obbligatori sul sito per una S.r.l.
+  vat: '03981970126',
+  legalAddress: 'Via Caronno Varesino 33, 21048 Solbiate Arno (VA)',
+  rea: 'VA-393252',
+  capital: '€ 10.000,00',
   // Endpoint che riceve le richieste di verifica copertura (es. funzione su Brain/Supabase).
   // Se vuoto, il form apre una mail precompilata verso SITE.email.
   leadEndpoint: import.meta.env.PUBLIC_LEAD_ENDPOINT ?? '',
