@@ -1,16 +1,21 @@
 ---
 import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { waLink } from '../data/site';
 const path = Astro.url.pathname;
 const links = [
   { href: '/servizi', label: 'Servizi' },
   { href: '/fibra-aziendale', label: 'Zone' },
   { href: '/chi-siamo', label: 'Chi siamo' },
-  { href: '/domande-frequenti', label: 'Domande' },
+  { href: '/verifica-copertura', label: 'Verifica copertura' },
 ];
 ---
 <header class="hdr">
   <div class="wrap hdr__row">
-    <a href="/" class="hdr__home" aria-label="FibraHero, pagina iniziale"><Logo /></a>
+    <a href="/" class="hdr__home" aria-label="FibraHero, pagina iniziale">
+      <Logo />
+      <span class="hdr__by">by G8A Technology</span>
+    </a>
     <nav aria-label="Principale">
       <ul class="hdr__nav">
         {links.map((l) => (
@@ -18,25 +23,29 @@ const links = [
         ))}
       </ul>
     </nav>
-    <a href="/verifica-copertura" class="btn btn--signal hdr__cta">Verifica copertura</a>
+    <a href={waLink()} class="btn btn--wa hdr__cta" rel="noopener" target="_blank">
+      <Icon name="whatsapp" size={20} /> <span>WhatsApp</span>
+    </a>
   </div>
 </header>
 
 <style>
-  .hdr { background: var(--white); border-bottom: 1px solid var(--line); position: sticky; top: 0; z-index: 20; }
-  .hdr__row { display: flex; align-items: center; gap: 1.5rem; min-height: 4.25rem; }
-  .hdr__home { text-decoration: none; color: var(--ink); }
-  .hdr__home:hover { color: var(--ink); }
+  .hdr { background: var(--night); color: #fff; position: sticky; top: 0; z-index: 30; border-bottom: 1px solid #1a2b52; }
+  .hdr__row { display: flex; align-items: center; gap: 1.75rem; min-height: 4.5rem; }
+  .hdr__home { display: grid; gap: 0.1rem; text-decoration: none; color: #fff; }
+  .hdr__home:hover { color: #fff; }
+  .hdr__by { font-size: 0.68rem; font-weight: 700; color: #8ea3c8; letter-spacing: 0.04em; padding-left: 2.6rem; }
   nav { margin-left: auto; }
-  .hdr__nav { display: flex; gap: 1.6rem; list-style: none; margin: 0; padding: 0; font-weight: 600; font-size: 0.98rem; }
-  .hdr__nav a { text-decoration: none; padding-block: 0.4rem; }
-  .hdr__nav a[aria-current='page'] { box-shadow: inset 0 -3px 0 var(--fiber); }
-  .hdr__cta { min-height: 2.6rem; padding: 0.5rem 1rem; font-size: 0.95rem; }
-  @media (max-width: 860px) {
-    .hdr__row { flex-wrap: wrap; gap: 0.5rem 1rem; padding-block: 0.6rem; }
+  .hdr__nav { display: flex; gap: 1.6rem; list-style: none; margin: 0; padding: 0; font-weight: 600; font-size: 0.97rem; }
+  .hdr__nav a { text-decoration: none; padding-block: 0.4rem; color: #dbe5f5; }
+  .hdr__nav a:hover { color: var(--cyan); }
+  .hdr__nav a[aria-current='page'] { color: #fff; box-shadow: inset 0 -3px 0 var(--electric); }
+  .hdr__cta { min-height: 2.6rem; padding: 0.45rem 1rem; font-size: 0.95rem; }
+  @media (max-width: 900px) {
+    .hdr__row { flex-wrap: wrap; gap: 0.25rem 1rem; padding-block: 0.6rem; }
     nav { order: 3; width: 100%; margin: 0; overflow-x: auto; }
-    .hdr__nav { gap: 1.2rem; }
+    .hdr__nav { gap: 1.25rem; white-space: nowrap; font-size: 0.92rem; }
     .hdr__cta { margin-left: auto; }
+    .hdr__by { display: none; }
   }
-  @media (max-width: 420px) { .hdr__cta { padding-inline: 0.75rem; font-size: 0.88rem; } }
 </style>

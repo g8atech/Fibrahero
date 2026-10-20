@@ -95,7 +95,7 @@ const dots = Array.from({ length: 9 * 6 }, (_, i) => ({ x: 40 + (i % 9) * 70, y:
   .map text { font-family: var(--font); font-size: 17px; font-weight: 700; paint-order: stroke; stroke-width: 6px; stroke-linejoin: round; }
   .map__line { fill: none; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
   .map__pulse {
-    fill: none; stroke: var(--fiber); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round;
+    fill: none; stroke: var(--electric); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round;
     stroke-dasharray: 100 100; stroke-dashoffset: 100;
     animation: travel 1.4s cubic-bezier(.6,0,.3,1) forwards;
   }
@@ -103,9 +103,9 @@ const dots = Array.from({ length: 9 * 6 }, (_, i) => ({ x: 40 + (i % 9) * 70, y:
   @media (prefers-reduced-motion: reduce) { .map__pulse { animation: none; stroke-dashoffset: 0; } }
 
   .map--onDark figcaption { color: #9fb0c4; }
-  .map--onDark .map__grid circle { fill: #2b4468; }
-  .map--onDark .map__line { stroke: #22395c; }
-  .map--onDark text { fill: #fff; stroke: var(--ink); }
+  .map--onDark .map__grid circle { fill: #23396a; }
+  .map--onDark .map__line { stroke: #1c3366; }
+  .map--onDark text { fill: #fff; stroke: var(--navy); }
   .map--onDark .map__sedi circle { fill: var(--ink); stroke: #fff; stroke-width: 3.5; }
 
   .map--onLight figcaption { color: var(--muted); }
@@ -114,8 +114,8 @@ const dots = Array.from({ length: 9 * 6 }, (_, i) => ({ x: 40 + (i % 9) * 70, y:
   .map--onLight text { fill: var(--ink); stroke: var(--white); }
   .map--onLight .map__sedi circle { fill: var(--white); stroke: var(--ink); stroke-width: 3.5; }
 
-  .map .map__sedi circle.is-hub { fill: var(--signal); stroke: var(--signal); }
+  .map .map__sedi circle.is-hub { fill: var(--electric); stroke: #fff; stroke-width: 3; filter: drop-shadow(0 0 8px var(--electric)); }
 
-  .map__hl path { fill: none; stroke: var(--signal); stroke-width: 4; stroke-dasharray: 2 9; stroke-linecap: round; }
-  .map__hl circle { fill: var(--signal); }
+  .map__hl path { fill: none; stroke: var(--cyan); stroke-width: 4; stroke-dasharray: 2 9; stroke-linecap: round; }
+  .map__hl circle { fill: var(--cyan); }
 </style>

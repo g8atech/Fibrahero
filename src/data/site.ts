@@ -1,12 +1,14 @@
 // Dati generali del sito. Tutto ciò che è da confermare è segnato con TODO.
 export const SITE = {
   name: 'FibraHero',
-  tagline: 'Fibra per aziende, con il tecnico che conosci',
+  tagline: 'Connettività gestita. Aziende connesse.',
   url: 'https://www.fibrahero.it',
   company: 'G8A Technology S.r.l.',
   email: 'info@g8a.it',
-  // TODO: numero commerciale FibraHero. Se vuoto, il pulsante "Chiama" non compare.
-  phone: '',
+  // Numero commerciale e di assistenza (anche WhatsApp), dalla locandina.
+  phone: '345 178 33 03',
+  whatsapp: '393451783303',
+  whatsappText: 'Ciao FibraHero, vorrei un\'offerta per la connessione della mia azienda.',
   // TODO: partita IVA di G8A Technology S.r.l. per il footer.
   vat: '',
   // Endpoint che riceve le richieste di verifica copertura (es. funzione su Brain/Supabase).
@@ -33,3 +35,7 @@ export const SEDI: Sede[] = [
   { slug: 'bollate', city: 'Bollate', address: 'Piazza Indipendenza 8', cap: '20021', province: 'MI', lat: 45.5468, lng: 9.1187 },
   { slug: 'lecco', city: 'Lecco', address: 'Viale Dante Alighieri 22', cap: '23900', province: 'LC', lat: 45.8566, lng: 9.3977 },
 ];
+
+export const waLink = (text: string = SITE.whatsappText) =>
+  `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(text)}`;
+export const telLink = `tel:+39${SITE.phone.replace(/\s/g, '')}`;

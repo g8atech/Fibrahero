@@ -1,30 +1,50 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import NetworkMap from '../components/NetworkMap.astro';
+import LightStreaks from '../components/LightStreaks.astro';
+import Press from '../components/Press.astro';
 import CtaBand from '../components/CtaBand.astro';
+import g8a from '../assets/g8a-logo.png';
+import hero from '../assets/hero-fibrahero.png';
 import { SEDI } from '../data/site';
 ---
 <Base
   title="Chi siamo — FibraHero è G8A Technology"
-  description="FibraHero è il servizio di connettività per aziende di G8A Technology, che da circa quindici anni segue l'informatica delle imprese tra Varese, Milano e Lecco."
+  description="FibraHero è l'operatore per aziende di G8A Technology, che da circa quindici anni segue l'informatica delle imprese tra Varese, Milano e Lecco."
 >
-  <section class="section section--white">
+  <section class="pagehead">
+    <LightStreaks />
     <div class="wrap about">
       <div>
         <Breadcrumbs items={[{ name: 'Chi siamo', href: '/chi-siamo' }]} />
         <h1>FibraHero è G8A Technology</h1>
         <p class="lead">Da circa quindici anni seguiamo computer, reti, stampanti e server delle aziende del territorio. FibraHero nasce perché la connessione è la parte che, quando si ferma, blocca tutto il resto.</p>
-        <p>G8A è nata come ditta individuale dei fratelli Giuseppe e Antonio Arrigo ed è cresciuta fino a una rete di sedi tra le province di Varese, Milano e Lecco. Oggi i nostri tecnici gestiscono l'informatica di uffici, studi e capannoni: PC in noleggio, server, backup, sicurezza.</p>
-        <p>Con FibraHero siamo noi l'operatore. Questo cambia una cosa sola, ma importante: quando c'è un problema non esiste più il rimpallo tra chi fornisce la linea e chi gestisce la rete. Rispondiamo noi, per entrambe.</p>
       </div>
-      <div class="about__map"><NetworkMap tone="onLight" /></div>
+      <Image class="about__hero" src={hero} alt="Il supereroe FibraHero" width={460} densities={[1, 2]} />
     </div>
   </section>
 
+  <Press />
+
   <section class="section">
+    <div class="wrap story">
+      <div>
+        <h2>Un partner unico</h2>
+        <hr class="rule" />
+        <p>G8A è nata come ditta individuale dei fratelli Giuseppe e Antonio Arrigo ed è cresciuta fino a una rete di sedi tra le province di Varese, Milano e Lecco. Oggi i nostri tecnici gestiscono l'informatica di uffici, studi e capannoni: PC a noleggio, server, backup, sicurezza.</p>
+        <p>Con FibraHero siamo noi l'operatore. Quando c'è un problema non esiste più il rimpallo tra chi fornisce la linea e chi gestisce la rete: rispondiamo noi, per entrambe.</p>
+      </div>
+      <div class="story__logo">
+        <Image src={g8a} alt="G8A Technology" width={240} densities={[1, 2]} />
+        <p>Exceed your limits</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper">
     <div class="wrap">
-      <h2>Le nostre sedi</h2>
+      <h2>Le sedi G8A</h2>
       <ul class="sedi">
         {SEDI.map((s) => (
           <li>
@@ -37,14 +57,14 @@ import { SEDI } from '../data/site';
     </div>
   </section>
 
-  <section class="section section--white">
+  <section class="section">
     <div class="wrap">
-      <h2>Fanno parte del gruppo G8A</h2>
+      <h2>Il gruppo G8A</h2>
       <ul class="brands">
         <li><strong>G8A Technology</strong><span>Informatica gestita per aziende, noleggio PC e server</span></li>
+        <li><strong>FibraHero</strong><span>Connettività gestita per aziende</span></li>
         <li><strong>TonerHero</strong><span>Toner e cartucce per uffici, nei negozi e online</span></li>
         <li><strong>RiparoHero</strong><span>Riparazioni di smartphone, tablet e computer</span></li>
-        <li><strong>FibraHero</strong><span>Connettività per aziende</span></li>
       </ul>
     </div>
   </section>
@@ -54,13 +74,17 @@ import { SEDI } from '../data/site';
 
 <style>
   .about { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  .about__hero { justify-self: center; width: min(100%, 460px); filter: drop-shadow(0 20px 40px rgba(0,0,0,.45)); }
+  .story { display: grid; grid-template-columns: 1.4fr 1fr; gap: 3rem; align-items: center; }
+  .story__logo { display: grid; justify-items: center; gap: 0.75rem; padding: 2rem; border: 1px solid var(--line); border-radius: var(--radius-m); }
+  .story__logo p { margin: 0; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.9rem; }
   .sedi { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem 2.5rem; }
-  .sedi li { border-top: 3px solid var(--fiber); padding-top: 1rem; }
+  .sedi li { border-top: 3px solid var(--blue); padding-top: 1rem; }
   .sedi p { margin: 0; color: var(--muted); }
   .sedi .sedi__op { color: var(--ink); font-weight: 700; margin-top: 0.4rem; }
-  .brands { list-style: none; padding: 0; margin: 1.5rem 0 0; border-top: 2px solid var(--ink); }
+  .brands { list-style: none; padding: 0; margin: 1.5rem 0 0; border-top: 3px solid var(--ink); }
   .brands li { display: grid; grid-template-columns: 14rem 1fr; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--line); }
   .brands span { color: var(--muted); }
-  @media (max-width: 860px) { .about { grid-template-columns: 1fr; } .sedi { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 860px) { .about, .story { grid-template-columns: 1fr; } .sedi { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 520px) { .sedi { grid-template-columns: 1fr; } .brands li { grid-template-columns: 1fr; gap: 0.2rem; } }
 </style>

@@ -1,28 +1,33 @@
 ---
 import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Icon from '../components/Icon.astro';
+import LightStreaks from '../components/LightStreaks.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { SERVIZI } from '../data/servizi';
 ---
 <Base
-  title="Servizi di connettività per aziende"
-  description="Fibra FTTH, connessione radio FWA, linea di backup e centralino VoIP per aziende in provincia di Varese, Milano e Lecco, con assistenza diretta G8A."
+  title="Servizi di connettività gestita per aziende"
+  description="Fibra ultraveloce FTTH/FTTC, gestione rete e dispositivi, firewall, backup della rete, centralino cloud VoIP e noleggio dispositivi per aziende. FibraHero by G8A."
 >
-  <section class="section section--white">
+  <section class="pagehead">
+    <LightStreaks />
     <div class="wrap">
       <Breadcrumbs items={[{ name: 'Servizi', href: '/servizi' }]} />
-      <h1>Servizi di connettività per aziende</h1>
-      <p class="lead">Partiamo da cosa arriva al vostro indirizzo e da come lavorate. Poi mettiamo insieme linea principale, backup e telefonia, gestiti dalla stessa squadra.</p>
+      <h1>Connettività gestita</h1>
+      <p class="lead">Un partner unico, tutto sotto controllo: linea, rete, sicurezza e telefonia gestite dalla stessa squadra di tecnici G8A.</p>
     </div>
   </section>
   <section class="section">
     <div class="wrap">
       {SERVIZI.map((s) => (
         <article class="row">
-          <h2><a href={`/${s.slug}`}>{s.title}</a></h2>
+          <span class="row__icon"><Icon name={s.icon} size={32} /></span>
           <div>
+            <h2><a href={`/${s.slug}`}>{s.name}</a></h2>
             <p>{s.intro}</p>
             <ul class="ticks">{s.includes.slice(0, 3).map((i) => <li>{i}</li>)}</ul>
+            <p class="row__more"><a href={`/${s.slug}`}>Scopri {s.name.toLowerCase()}</a></p>
           </div>
         </article>
       ))}
@@ -32,9 +37,11 @@ import { SERVIZI } from '../data/servizi';
 </Base>
 
 <style>
-  .row { display: grid; grid-template-columns: 1fr 1.3fr; gap: 2rem; padding-block: 2.25rem; border-top: 1px solid var(--line); }
-  .row:first-child { border-top: 2px solid var(--ink); }
-  .row h2 { font-size: 1.6rem; }
+  .row { display: grid; grid-template-columns: 4.5rem 1fr; gap: 1.75rem; padding-block: 2.25rem; border-top: 1px solid var(--line); }
+  .row:first-child { border-top: 3px solid var(--ink); }
+  .row__icon { display: grid; place-items: center; width: 4.5rem; height: 4.5rem; border-radius: 50%; background: var(--blue); color: #fff; }
+  .row h2 { font-size: clamp(1.7rem, 3vw, 2.3rem); }
   .row h2 a { text-decoration: none; }
-  @media (max-width: 760px) { .row { grid-template-columns: 1fr; gap: 0.5rem; } }
+  .row__more { margin-top: 1.1rem; font-weight: 700; }
+  @media (max-width: 560px) { .row { grid-template-columns: 1fr; gap: 1rem; } .row__icon { width: 3.5rem; height: 3.5rem; } }
 </style>

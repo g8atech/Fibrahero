@@ -1,22 +1,27 @@
 @import '@fontsource-variable/archivo/wdth.css';
 
+/* Palette dalla locandina FibraHero: notte, blu del logo, luce elettrica */
 :root {
-  --ink: #0f2340;
-  --ink-2: #1b3358;
-  --paper: #f3f6f8;
+  --night: #070f22;
+  --navy: #0d1f42;
+  --navy-2: #13295a;
+  --blue: #1552d1;
+  --blue-dark: #0d3a9e;
+  --electric: #2f8bff;
+  --cyan: #6fd6ff;
+  --paper: #f1f5fb;
   --white: #ffffff;
-  --line: #d3dce4;
-  --muted: #56677d;
-  --fiber: #12a4b6;
-  --fiber-soft: #8fd9e2;
-  --signal: #f5b53d;
-  --signal-ink: #3a2700;
+  --ink: #0b1a38;
+  --muted: #4d5f7c;
+  --line: #d6dfec;
+  --wa: #25d366;
+  --wa-dark: #128c48;
 
   --font: 'Archivo Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --wrap: 72rem;
+  --wrap: 74rem;
   --gutter: clamp(1rem, 4vw, 2rem);
-  --radius-s: 6px;
-  --radius-m: 12px;
+  --radius-s: 8px;
+  --radius-m: 14px;
 }
 
 *,
@@ -32,42 +37,52 @@ body {
   font-size: 1.0625rem;
   line-height: 1.6;
   color: var(--ink);
-  background: var(--paper);
-  font-variation-settings: 'wdth' 100;
+  background: var(--white);
 }
 
 img, svg { display: block; max-width: 100%; }
+img { height: auto; }
 
 a { color: inherit; text-underline-offset: 0.18em; }
-a:hover { color: var(--fiber); }
+a:hover { color: var(--blue); }
 
-:focus-visible { outline: 3px solid var(--signal); outline-offset: 2px; border-radius: 2px; }
+:focus-visible { outline: 3px solid var(--electric); outline-offset: 2px; border-radius: 2px; }
 
+/* Titoli: il condensato pesante della locandina */
 h1, h2, h3 {
   margin: 0 0 0.5em;
-  line-height: 1.05;
+  line-height: 1;
   font-weight: 800;
-  font-stretch: 125%;
-  font-variation-settings: 'wdth' 125;
-  letter-spacing: -0.01em;
   text-wrap: balance;
 }
-h1 { font-size: clamp(2.3rem, 5.4vw, 4.4rem); }
-h2 { font-size: clamp(1.7rem, 3.2vw, 2.5rem); }
-h3 { font-size: 1.2rem; line-height: 1.2; font-stretch: 112%; font-variation-settings: 'wdth' 112; }
-p { margin: 0 0 1em; max-width: 62ch; }
+h1, h2 {
+  text-transform: uppercase;
+  font-stretch: 78%;
+  font-variation-settings: 'wdth' 78;
+  letter-spacing: 0.005em;
+}
+h1 { font-size: clamp(2.6rem, 6.4vw, 5rem); }
+h2 { font-size: clamp(2rem, 4.2vw, 3.1rem); }
+h3 { font-size: 1.15rem; line-height: 1.2; font-weight: 750; color: var(--blue); text-transform: uppercase; letter-spacing: 0.01em; }
+p { margin: 0 0 1em; max-width: 64ch; }
 
 .wrap { width: min(100% - 2 * var(--gutter), var(--wrap)); margin-inline: auto; }
 .section { padding-block: clamp(3.5rem, 8vw, 6.5rem); }
-.section--white { background: var(--white); }
-.lead { font-size: 1.2rem; color: var(--muted); max-width: 54ch; }
+.section--paper { background: var(--paper); }
+.section--night { background: var(--night); color: #fff; }
+.lead { font-size: 1.2rem; color: var(--muted); max-width: 56ch; }
+.section--night .lead { color: #b9c7df; }
+.accent { color: var(--blue); }
+.section--night .accent { color: var(--electric); }
+
+.rule { width: 3.5rem; height: 4px; border-radius: 4px; background: var(--blue); margin: 0 0 1.5rem; border: 0; }
 
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5em;
-  min-height: 3rem;
+  gap: 0.55em;
+  min-height: 3.1rem;
   padding: 0.75rem 1.4rem;
   border: 0;
   border-radius: var(--radius-s);
@@ -75,35 +90,49 @@ p { margin: 0 0 1em; max-width: 62ch; }
   font-weight: 700;
   text-decoration: none;
   cursor: pointer;
-  transition: background-color 0.15s ease;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
-.btn--signal { background: var(--signal); color: var(--signal-ink); }
-.btn--signal:hover { background: #ffc552; color: var(--signal-ink); }
+.btn--wa { background: var(--wa); color: #05301a; }
+.btn--wa:hover { background: #3ee07a; color: #05301a; }
+.btn--blue { background: var(--blue); color: #fff; }
+.btn--blue:hover { background: var(--electric); color: #fff; }
 .btn--ghost { background: transparent; color: inherit; box-shadow: inset 0 0 0 2px currentColor; }
-.btn--ghost:hover { color: var(--fiber); }
+.btn--ghost:hover { color: var(--electric); }
 
 .visually-hidden {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
 
-.skip { position: absolute; left: -999px; top: 0; background: var(--signal); color: var(--signal-ink); padding: 0.6rem 1rem; z-index: 50; }
+.skip { position: absolute; left: -999px; top: 0; background: var(--electric); color: #fff; padding: 0.6rem 1rem; z-index: 50; }
 .skip:focus { left: 1rem; }
 
 .crumbs { font-size: 0.9rem; color: var(--muted); margin-bottom: 1.5rem; }
 .crumbs ol { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem; padding: 0; margin: 0; }
 .crumbs li + li::before { content: '/'; margin-right: 0.4rem; color: var(--line); }
+.section--night .crumbs, .pagehead .crumbs { color: #9fb2d3; }
+.section--night .crumbs li + li::before, .pagehead .crumbs li + li::before { color: #3a5486; }
 
-/* Lista "cosa include": spunte disegnate come un tratto di fibra */
-.ticks { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.75rem; }
-.ticks li { position: relative; padding-left: 2.7rem; max-width: 60ch; }
+/* Lista con spunta nel cerchio blu */
+.ticks { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.8rem; }
+.ticks li { position: relative; padding-left: 2.2rem; max-width: 60ch; }
 .ticks li::before {
   content: '';
-  position: absolute; left: 0; top: 0.72em;
-  width: 1.2rem; height: 3px; border-radius: 3px;
-  background: var(--fiber);
-  box-shadow: 0.9rem 0 0 -0.5px var(--fiber-soft);
+  position: absolute; left: 0; top: 0.18em;
+  width: 1.4rem; height: 1.4rem; border-radius: 50%;
+  background: var(--blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12.5 4 4 8-9'/%3E%3C/svg%3E") center / 0.85rem no-repeat;
 }
+
+/* Testata scura delle pagine interne, con le linee di luce */
+.pagehead {
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(120% 140% at 85% 0%, #17408f 0%, var(--navy) 45%, var(--night) 100%);
+  color: #fff;
+  padding-block: clamp(3rem, 7vw, 5rem);
+}
+.pagehead .lead { color: #c0cde3; }
+.pagehead > .wrap { position: relative; z-index: 1; }
 
 .prose h2 { margin-top: 2.2rem; }
 .prose ul { padding-left: 1.2rem; }

@@ -24,9 +24,9 @@ const organization = {
   name: 'FibraHero by G8A',
   legalName: SITE.company,
   url: SITE.url,
-  logo: `${SITE.url}/logo.svg`,
+  logo: `${SITE.url}/logo.png`,
   email: SITE.email,
-  ...(SITE.phone ? { telephone: SITE.phone } : {}),
+  ...(SITE.phone ? { telephone: '+39 ' + SITE.phone } : {}),
   areaServed: ['Provincia di Varese', 'Città metropolitana di Milano', 'Provincia di Lecco'],
   address: {
     '@type': 'PostalAddress',
@@ -49,8 +49,9 @@ const schemas = [organization, ...jsonLd];
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
     {noindex && <meta name="robots" content="noindex, follow" />}
-    <meta name="theme-color" content="#0f2340" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <meta name="theme-color" content="#070f22" />
+    <link rel="icon" href="/logo-icon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/logo-icon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
 
     <meta property="og:type" content="website" />

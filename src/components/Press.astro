@@ -1,0 +1,36 @@
+---
+import { Image } from 'astro:assets';
+import cde from '../assets/press-corriere-economia.png';
+import vn from '../assets/press-varesenews.png';
+import fortune from '../assets/press-fortune-italia.png';
+import economy from '../assets/press-economy.png';
+const logos = [
+  { src: vn, alt: 'VareseNews', h: 30 },
+  { src: cde, alt: "Corriere dell'Economia", h: 44 },
+  { src: economy, alt: 'Economy', h: 30 },
+  { src: fortune, alt: 'Fortune Italia', h: 26 },
+];
+---
+<section class="press" aria-labelledby="press-h">
+  <div class="wrap press__row">
+    <h2 id="press-h" class="press__h">Parlano di G8A</h2>
+    <ul>
+      {logos.map((l) => (
+        <li><Image src={l.src} alt={l.alt} height={l.h} densities={[1, 2]} /></li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .press { background: var(--white); border-bottom: 1px solid var(--line); padding-block: 1.6rem; }
+  .press__row { display: flex; align-items: center; gap: 2.5rem; flex-wrap: wrap; }
+  .press__h { font-size: 0.95rem; font-stretch: 100%; font-variation-settings: 'wdth' 100; text-transform: none; color: var(--muted); margin: 0; font-weight: 700; letter-spacing: 0; }
+  ul { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: clamp(1.5rem, 4vw, 3.25rem); flex-wrap: wrap; flex: 1; justify-content: space-between; }
+  li :global(img) { width: auto; filter: grayscale(1); opacity: .8; }
+  @media (max-width: 640px) {
+    .press__row { gap: 1rem; }
+    ul { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem 1.5rem; align-items: center; justify-items: start; flex: 1 1 100%; }
+    li :global(img) { max-width: 100%; height: auto; max-height: 30px; }
+  }
+</style>

@@ -1,35 +1,44 @@
 ---
+import { Image } from 'astro:assets';
 import Logo from './Logo.astro';
-import { SITE, SEDI } from '../data/site';
+import Icon from './Icon.astro';
+import g8a from '../assets/g8a-logo.png';
+import { SITE, SEDI, waLink, telLink } from '../data/site';
 import { SERVIZI } from '../data/servizi';
 const year = new Date().getFullYear();
 ---
 <footer class="ftr">
   <div class="wrap ftr__grid">
     <div class="ftr__brand">
-      <Logo tone="light" />
-      <p>Connettività per aziende con l'assistenza diretta dei tecnici G8A.</p>
-      <p><a href={`mailto:${SITE.email}`}>{SITE.email}</a>{SITE.phone && <><br /><a href={`tel:${SITE.phone.replace(/\s/g, '')}`}>{SITE.phone}</a></>}</p>
+      <Logo width={210} />
+      <p class="ftr__claim">Connettività gestita. Aziende connesse.</p>
+      <p class="ftr__contact">
+        <a href={waLink()} target="_blank" rel="noopener"><Icon name="whatsapp" size={18} /> {SITE.phone}</a>
+        <a href={telLink}>Chiama il {SITE.phone}</a>
+        <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      </p>
     </div>
     <div>
       <h2 class="ftr__h">Servizi</h2>
       <ul>{SERVIZI.map((s) => <li><a href={`/${s.slug}`}>{s.name}</a></li>)}</ul>
     </div>
     <div>
-      <h2 class="ftr__h">Sedi</h2>
+      <h2 class="ftr__h">Sedi G8A</h2>
       <ul>
-        {SEDI.map((s) => <li>{s.city}{s.operativa && ' (sede operativa)'}<br /><span class="ftr__addr">{s.address}</span></li>)}
+        {SEDI.map((s) => <li>{s.city}<br /><span class="ftr__addr">{s.address}</span></li>)}
       </ul>
     </div>
     <div>
-      <h2 class="ftr__h">Azienda</h2>
+      <h2 class="ftr__h">FibraHero</h2>
       <ul>
         <li><a href="/chi-siamo">Chi siamo</a></li>
         <li><a href="/fibra-aziendale">Zone servite</a></li>
         <li><a href="/domande-frequenti">Domande frequenti</a></li>
         <li><a href="/verifica-copertura">Verifica copertura</a></li>
-        <li><a href="https://www.g8a.it">G8A Technology</a></li>
       </ul>
+      <a class="ftr__g8a" href="https://www.g8a.it" aria-label="G8A Technology">
+        <Image src={g8a} alt="G8A Technology" width={110} densities={[1, 2]} />
+      </a>
     </div>
   </div>
   <div class="wrap ftr__legal">
@@ -39,15 +48,19 @@ const year = new Date().getFullYear();
 </footer>
 
 <style>
-  .ftr { background: var(--ink); color: #d6dfea; padding-block: 3.5rem 2rem; font-size: 0.95rem; }
-  .ftr a { color: #fff; }
-  .ftr a:hover { color: var(--fiber-soft); }
-  .ftr__grid { display: grid; grid-template-columns: 1.4fr 1fr 1.2fr 1fr; gap: 2rem; }
-  .ftr__brand :global(.logo) { color: #fff; margin-bottom: 1rem; }
-  .ftr__h { font-size: 1rem; color: #fff; margin-bottom: 0.8rem; font-stretch: 100%; font-variation-settings: 'wdth' 100; font-weight: 700; }
+  .ftr { background: var(--night); color: #c2cfe4; padding-block: 3.5rem 2rem; font-size: 0.95rem; }
+  .ftr a { color: #fff; text-decoration: none; }
+  .ftr a:hover { color: var(--cyan); }
+  .ftr__grid { display: grid; grid-template-columns: 1.5fr 1fr 1.1fr 1fr; gap: 2rem; }
+  .ftr__claim { color: #8ea3c8; font-size: 0.85rem; margin-top: 0.75rem; }
+  .ftr__contact { display: grid; gap: 0.5rem; }
+  .ftr__contact a { display: inline-flex; align-items: center; gap: 0.45rem; }
+  .ftr__contact a :global(svg) { color: var(--wa); }
+  .ftr__h { font-size: 1.05rem; color: #fff; margin-bottom: 0.9rem; }
   .ftr ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; }
-  .ftr__addr { color: #9fb0c4; font-size: 0.88rem; }
-  .ftr__legal { display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #2a4064; color: #9fb0c4; font-size: 0.85rem; }
-  @media (max-width: 860px) { .ftr__grid { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 520px) { .ftr__grid { grid-template-columns: 1fr; } .ftr__legal { flex-direction: column; } }
+  .ftr__addr { color: #8ea3c8; font-size: 0.86rem; }
+  .ftr__g8a { display: inline-block; margin-top: 1.75rem; background: #fff; padding: 0.6rem 0.8rem; border-radius: var(--radius-s); }
+  .ftr__legal { display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #1d2f57; color: #8ea3c8; font-size: 0.85rem; }
+  @media (max-width: 900px) { .ftr__grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 540px) { .ftr__grid { grid-template-columns: 1fr; } .ftr__legal { flex-direction: column; } }
 </style>

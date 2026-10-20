@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Faq from '../components/Faq.astro';
+import LightStreaks from '../components/LightStreaks.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { FAQ_GENERALI } from '../data/faq';
 import { SERVIZI } from '../data/servizi';
@@ -15,14 +16,19 @@ const faqSchema = {
 ---
 <Base
   title="Domande frequenti sulla fibra per aziende"
-  description="Risposte su fibra FTTH e FTTC, radio FWA, linea di backup, centralino VoIP, tempi di attivazione e assistenza FibraHero per aziende."
+  description="Risposte su fibra FTTH e FTTC, connessione simmetrica, firewall, backup della rete, centralino cloud VoIP, noleggio dispositivi e assistenza FibraHero."
   jsonLd={[faqSchema]}
 >
-  <section class="section section--white">
+  <section class="pagehead">
+    <LightStreaks />
     <div class="wrap">
       <Breadcrumbs items={[{ name: 'Domande frequenti', href: '/domande-frequenti' }]} />
       <h1>Domande frequenti</h1>
-      <p class="lead">Se non trovi la tua risposta, scrivici: ti risponde un tecnico.</p>
+      <p class="lead">Se non trovi la tua risposta, scrivici su WhatsApp: ti risponde un tecnico.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="wrap">
       <Faq items={FAQ_GENERALI} heading="FibraHero e assistenza" />
       {SERVIZI.map((s) => <div class="block"><Faq items={s.faq} heading={s.name} /></div>)}
     </div>
@@ -32,5 +38,4 @@ const faqSchema = {
 
 <style>
   .block { margin-top: 3rem; }
-  .block :global(h2), .section :global(.faq h2) { font-size: 1.5rem; margin-top: 2.5rem; }
 </style>

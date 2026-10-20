@@ -14,7 +14,8 @@ npm run build    # genera il sito in dist/
 
 | Cosa | File |
 |---|---|
-| Email, telefono, P.IVA, endpoint del form | `src/data/site.ts` |
+| Email, telefono e WhatsApp, P.IVA, endpoint del form | `src/data/site.ts` |
+| Immagini (logo, supereroe, loghi stampa) | `src/assets/` |
 | Sedi | `src/data/site.ts` (`SEDI`) |
 | Servizi e loro pagine | `src/data/servizi.ts` |
 | Comuni con pagina dedicata | `src/data/comuni.ts` |
@@ -33,4 +34,4 @@ Importa il repository su Vercel: il framework Astro viene riconosciuto in automa
 
 ## Da completare prima di andare online
 
-Cerca `TODO` nel codice: numero di telefono, partita IVA, informativa privacy definitiva, conferma delle condizioni dei servizi.
+Cerca `TODO` nel codice: partita IVA, informativa privacy definitiva.

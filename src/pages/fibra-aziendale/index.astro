@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import NetworkMap from '../../components/NetworkMap.astro';
 import CtaBand from '../../components/CtaBand.astro';
+import LightStreaks from '../../components/LightStreaks.astro';
 import { COMUNI, PROVINCE, nearestSede } from '../../data/comuni';
 
 const groups = (['VA', 'MI', 'LC'] as const).map((p) => ({
@@ -12,17 +13,18 @@ const groups = (['VA', 'MI', 'LC'] as const).map((p) => ({
 ---
 <Base
   title="Zone servite — fibra per aziende tra Varese, Milano e Lecco"
-  description="Comuni in cui FibraHero by G8A porta fibra FTTH, radio FWA e linea di backup alle aziende, con assistenza dalla sede G8A più vicina."
+  description="Comuni in cui FibraHero by G8A porta fibra FTTH/FTTC, firewall, backup della rete e centralino cloud alle aziende, con assistenza dalla sede G8A più vicina."
 >
-  <section class="section section--white">
+  <section class="pagehead">
+    <LightStreaks />
     <div class="wrap zone">
       <div>
         <Breadcrumbs items={[{ name: 'Zone servite', href: '/fibra-aziendale' }]} />
         <h1>Zone servite</h1>
         <p class="lead">Seguiamo le aziende vicine alle nostre sedi. Se il tuo comune non è in elenco, verifichiamo comunque l'indirizzo.</p>
-        <a class="btn btn--signal" href="/verifica-copertura">Verifica copertura</a>
+        <a class="btn btn--blue" href="/verifica-copertura">Verifica copertura</a>
       </div>
-      <NetworkMap tone="onLight" />
+      <NetworkMap tone="onDark" />
     </div>
   </section>
   <section class="section">
@@ -45,7 +47,7 @@ const groups = (['VA', 'MI', 'LC'] as const).map((p) => ({
 <style>
   .zone { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
   .groups { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
-  .groups h2 { font-size: 1.35rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--ink); }
+  .groups h2 { font-size: 1.35rem; padding-bottom: 0.75rem; border-bottom: 3px solid var(--blue); }
   .groups ul { list-style: none; padding: 0; margin: 0; }
   .groups li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.6rem 0; border-bottom: 1px solid var(--line); }
   .groups li a { font-weight: 600; }

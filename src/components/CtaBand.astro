@@ -1,23 +1,41 @@
 ---
-interface Props { title?: string; text?: string }
+import { Image } from 'astro:assets';
+import Icon from './Icon.astro';
+import LightStreaks from './LightStreaks.astro';
+import hero from '../assets/hero-laptop.png';
+import { SITE, waLink } from '../data/site';
+interface Props { title?: string; text?: string; waText?: string }
 const {
-  title = 'Scopri cosa arriva al tuo indirizzo',
-  text = 'Lasciaci l\'indirizzo della sede: verifichiamo fibra, FTTC o radio e ti richiama un tecnico della zona.',
+  title = 'Contattaci per un\'offerta su misura',
+  text = 'Scrivici su WhatsApp con l\'indirizzo della sede: verifichiamo la copertura e ti prepariamo la proposta per linea, rete e centralino.',
+  waText,
 } = Astro.props;
 ---
 <section class="cta">
+  <LightStreaks />
   <div class="wrap cta__row">
-    <div>
+    <div class="cta__copy">
       <h2>{title}</h2>
       <p>{text}</p>
+      <div class="cta__actions">
+        <a class="btn btn--wa" href={waLink(waText)} target="_blank" rel="noopener"><Icon name="whatsapp" size={22} /> Scrivi al {SITE.phone}</a>
+        <a class="btn btn--ghost" href="/verifica-copertura">Compila il modulo</a>
+      </div>
     </div>
-    <a class="btn btn--signal" href="/verifica-copertura">Verifica copertura</a>
+    <Image class="cta__img" src={hero} alt="" width={420} densities={[1, 2]} loading="lazy" />
   </div>
 </section>
 
 <style>
-  .cta { background: var(--ink); color: #fff; padding-block: clamp(3rem, 6vw, 4.5rem); }
-  .cta__row { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
-  .cta p { color: #c3d0df; margin: 0; }
-  .cta h2 { margin-bottom: 0.4rem; }
+  .cta { position: relative; overflow: hidden; background: radial-gradient(90% 120% at 80% 100%, #1b4aa8 0%, var(--navy) 50%, var(--night) 100%); color: #fff; }
+  .cta__row { position: relative; z-index: 1; display: grid; grid-template-columns: 1.2fr 1fr; align-items: end; gap: 2rem; padding-top: clamp(3rem, 6vw, 4.5rem); }
+  .cta__copy { padding-bottom: clamp(3rem, 6vw, 4.5rem); }
+  .cta p { color: #c2cfe4; max-width: 46ch; }
+  .cta__actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.5rem; }
+  .cta__img { justify-self: end; width: min(100%, 420px); }
+  @media (max-width: 760px) {
+    .cta__row { grid-template-columns: 1fr; }
+    .cta__copy { padding-bottom: 0; }
+    .cta__img { justify-self: center; width: min(80%, 320px); }
+  }
 </style>

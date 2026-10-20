@@ -2,33 +2,47 @@
 import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import CoverageForm from '../components/CoverageForm.astro';
-import { SITE } from '../data/site';
+import Icon from '../components/Icon.astro';
+import LightStreaks from '../components/LightStreaks.astro';
+import { SITE, waLink, telLink } from '../data/site';
 ---
 <Base
   title="Verifica copertura fibra per la tua azienda"
-  description="Verifica se all'indirizzo della tua azienda arriva la fibra FTTH, FTTC o la connessione radio FWA. Ti richiama un tecnico G8A della tua zona."
+  description="Verifica se all'indirizzo della tua azienda arriva la fibra FTTH o FTTC e ricevi un'offerta su misura da FibraHero by G8A. Anche su WhatsApp al 345 178 33 03."
 >
-  <section class="section section--white">
+  <section class="pagehead">
+    <LightStreaks />
+    <div class="wrap">
+      <Breadcrumbs items={[{ name: 'Verifica copertura', href: '/verifica-copertura' }]} />
+      <h1>Verifica la copertura</h1>
+      <p class="lead">Controlliamo cosa arriva all'indirizzo della tua sede e ti ricontattiamo con un'offerta su misura.</p>
+    </div>
+  </section>
+  <section class="section section--paper">
     <div class="wrap vc">
       <div>
-        <Breadcrumbs items={[{ name: 'Verifica copertura', href: '/verifica-copertura' }]} />
-        <h1>Verifica la copertura della tua sede</h1>
-        <p class="lead">Controlliamo cosa arriva all'indirizzo e ti richiamiamo con la soluzione adatta. Nessun impegno.</p>
+        <h2 class="vc__h">Il modo più veloce</h2>
+        <p>Scrivici su WhatsApp l'indirizzo della sede e il nome dell'azienda.</p>
+        <a class="btn btn--wa" href={waLink('Ciao FibraHero, vorrei verificare la copertura per la mia azienda. Indirizzo: ')} target="_blank" rel="noopener"><Icon name="whatsapp" size={22} /> Scrivi al {SITE.phone}</a>
+        <p class="vc__alt">Oppure chiama il <a href={telLink}>{SITE.phone}</a> o scrivi a <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
         <ul class="ticks">
-          <li>Verifica di fibra FTTH, FTTC e radio FWA</li>
+          <li>Verifica di fibra FTTH e FTTC</li>
           <li>Risposta da un tecnico G8A, non da un call center</li>
           <li>Servizio riservato ad aziende e partite IVA</li>
         </ul>
-        <p class="vc__alt">Preferisci scrivere? <a href={`mailto:${SITE.email}`}>{SITE.email}</a>{SITE.phone && <> oppure chiama il <a href={`tel:${SITE.phone.replace(/\s/g, '')}`}>{SITE.phone}</a></>}</p>
       </div>
-      <div class="vc__form"><CoverageForm /></div>
+      <div class="vc__form">
+        <h2 class="vc__h">Oppure compila il modulo</h2>
+        <CoverageForm />
+      </div>
     </div>
   </section>
 </Base>
 
 <style>
-  .vc { display: grid; grid-template-columns: 1fr 1.25fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: start; }
-  .vc__form { background: var(--paper); padding: clamp(1.25rem, 3vw, 2.25rem); border-radius: var(--radius-m); border-top: 4px solid var(--fiber); }
-  .vc__alt { margin-top: 2rem; color: var(--muted); }
+  .vc { display: grid; grid-template-columns: 1fr 1.3fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: start; }
+  .vc__h { font-size: clamp(1.6rem, 3vw, 2.1rem); }
+  .vc__alt { margin: 1rem 0 2rem; color: var(--muted); }
+  .vc__form { background: var(--white); padding: clamp(1.25rem, 3vw, 2.25rem); border-radius: var(--radius-m); border-top: 5px solid var(--blue); }
   @media (max-width: 860px) { .vc { grid-template-columns: 1fr; } }
 </style>

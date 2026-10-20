@@ -1,0 +1,37 @@
+---
+// Fasci di luce in prospettiva, come lo sfondo della locandina.
+// Unico movimento del sito: al caricamento le scie attraversano lo sfondo una volta.
+const streaks = [
+  { y1: 52, y2: 44, w: 1.6, c: 'c1', d: 0 },
+  { y1: 62, y2: 50, w: 2.4, c: 'c2', d: 0.15 },
+  { y1: 70, y2: 54, w: 1.2, c: 'c1', d: 0.3 },
+  { y1: 80, y2: 58, w: 3, c: 'c3', d: 0.05 },
+  { y1: 92, y2: 62, w: 1.6, c: 'c2', d: 0.4 },
+  { y1: 104, y2: 66, w: 2.2, c: 'c1', d: 0.2 },
+  { y1: 30, y2: 38, w: 1.2, c: 'c2', d: 0.5 },
+  { y1: 18, y2: 33, w: 2, c: 'c1', d: 0.35 },
+  { y1: 6, y2: 28, w: 1.4, c: 'c3', d: 0.6 },
+];
+---
+<svg class="streaks" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="c1" x1="0" x2="1"><stop offset="0" stop-color="#2f8bff" stop-opacity="0" /><stop offset=".7" stop-color="#2f8bff" stop-opacity=".55" /><stop offset="1" stop-color="#bfeaff" stop-opacity=".9" /></linearGradient>
+    <linearGradient id="c2" x1="0" x2="1"><stop offset="0" stop-color="#6fd6ff" stop-opacity="0" /><stop offset=".75" stop-color="#6fd6ff" stop-opacity=".45" /><stop offset="1" stop-color="#ffffff" stop-opacity=".8" /></linearGradient>
+    <linearGradient id="c3" x1="0" x2="1"><stop offset="0" stop-color="#1552d1" stop-opacity="0" /><stop offset=".8" stop-color="#4d9bff" stop-opacity=".6" /><stop offset="1" stop-color="#e6f6ff" stop-opacity="1" /></linearGradient>
+  </defs>
+  {streaks.map((s) => (
+    <line x1="-5" y1={s.y1} x2="105" y2={s.y2} stroke={`url(#${s.c})`} vector-effect="non-scaling-stroke" style={`--w:${s.w}px;animation-delay:${s.d}s`} />
+  ))}
+</svg>
+
+<style>
+  .streaks { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+  .streaks line {
+    stroke-width: var(--w);
+    opacity: 0;
+    transform: translateX(-40%);
+    animation: shoot 1.4s cubic-bezier(.3,0,.2,1) forwards;
+  }
+  @keyframes shoot { to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .streaks line { animation: none; opacity: 1; transform: none; } }
+</style>

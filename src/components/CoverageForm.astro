@@ -47,7 +47,7 @@ const { comune = '' } = Astro.props;
     <span>Ho letto l'<a href="/privacy">informativa privacy</a> e acconsento a essere ricontattato per questa richiesta.</span>
   </label>
   <input type="text" name="sito_web" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true" />
-  <button class="btn btn--signal" type="submit">Richiedi la verifica</button>
+  <button class="btn btn--blue" type="submit">Richiedi la verifica</button>
   <p class="cf__msg" role="status" aria-live="polite"></p>
 </form>
 
@@ -106,10 +106,10 @@ const { comune = '' } = Astro.props;
     padding: 0.7rem 0.85rem; min-height: 3rem;
     border: 1.5px solid var(--line); border-radius: var(--radius-s); background: var(--white);
   }
-  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--fiber); box-shadow: 0 0 0 3px rgba(18,164,182,.2); }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--electric); box-shadow: 0 0 0 3px rgba(47,139,255,.2); }
   .cf--checked :invalid { border-color: #c2410c; }
   .cf__check { display: flex; gap: 0.6rem; align-items: flex-start; font-weight: 400; font-size: 0.92rem; }
-  .cf__check input { min-height: auto; width: 1.15rem; height: 1.15rem; margin-top: 0.2rem; accent-color: var(--fiber); }
+  .cf__check input { min-height: auto; width: 1.15rem; height: 1.15rem; margin-top: 0.2rem; accent-color: var(--electric); }
   .cf .btn { justify-self: start; }
   .cf__msg { margin: 0; font-size: 0.95rem; min-height: 1.5em; }
   @media (max-width: 560px) { .cf__grid { grid-template-columns: 1fr; } .cf .btn { justify-self: stretch; } }
