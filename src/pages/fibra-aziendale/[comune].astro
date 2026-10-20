@@ -97,7 +97,7 @@ const faqSchema = {
     <div class="wrap loc">
       <div>
         <h2>Verifica la copertura a {c.name}</h2>
-        <p class="lead">Lasciaci l'indirizzo della sede, oppure scrivilo su WhatsApp al {SITE.phone}: ti ricontatta un tecnico {same ? `della sede di ${c.name}` : `da ${sede.city}`}.</p>
+        <p class="lead">Lasciaci l'indirizzo della sede, oppure scrivilo su WhatsApp al {SITE.whatsappDisplay}: ti ricontatta un tecnico {same ? `della sede di ${c.name}` : `da ${sede.city}`}.</p>
         <h3 class="near__h">Serviamo anche</h3>
         <ul class="near">
           {near.map((n) => <li><a href={`/fibra-aziendale/${n.slug}`}>Fibra aziendale a {n.name}</a></li>)}

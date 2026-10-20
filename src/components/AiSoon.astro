@@ -1,0 +1,75 @@
+---
+import Icon from './Icon.astro';
+import { AI_SOON } from '../data/ai';
+import { waLink } from '../data/site';
+interface Props { title?: string; text?: string }
+const {
+  title = 'Intelligenza artificiale',
+  text = 'Stiamo portando l\'AI dentro centralino, WhatsApp e gestione della rete. Le prime aziende la provano in anteprima.',
+} = Astro.props;
+---
+<section class="ai" aria-labelledby="ai-h">
+  <div class="ai__grid-bg" aria-hidden="true"></div>
+  <div class="wrap ai__row">
+    <div class="ai__intro">
+      <p class="ai__soon"><span class="ai__dot" aria-hidden="true"></span> Coming soon</p>
+      <h2 id="ai-h">{title}</h2>
+      <p class="ai__text">{text}</p>
+      <a class="btn btn--ghost" href={waLink('Ciao FibraHero, vorrei provare in anteprima le funzioni AI.')} target="_blank" rel="noopener">
+        <Icon name="whatsapp" size={20} /> Voglio provarla in anteprima
+      </a>
+    </div>
+    <ul class="ai__list">
+      {AI_SOON.map((f) => (
+        <li>
+          <span class="ai__chip">AI</span>
+          <h3>{f.t}</h3>
+          <p>{f.d}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .ai { position: relative; overflow: hidden; background: #050a18; color: #fff; padding-block: clamp(3.5rem, 8vw, 6rem); }
+  .ai__grid-bg {
+    position: absolute; inset: -50% -10% 0; z-index: 0;
+    background-image:
+      linear-gradient(rgba(111,214,255,.10) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(111,214,255,.10) 1px, transparent 1px);
+    background-size: 44px 44px;
+    transform: perspective(600px) rotateX(58deg);
+    transform-origin: 50% 100%;
+    mask-image: linear-gradient(to top, #000 10%, transparent 80%);
+    -webkit-mask-image: linear-gradient(to top, #000 10%, transparent 80%);
+    animation: grid-run 6s linear infinite;
+  }
+  @keyframes grid-run { to { background-position: 0 44px, 0 0; } }
+  .ai__row { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1.35fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  .ai__soon { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 700; color: var(--cyan); border: 1px solid rgba(111,214,255,.45); border-radius: 999px; padding: 0.25rem 0.9rem; font-size: 0.92rem; }
+  .ai__dot { width: 0.55rem; height: 0.55rem; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 0 0 rgba(111,214,255,.7); animation: ping 1.8s ease-out infinite; }
+  @keyframes ping { 70% { box-shadow: 0 0 0 10px rgba(111,214,255,0); } 100% { box-shadow: 0 0 0 0 rgba(111,214,255,0); } }
+  .ai h2 {
+    margin-top: 1rem;
+    background: linear-gradient(90deg, #ffffff 0%, #8fd0ff 40%, #b48cff 70%, #ffffff 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: shimmer 5s linear infinite;
+  }
+  @keyframes shimmer { to { background-position: -200% 0; } }
+  .ai__text { color: #b9c7df; margin-bottom: 1.5rem; }
+  .ai__list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .ai__list li {
+    position: relative; padding: 1.4rem; border-radius: var(--radius-m);
+    background: linear-gradient(160deg, rgba(47,139,255,.14), rgba(180,140,255,.06));
+    border: 1px solid rgba(143,208,255,.22);
+    backdrop-filter: blur(4px);
+  }
+  .ai__chip { display: inline-block; font-size: 0.75rem; font-weight: 800; letter-spacing: 0.06em; padding: 0.15rem 0.5rem; border-radius: 4px; background: linear-gradient(90deg, #2f8bff, #8a63ff); margin-bottom: 0.75rem; }
+  .ai__list h3 { color: #fff; font-size: 1.02rem; }
+  .ai__list p { color: #aebedb; font-size: 0.95rem; margin: 0; }
+  @media (max-width: 900px) { .ai__row { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) { .ai__list { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: reduce) { .ai__grid-bg, .ai__dot, .ai h2 { animation: none; } }
+</style>

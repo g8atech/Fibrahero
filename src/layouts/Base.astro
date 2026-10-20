@@ -46,6 +46,7 @@ const schemas = [organization, ...jsonLd];
 <html lang="it">
   <head>
     <meta charset="utf-8" />
+    <script is:inline>document.documentElement.classList.add('js');</script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
@@ -74,5 +75,12 @@ const schemas = [organization, ...jsonLd];
       <slot />
     </main>
     <Footer />
+    <script>
+      // Comparsa al passaggio: elementi con data-reveal entrano quando arrivano a schermo.
+      const io = new IntersectionObserver((entries) => {
+        for (const e of entries) if (e.isIntersecting) { e.target.classList.add('is-in'); io.unobserve(e.target); }
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+    </script>
   </body>
 </html>

@@ -5,6 +5,7 @@ import Faq from '../components/Faq.astro';
 import Icon from '../components/Icon.astro';
 import LightStreaks from '../components/LightStreaks.astro';
 import CtaBand from '../components/CtaBand.astro';
+import AiSoon from '../components/AiSoon.astro';
 import { SERVIZI, type Servizio } from '../data/servizi';
 import { SITE, waLink } from '../data/site';
 
@@ -59,13 +60,36 @@ const faqSchema = {
       <div>
         <h2>Assistenza diretta</h2>
         <hr class="rule" />
-        <p>Il servizio è seguito dai tecnici G8A dalle sedi di Solbiate Arno, Gallarate, Busto Arsizio, Jerago con Orago, Bollate e Lecco. Nessun call center: scrivi al {SITE.phone}, verifichiamo da remoto e, se serve, veniamo in sede.</p>
+        <p>Il servizio è seguito dai tecnici G8A dalle sedi di Solbiate Arno, Gallarate, Busto Arsizio, Jerago con Orago, Bollate e Lecco. Nessun call center: chiama la sede allo {SITE.phone} o scrivi su WhatsApp al {SITE.whatsappDisplay}, verifichiamo da remoto e, se serve, veniamo in sede.</p>
         <p><a href="/chi-siamo">Chi c'è dietro FibraHero</a></p>
       </div>
     </div>
   </section>
 
-  <section class="section section--paper">
+  {s.featureGroups && (
+    <section class="section section--paper">
+      <div class="wrap">
+        <h2>Tutte le funzioni</h2>
+        <p class="lead">Quello che il tuo centralino sa fare dal primo giorno. Lo configuriamo noi, tu lo usi.</p>
+        {s.featureGroups.map((g) => (
+          <div class="fg">
+            <h3 class="fg__h">{g.title}</h3>
+            <ul class="fg__list">
+              {g.items.map((f) => (
+                <li><strong>{f.t}</strong><span>{f.d}</span></li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+  )}
+
+  {s.slug === 'centralino-cloud-voip' && (
+    <AiSoon title="Centralino con AI" text="Il prossimo passo del centralino è l'intelligenza artificiale: risposte automatiche, chiamate trascritte e riassunte, WhatsApp che risponde da solo. In arrivo per i clienti FibraHero." />
+  )}
+
+  <section class={s.featureGroups ? 'section' : 'section section--paper'}>
     <div class="wrap"><Faq items={s.faq} /></div>
   </section>
 
@@ -93,6 +117,16 @@ const faqSchema = {
   .sv__box { background: #fff; color: var(--ink); padding: 1.9rem; border-radius: var(--radius-m); border-top: 5px solid var(--blue); }
   .sv__h { font-size: 1.6rem; }
   .sv__two { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); }
+  .fg { margin-top: 2.5rem; }
+  .fg__h { font-size: 1.1rem; padding-bottom: 0.75rem; border-bottom: 3px solid var(--blue); margin-bottom: 0; }
+  .fg__list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr)); gap: 0 2rem; }
+  .fg__list li { padding: 1.1rem 0 1.1rem 2.2rem; border-bottom: 1px solid var(--line); position: relative; }
+  .fg__list li::before {
+    content: ''; position: absolute; left: 0; top: 1.25rem; width: 1.4rem; height: 1.4rem; border-radius: 50%;
+    background: var(--blue) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12.5 4 4 8-9'/%3E%3C/svg%3E") center / 0.85rem no-repeat;
+  }
+  .fg__list strong { display: block; margin-bottom: 0.2rem; }
+  .fg__list span { color: var(--muted); font-size: 0.96rem; }
   .others { list-style: none; padding: 0; margin: 1.5rem 0 0; border-top: 3px solid var(--ink); }
   .others li { display: grid; grid-template-columns: 17rem 1fr; gap: 1rem; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--line); }
   .others a { display: inline-flex; gap: 0.75rem; align-items: center; text-decoration: none; }

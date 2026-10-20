@@ -10,6 +10,8 @@ export type Servizio = {
   forWho: string[];
   includes: string[];
   faq: { q: string; a: string }[];
+  // Funzioni dettagliate, mostrate a gruppi nella pagina del servizio.
+  featureGroups?: { title: string; items: { t: string; d: string }[] }[];
 };
 
 export const SERVIZI: Servizio[] = [
@@ -132,27 +134,75 @@ export const SERVIZI: Servizio[] = [
     slug: 'centralino-cloud-voip',
     name: 'Centralino cloud VoIP',
     icon: 'voip',
-    short: 'Centralini in cloud, scalabili e flessibili: numeri, interni, code e registrazioni, ovunque tu sia.',
+    short: 'Centralino in cloud completo: IVR, gruppi, registrazioni, app, chat, videoconferenze e WhatsApp integrato.',
     title: 'Centralino cloud VoIP per aziende',
     description:
-      'Centralino telefonico in cloud con tecnologia VoIP: portabilità dei numeri, interni, code, registrazioni e app. Gestito da FibraHero by G8A.',
+      'Centralino telefonico in cloud per aziende: IVR multilivello, gruppi di squillo, registrazione chiamate, app per smartphone, chat, videoconferenze, WhatsApp integrato e sedi collegate. Portabilità dei numeri e assistenza G8A.',
     intro:
-      'Centralini telefonici in cloud con tecnologia VoIP, scalabili e flessibili. Gestiamo numeri, interni, code, registrazioni e molto altro, e rispondi ovunque tu sia.',
+      'Un centralino in cloud che fa molto più che squillare. Smisti le chiamate con il risponditore, vedi chi è libero, rispondi dal cellulare come fossi in ufficio, registri le chiamate e apri WhatsApp con un clic. Lo configuriamo noi, con i numeri che hai già.',
     forWho: [
       'Uffici con più interni e un numero principale',
       'Aziende con più sedi che vogliono un unico centralino',
       'Chi lavora anche fuori ufficio e deve restare raggiungibile',
+      'Team commerciali e assistenza che gestiscono molte chiamate',
     ],
     includes: [
       'Portabilità dei numeri che hai già',
-      'Interni, code, gruppi di risposta e registrazioni',
-      'App per rispondere da cellulare o PC',
-      'Configurazione e modifiche gestite da noi',
+      'Configurazione di IVR, gruppi e orari fatta da noi',
+      'App per smartphone e PC per tutti gli interni',
+      'Modifiche e assistenza con un solo referente',
+    ],
+    featureGroups: [
+      {
+        title: 'Gestione delle chiamate',
+        items: [
+          { t: 'IVR multilivello', d: 'Messaggio di benvenuto personalizzato e scelta da tastiera, anche su più livelli, per mandare ogni chiamata all\'ufficio giusto.' },
+          { t: 'Gruppi di squillo e code', d: 'Le chiamate in entrata arrivano a gruppi di colleghi, come commerciale o assistenza, e nessuna resta senza risposta.' },
+          { t: 'Chiamate dal PC con un clic', d: 'Chiami, metti in attesa e trasferisci a un collega o a un numero esterno direttamente dal computer.' },
+          { t: 'Orari e chiusure aziendali', d: 'Fuori orario o nei giorni di chiusura parte in automatico il messaggio giusto, senza disturbare gli interni.' },
+          { t: 'Registrazione delle chiamate', d: 'Registri con un clic e ritrovi i file audio quando servono.' },
+          { t: 'Casella vocale per ogni interno', d: 'Ogni utente ha la sua segreteria: ascolti, scarichi e gestisci i messaggi.' },
+          { t: 'Registro e statistiche', d: 'Chiamate perse, ricevute ed effettuate, con statistiche ed esportazione in Excel.' },
+        ],
+      },
+      {
+        title: 'Collaborazione',
+        items: [
+          { t: 'Stato dei colleghi in tempo reale', d: 'Vedi chi è libero, occupato o in non disturbare, e prenoti la chiamata quando si libera.' },
+          { t: 'Chat interna', d: 'Messaggi scritti e vocali, file condivisi e gruppi di lavoro, senza app esterne.' },
+          { t: 'WhatsApp integrato', d: 'Apri una chat WhatsApp con un clic dalla rubrica, dal registro chiamate o durante una telefonata.' },
+          { t: 'Rubrica condivisa e note', d: 'Contatti personali, di reparto o aziendali. Mentre squilla vedi chi è, le note e le ultime chiamate.' },
+          { t: 'Videoconferenze', d: 'Videochiamate con colleghi, gruppi e clienti, anche se loro non hanno il centralino.' },
+          { t: 'Promemoria e agenda', d: 'Promemoria di chiamata e videoconferenze su un calendario condivisibile.' },
+          { t: 'Affiancamento operatori', d: 'Il responsabile entra in una chiamata in corso per aiutare o formare un collega.' },
+        ],
+      },
+      {
+        title: 'Sedi, mobilità e integrazioni',
+        items: [
+          { t: 'App per smartphone', d: 'Il cellulare diventa un interno aziendale: linee, rubrica, note e chat ovunque sei.' },
+          { t: 'Più sedi, un solo centralino', d: 'Colleghi sedi e negozi in un unico sistema, mantenendo numeri e operatori.' },
+          { t: 'Integrazione con gestionali e CRM', d: 'Collegamento con i gestionali TeamSystem e con altri software e CRM tramite API.' },
+          { t: 'Pannello di controllo unico', d: 'Utenti, interni e sedi sotto controllo da un\'unica schermata.' },
+        ],
+      },
     ],
     faq: [
       {
         q: 'Perdiamo il numero se cambiamo centralino?',
         a: 'No. Portiamo i numeri che avete già e programmiamo il passaggio per evitare interruzioni.',
+      },
+      {
+        q: 'Servono telefoni nuovi?',
+        a: 'Non necessariamente: si può rispondere da PC e smartphone con l\'app. Se volete telefoni da scrivania li forniamo e li configuriamo noi.',
+      },
+      {
+        q: 'Il centralino funziona anche con più sedi?',
+        a: 'Sì. Sedi e negozi diversi lavorano come un unico centralino: le chiamate si passano da una sede all\'altra come tra due interni.',
+      },
+      {
+        q: 'Si può collegare al nostro gestionale o CRM?',
+        a: 'Sì, con i gestionali TeamSystem in modo nativo e con altri software tramite API. Verifichiamo insieme il vostro caso.',
       },
     ],
   },

@@ -1,7 +1,7 @@
 ---
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
-import { waLink } from '../data/site';
+import { SITE, waLink, telLink } from '../data/site';
 const path = Astro.url.pathname;
 const links = [
   { href: '/servizi', label: 'Servizi' },
@@ -23,6 +23,10 @@ const links = [
         ))}
       </ul>
     </nav>
+    <a href={telLink} class="hdr__tel" aria-label={`Chiama la sede allo ${SITE.phone}`}>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+      <span>{SITE.phone}</span>
+    </a>
     <a href={waLink()} class="btn btn--wa hdr__cta" rel="noopener" target="_blank">
       <Icon name="whatsapp" size={20} /> <span>WhatsApp</span>
     </a>
@@ -40,12 +44,22 @@ const links = [
   .hdr__nav a { text-decoration: none; padding-block: 0.4rem; color: #dbe5f5; }
   .hdr__nav a:hover { color: var(--cyan); }
   .hdr__nav a[aria-current='page'] { color: #fff; box-shadow: inset 0 -3px 0 var(--electric); }
+  .hdr__tel { display: inline-flex; align-items: center; gap: 0.45rem; font-weight: 700; text-decoration: none; color: #fff; white-space: nowrap; }
+  .hdr__tel:hover { color: var(--cyan); }
+  .hdr__tel svg { color: var(--cyan); }
   .hdr__cta { min-height: 2.6rem; padding: 0.45rem 1rem; font-size: 0.95rem; }
   @media (max-width: 900px) {
     .hdr__row { flex-wrap: wrap; gap: 0.25rem 1rem; padding-block: 0.6rem; }
     nav { order: 3; width: 100%; margin: 0; overflow-x: auto; }
     .hdr__nav { gap: 1.25rem; white-space: nowrap; font-size: 0.92rem; }
-    .hdr__cta { margin-left: auto; }
+    .hdr__tel { margin-left: auto; }
+    .hdr__tel span { font-size: 0.92rem; }
     .hdr__by { display: none; }
+  }
+  @media (max-width: 480px) {
+    .hdr__tel span { display: none; }
+    .hdr__tel { width: 2.6rem; height: 2.6rem; justify-content: center; border: 1px solid #2b4372; border-radius: var(--radius-s); }
+    .hdr__cta span { display: none; }
+    .hdr__cta { width: 2.6rem; padding: 0; }
   }
 </style>

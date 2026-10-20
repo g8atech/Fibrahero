@@ -3,42 +3,120 @@ import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import LightStreaks from '../components/LightStreaks.astro';
+import NetCanvas from '../components/NetCanvas.astro';
 import Press from '../components/Press.astro';
+import Stats from '../components/Stats.astro';
+import AiSoon from '../components/AiSoon.astro';
 import CtaBand from '../components/CtaBand.astro';
 import g8a from '../assets/g8a-logo.png';
 import hero from '../assets/hero-fibrahero.png';
-import { SEDI } from '../data/site';
+import { SITE, SEDI } from '../data/site';
+
+const stats = [
+  { n: 15, prefix: '~', label: 'anni di tecnologia per le aziende' },
+  { n: 5, label: 'negozi tra Varese, Milano e Lecco' },
+  { n: 4, label: 'brand, un unico gruppo' },
+  { n: 1, label: 'squadra di tecnici, tutta interna' },
+];
+const timeline = [
+  { k: 'Gli inizi', t: 'Due fratelli, una ditta individuale', d: 'Giuseppe e Antonio Arrigo partono come ditta individuale: assistenza informatica, computer e stampanti per le aziende della provincia di Varese.' },
+  { k: 'La crescita', t: 'Una rete di negozi e una sede operativa', d: 'Aprono i punti vendita di Gallarate, Busto Arsizio, Jerago con Orago, Bollate e Lecco, con la sede operativa e il magazzino a Solbiate Arno.' },
+  { k: '2023', t: 'Nasce G8A Technology S.r.l.', d: 'L\'attività diventa società: informatica gestita, noleggio di PC e server, sicurezza e backup per uffici, studi e capannoni.' },
+  { k: '2026', t: 'I brand del gruppo', d: 'I negozi diventano TonerHero per toner e cartucce e RiparoHero per le riparazioni. Arriva FibraHero, la connettività per aziende.' },
+  { k: 'Prossimo passo', t: 'Intelligenza artificiale', d: 'Centralino, WhatsApp e gestione della rete con l\'AI, per i clienti del gruppo.' },
+];
+const brands = [
+  { name: 'G8A Technology', d: 'Informatica gestita per aziende: PC e server a noleggio, reti, sicurezza, backup e assistenza.', href: 'https://www.g8a.it', site: 'g8a.it' },
+  { name: 'FibraHero', d: 'L\'operatore per aziende: fibra, firewall, backup della rete e centralino cloud con assistenza diretta.', href: '/', site: 'fibrahero.it', on: true },
+  { name: 'TonerHero', d: 'Toner e cartucce originali e compatibili per uffici, nei negozi del gruppo e online.', href: 'https://www.tonerhero.it', site: 'tonerhero.it' },
+  { name: 'RiparoHero', d: 'Riparazione di smartphone, tablet e computer, nei negozi del gruppo.', href: 'https://www.riparohero.it', site: 'riparohero.it' },
+];
+const values = [
+  { icon: 'assistenza', t: 'Persone che risolvono', d: 'Niente call center. Chi ti risponde è un tecnico del gruppo, che conosce la tua azienda.' },
+  { icon: 'partner', t: 'Un partner unico', d: 'Linea, rete, computer, stampanti e telefonia con un solo referente. Tutto sotto controllo.' },
+  { icon: 'fibra', t: 'Vicini davvero', d: 'Sei sedi tra Varese, Milano e Lecco. Un intervento non diventa un\'attesa di giorni.' },
+];
+const aboutSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'AboutPage',
+  name: 'Il gruppo G8A',
+  about: { '@type': 'Organization', name: SITE.company, url: 'https://www.g8a.it', brand: brands.map((b) => ({ '@type': 'Brand', name: b.name })) },
+};
 ---
 <Base
-  title="Chi siamo — FibraHero è G8A Technology"
-  description="FibraHero è l'operatore per aziende di G8A Technology, che da circa quindici anni segue l'informatica delle imprese tra Varese, Milano e Lecco."
+  title="Chi siamo — Il gruppo G8A"
+  description="FibraHero fa parte del gruppo G8A: da circa quindici anni G8A Technology porta informatica, consumabili, riparazioni e connettività alle aziende tra Varese, Milano e Lecco."
+  jsonLd={[aboutSchema]}
 >
-  <section class="pagehead">
+  <section class="pagehead gh">
     <LightStreaks />
-    <div class="wrap about">
+    <NetCanvas density={0.00007} />
+    <div class="wrap gh__row">
       <div>
         <Breadcrumbs items={[{ name: 'Chi siamo', href: '/chi-siamo' }]} />
-        <h1>FibraHero è G8A Technology</h1>
-        <p class="lead">Da circa quindici anni seguiamo computer, reti, stampanti e server delle aziende del territorio. FibraHero nasce perché la connessione è la parte che, quando si ferma, blocca tutto il resto.</p>
+        <p class="gh__motto">Exceed your limits</p>
+        <h1>Il gruppo <span class="gh__g8a">G8A</span></h1>
+        <p class="lead">Da circa quindici anni portiamo tecnologia alle aziende della Lombardia. Abbiamo iniziato riparando computer, oggi gestiamo reti, stampanti, telefoni e connessioni di uffici, studi e capannoni. FibraHero è l'ultimo arrivato.</p>
       </div>
-      <Image class="about__hero" src={hero} alt="Il supereroe FibraHero" width={460} densities={[1, 2]} />
+      <div class="gh__visual">
+        <div class="gh__ring" aria-hidden="true"></div>
+        <Image class="gh__hero" src={hero} alt="Il supereroe del gruppo G8A" width={520} densities={[1, 2]} loading="eager" />
+      </div>
     </div>
+    <div class="wrap gh__stats" data-reveal><Stats items={stats} /></div>
   </section>
 
   <Press />
 
   <section class="section">
-    <div class="wrap story">
-      <div>
-        <h2>Un partner unico</h2>
-        <hr class="rule" />
-        <p>G8A è nata come ditta individuale dei fratelli Giuseppe e Antonio Arrigo ed è cresciuta fino a una rete di sedi tra le province di Varese, Milano e Lecco. Oggi i nostri tecnici gestiscono l'informatica di uffici, studi e capannoni: PC a noleggio, server, backup, sicurezza.</p>
-        <p>Con FibraHero siamo noi l'operatore. Quando c'è un problema non esiste più il rimpallo tra chi fornisce la linea e chi gestisce la rete: rispondiamo noi, per entrambe.</p>
-      </div>
-      <div class="story__logo">
-        <Image src={g8a} alt="G8A Technology" width={240} densities={[1, 2]} />
+    <div class="wrap">
+      <h2>La nostra storia</h2>
+      <hr class="rule" />
+      <ol class="tl">
+        {timeline.map((s, i) => (
+          <li data-reveal style={`--d:${0.08 * i}s`} class={i === timeline.length - 1 ? 'tl__next' : undefined}>
+            <span class="tl__k">{s.k}</span>
+            <h3>{s.t}</h3>
+            <p>{s.d}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section section--night brandsec">
+    <LightStreaks />
+    <div class="wrap brandsec__in">
+      <h2>Quattro brand, una squadra</h2>
+      <p class="lead">Ogni brand ha il suo mestiere. Dietro c'è sempre la stessa squadra di tecnici G8A.</p>
+      <ul class="brands">
+        {brands.map((b, i) => (
+          <li data-reveal style={`--d:${0.08 * i}s`}>
+            <a class={`glow ${b.on ? 'is-on' : ''}`} href={b.href} {...(b.href.startsWith('http') ? { rel: 'noopener' } : {})}>
+              <strong>{b.name}</strong>
+              <p>{b.d}</p>
+              <span class="brands__site">{b.site}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap vals">
+      <div class="vals__logo" data-reveal>
+        <Image src={g8a} alt="G8A Technology" width={260} densities={[1, 2]} />
         <p>Exceed your limits</p>
       </div>
+      <ul class="vals__list">
+        {values.map((v, i) => (
+          <li data-reveal style={`--d:${0.1 * i}s`}>
+            <h3>{v.t}</h3>
+            <p>{v.d}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
@@ -46,8 +124,8 @@ import { SEDI } from '../data/site';
     <div class="wrap">
       <h2>Le sedi G8A</h2>
       <ul class="sedi">
-        {SEDI.map((s) => (
-          <li>
+        {SEDI.map((s, i) => (
+          <li data-reveal style={`--d:${0.06 * i}s`}>
             <h3>{s.city}</h3>
             <p>{s.address}<br />{s.cap} {s.city} ({s.province})</p>
             {s.operativa && <p class="sedi__op">Sede operativa e magazzino</p>}
@@ -57,34 +135,67 @@ import { SEDI } from '../data/site';
     </div>
   </section>
 
-  <section class="section">
-    <div class="wrap">
-      <h2>Il gruppo G8A</h2>
-      <ul class="brands">
-        <li><strong>G8A Technology</strong><span>Informatica gestita per aziende, noleggio PC e server</span></li>
-        <li><strong>FibraHero</strong><span>Connettività gestita per aziende</span></li>
-        <li><strong>TonerHero</strong><span>Toner e cartucce per uffici, nei negozi e online</span></li>
-        <li><strong>RiparoHero</strong><span>Riparazioni di smartphone, tablet e computer</span></li>
-      </ul>
-    </div>
-  </section>
+  <AiSoon />
 
-  <CtaBand />
+  <CtaBand title="Parliamo della tua azienda" text="Linea, rete, centralino, computer o stampanti: scrivici e ti risponde una persona del gruppo G8A." />
 </Base>
 
 <style>
-  .about { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
-  .about__hero { justify-self: center; width: min(100%, 460px); filter: drop-shadow(0 20px 40px rgba(0,0,0,.45)); }
-  .story { display: grid; grid-template-columns: 1.4fr 1fr; gap: 3rem; align-items: center; }
-  .story__logo { display: grid; justify-items: center; gap: 0.75rem; padding: 2rem; border: 1px solid var(--line); border-radius: var(--radius-m); }
-  .story__logo p { margin: 0; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; font-size: 0.9rem; }
-  .sedi { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem 2.5rem; }
-  .sedi li { border-top: 3px solid var(--blue); padding-top: 1rem; }
+  .gh { padding-bottom: clamp(2.5rem, 5vw, 3.5rem); }
+  .gh__row { display: grid; grid-template-columns: 1.15fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  .gh__motto { display: inline-block; font-weight: 800; text-transform: uppercase; letter-spacing: 0.14em; font-size: 0.85rem; color: #ff5a5a; border-left: 3px solid #ff3b3b; padding-left: 0.6rem; margin-bottom: 1rem; }
+  .gh h1 { font-size: clamp(3rem, 8vw, 6.2rem); }
+  .gh__g8a { background: linear-gradient(180deg, #fff 0%, #8fd0ff 50%, #2f8bff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .gh__visual { position: relative; display: grid; place-items: center; }
+  .gh__ring { position: absolute; width: 85%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(47,139,255,.45), transparent 62%); animation: breathe 4s ease-in-out infinite; }
+  .gh__visual :global(.gh__hero) { position: relative; width: min(100%, 520px); filter: drop-shadow(0 20px 40px rgba(0,0,0,.45)); animation: fly 6s ease-in-out infinite; }
+  @keyframes breathe { 50% { transform: scale(1.08); opacity: .7; } }
+  @keyframes fly { 50% { transform: translateY(-14px) rotate(-1deg); } }
+  .gh__stats { margin-top: clamp(2rem, 5vw, 3.5rem); }
+  @media (max-width: 860px) { .gh__row { grid-template-columns: 1fr; } .gh__visual { max-width: 26rem; margin-inline: auto; } }
+  @media (prefers-reduced-motion: reduce) { .gh__ring, .gh__visual :global(.gh__hero) { animation: none; } }
+
+  .tl { list-style: none; padding: 0; margin: 2.5rem 0 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.5rem; position: relative; }
+  .tl::before { content: ''; position: absolute; top: 0.55rem; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--blue), var(--electric) 75%, rgba(138,99,255,.6)); }
+  .tl li { position: relative; padding-top: 2.25rem; }
+  .tl li::before { content: ''; position: absolute; top: 0; left: 0; width: 1.25rem; height: 1.25rem; border-radius: 50%; background: var(--white); border: 4px solid var(--blue); box-shadow: 0 0 0 5px rgba(47,139,255,.15); }
+  .tl .tl__next::before { border-color: #8a63ff; border-style: dashed; }
+  .tl__k { display: inline-block; font-weight: 800; color: var(--blue); text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.05em; margin-bottom: 0.4rem; }
+  .tl .tl__next .tl__k { color: #6a45e0; }
+  .tl h3 { color: var(--ink); text-transform: none; font-size: 1.1rem; letter-spacing: 0; }
+  .tl p { color: var(--muted); font-size: 0.96rem; }
+  @media (max-width: 960px) {
+    .tl { grid-template-columns: 1fr; gap: 0; }
+    .tl::before { top: 0; bottom: 0; left: 0.55rem; right: auto; width: 3px; height: auto; }
+    .tl li { padding: 0 0 1.75rem 2.75rem; }
+  }
+
+  .brandsec { position: relative; overflow: hidden; background: radial-gradient(90% 120% at 10% 0%, #173d8c 0%, var(--navy) 45%, var(--night) 100%); }
+  .brandsec__in { position: relative; z-index: 1; }
+  .brands { list-style: none; padding: 0; margin: 2.25rem 0 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  .brands a { display: flex; flex-direction: column; height: 100%; padding: 1.6rem; border-radius: var(--radius-m); background: rgba(255,255,255,.04); border: 1px solid rgba(143,208,255,.18); text-decoration: none; color: #fff; transition: background-color .2s ease, transform .2s ease; }
+  .brands a:hover { background: rgba(47,139,255,.12); color: #fff; transform: translateY(-4px); }
+  .brands a.is-on { background: linear-gradient(160deg, rgba(47,139,255,.35), rgba(21,82,209,.15)); border-color: var(--electric); }
+  .brands strong { font-size: 1.5rem; text-transform: uppercase; font-stretch: 80%; font-variation-settings: 'wdth' 80; line-height: 1; margin-bottom: 0.75rem; }
+  .brands p { color: #b9c7df; font-size: 0.96rem; flex: 1; }
+  .brands__site { color: var(--cyan); font-weight: 700; font-size: 0.92rem; }
+  @media (max-width: 960px) { .brands { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 540px) { .brands { grid-template-columns: 1fr; } }
+
+  .vals { display: grid; grid-template-columns: 1fr 1.6fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  .vals__logo { display: grid; justify-items: center; gap: 0.75rem; padding: 2.5rem 2rem; border-radius: var(--radius-m); border: 1px solid var(--line); background: radial-gradient(circle at 50% 30%, #fff 0%, var(--paper) 100%); }
+  .vals__logo p { margin: 0; font-weight: 800; text-transform: uppercase; letter-spacing: 0.12em; font-size: 0.9rem; }
+  .vals__list { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.5rem; }
+  .vals__list li { padding-left: 1.25rem; border-left: 4px solid var(--blue); }
+  .vals__list h3 { color: var(--ink); font-size: 1.25rem; }
+  .vals__list p { color: var(--muted); margin: 0; }
+  @media (max-width: 860px) { .vals { grid-template-columns: 1fr; } }
+
+  .sedi { list-style: none; padding: 0; margin: 2rem 0 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+  .sedi li { background: var(--white); border-radius: var(--radius-m); border-top: 4px solid var(--blue); padding: 1.25rem 1.4rem; }
+  .sedi h3 { color: var(--ink); }
   .sedi p { margin: 0; color: var(--muted); }
-  .sedi .sedi__op { color: var(--ink); font-weight: 700; margin-top: 0.4rem; }
-  .brands { list-style: none; padding: 0; margin: 1.5rem 0 0; border-top: 3px solid var(--ink); }
-  .brands li { display: grid; grid-template-columns: 14rem 1fr; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--line); }
-  .brands span { color: var(--muted); }
-  @media (max-width: 860px) { .about, .story { grid-template-columns: 1fr; } .sedi { grid-template-columns: 1fr 1fr; } }
-  @media (max-width: 520px) { .sedi { grid-template-columns: 1fr; } .brands li { grid-template-columns: 1fr; gap: 0.2rem; } }
+  .sedi .sedi__op { color: var(--blue); font-weight: 700; margin-top: 0.4rem; }
+  @media (max-width: 860px) { .sedi { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .sedi { grid-template-columns: 1fr; } }
 </style>
