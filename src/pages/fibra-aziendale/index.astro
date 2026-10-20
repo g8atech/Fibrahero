@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import NetworkMap from '../../components/NetworkMap.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { COMUNI, PROVINCE, nearestSede } from '../../data/comuni';
+
+const groups = (['VA', 'MI', 'LC'] as const).map((p) => ({
+  label: PROVINCE[p],
+  items: COMUNI.filter((c) => c.province === p).sort((a, b) => a.name.localeCompare(b.name, 'it')),
+}));
+---
+<Base
+  title="Zone servite — fibra per aziende tra Varese, Milano e Lecco"
+  description="Comuni in cui FibraHero by G8A porta fibra FTTH, radio FWA e linea di backup alle aziende, con assistenza dalla sede G8A più vicina."
+>
+  <section class="section section--white">
+    <div class="wrap zone">
+      <div>
+        <Breadcrumbs items={[{ name: 'Zone servite', href: '/fibra-aziendale' }]} />
+        <h1>Zone servite</h1>
+        <p class="lead">Seguiamo le aziende vicine alle nostre sedi. Se il tuo comune non è in elenco, verifichiamo comunque l'indirizzo.</p>
+        <a class="btn btn--signal" href="/verifica-copertura">Verifica copertura</a>
+      </div>
+      <NetworkMap tone="onLight" />
+    </div>
+  </section>
+  <section class="section">
+    <div class="wrap groups">
+      {groups.map((g) => (
+        <div>
+          <h2>{g.label.charAt(0).toUpperCase() + g.label.slice(1)}</h2>
+          <ul>
+            {g.items.map((c) => (
+              <li><a href={`/fibra-aziendale/${c.slug}`}>{c.name}</a><span>assistenza da {nearestSede(c).sede.city}</span></li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+
+<style>
+  .zone { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  .groups { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2.5rem; }
+  .groups h2 { font-size: 1.35rem; padding-bottom: 0.75rem; border-bottom: 2px solid var(--ink); }
+  .groups ul { list-style: none; padding: 0; margin: 0; }
+  .groups li { display: flex; justify-content: space-between; gap: 1rem; padding: 0.6rem 0; border-bottom: 1px solid var(--line); }
+  .groups li a { font-weight: 600; }
+  .groups li span { color: var(--muted); font-size: 0.88rem; text-align: right; }
+  @media (max-width: 900px) { .zone, .groups { grid-template-columns: 1fr; } }
+</style>

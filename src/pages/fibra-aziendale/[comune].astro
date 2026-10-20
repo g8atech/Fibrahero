@@ -1,0 +1,114 @@
+---
+import Base from '../../layouts/Base.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import NetworkMap from '../../components/NetworkMap.astro';
+import CoverageForm from '../../components/CoverageForm.astro';
+import Faq from '../../components/Faq.astro';
+import { COMUNI, PROVINCE, nearestSede, neighbours, type Comune } from '../../data/comuni';
+import { SERVIZI } from '../../data/servizi';
+import { SITE } from '../../data/site';
+
+export function getStaticPaths() {
+  return COMUNI.map((c, i) => ({ params: { comune: c.slug }, props: { c, i } }));
+}
+const { c, i } = Astro.props as { c: Comune; i: number };
+const { sede, distance } = nearestSede(c);
+const near = neighbours(c);
+const same = sede.city === c.name;
+const dist = Math.max(1, Math.round(distance));
+
+const intros = [
+  `Colleghiamo uffici, studi e capannoni di ${c.name} con fibra FTTH, FTTC o radio FWA, a seconda di cosa arriva all'indirizzo.`,
+  `A ${c.name} portiamo la connessione alle aziende con la tecnologia migliore disponibile in via: fibra FTTH, FTTC o radio FWA.`,
+  `Per le aziende di ${c.name} verifichiamo indirizzo per indirizzo cosa è disponibile, dalla fibra FTTH alla radio FWA.`,
+];
+const intro = intros[i % intros.length];
+const support = same
+  ? `A ${c.name} abbiamo una nostra sede in ${sede.address}: i tecnici che seguono la tua linea lavorano a pochi minuti da te.`
+  : `La sede più vicina è quella di ${sede.city}, in ${sede.address}, a circa ${dist} km. Da lì i nostri tecnici seguono le aziende di ${c.name} da remoto e in sede.`;
+
+const faq = [
+  {
+    q: `La fibra FTTH arriva nelle zone artigianali di ${c.name}?`,
+    a: `Dipende dalla via e dal civico: nello stesso comune ci sono zone in FTTH e zone servite solo in FTTC o via radio. Con l'indirizzo esatto verifichiamo la copertura e ti diciamo cosa è attivabile.`,
+  },
+  {
+    q: `Chi interviene se la linea si ferma a ${c.name}?`,
+    a: `Un tecnico G8A ${same ? `della sede di ${c.name}` : `della sede di ${sede.city}`}. Prima verifichiamo da remoto, poi, se serve, interveniamo in azienda.`,
+  },
+  {
+    q: 'Si può avere una linea di backup?',
+    a: 'Sì. Aggiungiamo una seconda linea che entra in funzione da sola se la principale cade, così casse, gestionale e telefoni continuano a funzionare.',
+  },
+];
+
+const title = `Fibra per aziende a ${c.name}`;
+const description = `Fibra FTTH, radio FWA e linea di backup per aziende a ${c.name} (${c.province}). Assistenza diretta dalla sede G8A di ${sede.city}. Verifica la copertura.`;
+const service = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: `Connettività in fibra per aziende a ${c.name}`,
+  serviceType: 'Connessione internet per aziende',
+  provider: { '@id': `${SITE.url}/#organization` },
+  areaServed: { '@type': 'City', name: c.name, containedInPlace: { '@type': 'AdministrativeArea', name: PROVINCE[c.province] } },
+  audience: { '@type': 'BusinessAudience', audienceType: 'Aziende e partite IVA' },
+};
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<Base title={title} description={description} jsonLd={[service, faqSchema]}>
+  <section class="section section--white">
+    <div class="wrap loc">
+      <div>
+        <Breadcrumbs items={[{ name: 'Zone servite', href: '/fibra-aziendale' }, { name: c.name, href: `/fibra-aziendale/${c.slug}` }]} />
+        <h1>{title}</h1>
+        <p class="lead">{intro}</p>
+        <p>{support}</p>
+        {c.note && <p>{c.note}</p>}
+        <a class="btn btn--signal" href="#verifica">Verifica copertura a {c.name}</a>
+      </div>
+      <div><NetworkMap highlight={c} tone="onLight" /></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>Cosa possiamo attivare a {c.name}</h2>
+      <ul class="tech">
+        {SERVIZI.map((s) => <li><a href={`/${s.slug}`}><strong>{s.name}</strong></a><span>{s.short}</span></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section section--white">
+    <div class="wrap"><Faq items={faq} heading={`Domande sulla fibra a ${c.name}`} /></div>
+  </section>
+
+  <section class="section" id="verifica">
+    <div class="wrap loc">
+      <div>
+        <h2>Verifica la copertura a {c.name}</h2>
+        <p class="lead">Lasciaci l'indirizzo della sede: ti richiama un tecnico {same ? `della sede di ${c.name}` : `da ${sede.city}`}.</p>
+        <h3 class="near__h">Serviamo anche</h3>
+        <ul class="near">
+          {near.map((n) => <li><a href={`/fibra-aziendale/${n.slug}`}>Fibra aziendale a {n.name}</a></li>)}
+        </ul>
+      </div>
+      <div class="loc__form"><CoverageForm comune={c.name} /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .loc { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+  .loc__form { background: var(--white); padding: clamp(1.25rem, 3vw, 2.25rem); border-radius: var(--radius-m); border-top: 4px solid var(--fiber); }
+  .tech { list-style: none; padding: 0; margin: 1.5rem 0 0; border-top: 2px solid var(--ink); }
+  .tech li { display: grid; grid-template-columns: 14rem 1fr; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--line); }
+  .tech span { color: var(--muted); }
+  .near__h { margin-top: 2rem; }
+  .near { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.5rem; }
+  @media (max-width: 860px) { .loc { grid-template-columns: 1fr; } .tech li { grid-template-columns: 1fr; gap: 0.2rem; } }
+</style>

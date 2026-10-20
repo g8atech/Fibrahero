@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { SERVIZI } from '../data/servizi';
+---
+<Base
+  title="Servizi di connettività per aziende"
+  description="Fibra FTTH, connessione radio FWA, linea di backup e centralino VoIP per aziende in provincia di Varese, Milano e Lecco, con assistenza diretta G8A."
+>
+  <section class="section section--white">
+    <div class="wrap">
+      <Breadcrumbs items={[{ name: 'Servizi', href: '/servizi' }]} />
+      <h1>Servizi di connettività per aziende</h1>
+      <p class="lead">Partiamo da cosa arriva al vostro indirizzo e da come lavorate. Poi mettiamo insieme linea principale, backup e telefonia, gestiti dalla stessa squadra.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="wrap">
+      {SERVIZI.map((s) => (
+        <article class="row">
+          <h2><a href={`/${s.slug}`}>{s.title}</a></h2>
+          <div>
+            <p>{s.intro}</p>
+            <ul class="ticks">{s.includes.slice(0, 3).map((i) => <li>{i}</li>)}</ul>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+
+<style>
+  .row { display: grid; grid-template-columns: 1fr 1.3fr; gap: 2rem; padding-block: 2.25rem; border-top: 1px solid var(--line); }
+  .row:first-child { border-top: 2px solid var(--ink); }
+  .row h2 { font-size: 1.6rem; }
+  .row h2 a { text-decoration: none; }
+  @media (max-width: 760px) { .row { grid-template-columns: 1fr; gap: 0.5rem; } }
+</style>

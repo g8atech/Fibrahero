@@ -1,0 +1,121 @@
+---
+// Mappa schematica (stile mappa di rete, non in scala): le sedi G8A collegate
+// dalla sede operativa di Solbiate Arno. Con `highlight` evidenzia un comune
+// e il collegamento alla sede più vicina.
+import { SEDI } from '../data/site';
+import { nearestSede, type Comune } from '../data/comuni';
+
+interface Props { highlight?: Comune; tone?: 'onDark' | 'onLight' }
+const { highlight, tone = 'onDark' } = Astro.props;
+
+const W = 640, H = 440;
+// Posizioni schematiche: rispettano l'orientamento reale, distanziate per leggibilità.
+const POS: Record<string, { x: number; y: number; anchor: 'start' | 'end'; dy?: number }> = {
+  'solbiate-arno': { x: 250, y: 170, anchor: 'start', dy: -24 },
+  'jerago-con-orago': { x: 120, y: 112, anchor: 'end' },
+  'gallarate': { x: 112, y: 250, anchor: 'end' },
+  'busto-arsizio': { x: 236, y: 330, anchor: 'end' },
+  'bollate': { x: 440, y: 362, anchor: 'start' },
+  'lecco': { x: 560, y: 70, anchor: 'end', dy: -18 },
+};
+const hub = SEDI.find((s) => s.operativa)!;
+const H0 = POS[hub.slug];
+
+// Percorso "a metropolitana": tratto orizzontale/verticale con curva a 45°.
+const route = (a: { x: number; y: number }, b: { x: number; y: number }) => {
+  const dx = b.x - a.x, dy = b.y - a.y;
+  const diag = Math.min(Math.abs(dx), Math.abs(dy));
+  const mx = a.x + Math.sign(dx) * diag, my = a.y + Math.sign(dy) * diag;
+  return `M${a.x},${a.y} L${mx.toFixed(1)},${my.toFixed(1)} L${b.x},${b.y}`;
+};
+const links = SEDI.filter((s) => !s.operativa).map((s) => ({ s, d: route(H0, POS[s.slug]) }));
+
+let hl: { x: number; y: number; d: string } | undefined;
+if (highlight) {
+  const { sede } = nearestSede(highlight);
+  const p = POS[sede.slug];
+  if (highlight.name === sede.city) {
+    hl = { x: p.x, y: p.y, d: '' };
+  } else {
+    // Direzione reale rispetto alla sede, lunghezza fissa per leggibilità.
+    const vx = (highlight.lng - sede.lng) * 0.7, vy = -(highlight.lat - sede.lat);
+    const len = Math.hypot(vx, vy) || 1;
+    const L = 70;
+    const x = Math.min(W - 40, Math.max(40, p.x + (vx / len) * L));
+    const y = Math.min(H - 40, Math.max(30, p.y + (vy / len) * L));
+    hl = { x, y, d: `M${p.x},${p.y} L${x.toFixed(1)},${y.toFixed(1)}` };
+  }
+}
+const dots = Array.from({ length: 9 * 6 }, (_, i) => ({ x: 40 + (i % 9) * 70, y: 40 + Math.floor(i / 9) * 72 }));
+---
+<figure class={`map map--${tone}`}>
+  <svg viewBox={`-70 0 ${W + 70} ${H}`} role="img" aria-labelledby="map-title map-desc">
+    <title id="map-title">Le sedi FibraHero by G8A</title>
+    <desc id="map-desc">Schema delle sedi G8A di Solbiate Arno, Jerago con Orago, Gallarate, Busto Arsizio, Bollate e Lecco, collegate alla sede operativa di Solbiate Arno.</desc>
+
+    <g class="map__grid">{dots.map((d) => <circle cx={d.x} cy={d.y} r="1.6" />)}</g>
+
+    <g class="map__links">
+      {links.map(({ d }, i) => (
+        <>
+          <path d={d} class="map__line" />
+          <path d={d} class="map__pulse" pathLength="100" style={`animation-delay:${0.2 * i}s`} />
+        </>
+      ))}
+    </g>
+
+    {hl && (
+      <g class="map__hl">
+        {hl.d && <path d={hl.d} />}
+        <circle cx={hl.x} cy={hl.y} r="9" />
+        {hl.d && <text x={hl.x} y={hl.y + 30} text-anchor="middle">{highlight!.name}</text>}
+      </g>
+    )}
+
+    <g class="map__sedi">
+      {SEDI.map((s) => {
+        const p = POS[s.slug];
+        const tx = p.dy ? 0 : p.anchor === 'end' ? -16 : 16;
+        return (
+          <g transform={`translate(${p.x} ${p.y})`}>
+            <circle r={s.operativa ? 11 : 7} class={s.operativa ? 'is-hub' : undefined} />
+            <text x={tx} y={p.dy ?? 6} text-anchor={p.dy ? 'middle' : p.anchor}>{s.city}</text>
+          </g>
+        );
+      })}
+    </g>
+  </svg>
+  <figcaption>Schema delle sedi G8A, non in scala. Tutto parte dalla sede operativa di Solbiate Arno.</figcaption>
+</figure>
+
+<style>
+  .map { margin: 0; }
+  .map svg { width: 100%; height: auto; overflow: visible; }
+  figcaption { font-size: 0.85rem; margin-top: 0.75rem; }
+  .map text { font-family: var(--font); font-size: 17px; font-weight: 700; paint-order: stroke; stroke-width: 6px; stroke-linejoin: round; }
+  .map__line { fill: none; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+  .map__pulse {
+    fill: none; stroke: var(--fiber); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 100 100; stroke-dashoffset: 100;
+    animation: travel 1.4s cubic-bezier(.6,0,.3,1) forwards;
+  }
+  @keyframes travel { to { stroke-dashoffset: 0; } }
+  @media (prefers-reduced-motion: reduce) { .map__pulse { animation: none; stroke-dashoffset: 0; } }
+
+  .map--onDark figcaption { color: #9fb0c4; }
+  .map--onDark .map__grid circle { fill: #2b4468; }
+  .map--onDark .map__line { stroke: #22395c; }
+  .map--onDark text { fill: #fff; stroke: var(--ink); }
+  .map--onDark .map__sedi circle { fill: var(--ink); stroke: #fff; stroke-width: 3.5; }
+
+  .map--onLight figcaption { color: var(--muted); }
+  .map--onLight .map__grid circle { fill: #d3dce4; }
+  .map--onLight .map__line { stroke: #dfe7ee; }
+  .map--onLight text { fill: var(--ink); stroke: var(--white); }
+  .map--onLight .map__sedi circle { fill: var(--white); stroke: var(--ink); stroke-width: 3.5; }
+
+  .map .map__sedi circle.is-hub { fill: var(--signal); stroke: var(--signal); }
+
+  .map__hl path { fill: none; stroke: var(--signal); stroke-width: 4; stroke-dasharray: 2 9; stroke-linecap: round; }
+  .map__hl circle { fill: var(--signal); }
+</style>

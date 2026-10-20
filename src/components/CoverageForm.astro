@@ -1,0 +1,116 @@
+---
+import { SITE } from '../data/site';
+import { SERVIZI } from '../data/servizi';
+interface Props { comune?: string }
+const { comune = '' } = Astro.props;
+---
+<form class="cf" id="coverage-form" data-endpoint={SITE.leadEndpoint} data-email={SITE.email} novalidate>
+  <div class="cf__grid">
+    <label class="cf__wide">
+      <span>Ragione sociale</span>
+      <input name="azienda" autocomplete="organization" required />
+    </label>
+    <label class="cf__wide">
+      <span>Indirizzo della sede da collegare</span>
+      <input name="indirizzo" autocomplete="street-address" placeholder="Via e numero civico" required />
+    </label>
+    <label>
+      <span>Comune</span>
+      <input name="comune" autocomplete="address-level2" value={comune} required />
+    </label>
+    <label>
+      <span>Cosa vi serve</span>
+      <select name="servizio">
+        <option value="">Non lo so, consigliatemi</option>
+        {SERVIZI.map((s) => <option value={s.name}>{s.name}</option>)}
+      </select>
+    </label>
+    <label>
+      <span>Nome e cognome</span>
+      <input name="nome" autocomplete="name" required />
+    </label>
+    <label>
+      <span>Telefono</span>
+      <input name="telefono" type="tel" autocomplete="tel" inputmode="tel" required />
+    </label>
+    <label class="cf__wide">
+      <span>Email</span>
+      <input name="email" type="email" autocomplete="email" required />
+    </label>
+    <label class="cf__wide">
+      <span>Note <em>(facoltative)</em></span>
+      <textarea name="note" rows="3" placeholder="Operatore attuale, numero di postazioni, problemi con la linea…"></textarea>
+    </label>
+  </div>
+  <label class="cf__check">
+    <input type="checkbox" name="privacy" required />
+    <span>Ho letto l'<a href="/privacy">informativa privacy</a> e acconsento a essere ricontattato per questa richiesta.</span>
+  </label>
+  <input type="text" name="sito_web" tabindex="-1" autocomplete="off" class="visually-hidden" aria-hidden="true" />
+  <button class="btn btn--signal" type="submit">Richiedi la verifica</button>
+  <p class="cf__msg" role="status" aria-live="polite"></p>
+</form>
+
+<script>
+  const form = document.getElementById('coverage-form') as HTMLFormElement | null;
+  if (form) {
+    const params = new URLSearchParams(location.search);
+    for (const key of ['indirizzo', 'comune']) {
+      const v = params.get(key);
+      const field = form.elements.namedItem(key) as HTMLInputElement | null;
+      if (v && field && !field.value) field.value = v;
+    }
+    const msg = form.querySelector('.cf__msg') as HTMLElement;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) {
+        const first = form.querySelector(':invalid') as HTMLElement | null;
+        msg.textContent = 'Compila i campi evidenziati: ci servono per verificare la copertura e richiamarti.';
+        form.classList.add('cf--checked');
+        first?.focus();
+        return;
+      }
+      const data = Object.fromEntries(new FormData(form).entries()) as Record<string, string>;
+      if (data.sito_web) return;
+      delete data.sito_web;
+      const endpoint = form.dataset.endpoint;
+      const button = form.querySelector('button') as HTMLButtonElement;
+      if (endpoint) {
+        button.disabled = true;
+        msg.textContent = 'Invio in corso…';
+        try {
+          const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, fonte: 'fibrahero.it', pagina: location.pathname }) });
+          if (!res.ok) throw new Error(String(res.status));
+          location.href = '/grazie';
+        } catch {
+          button.disabled = false;
+          msg.textContent = `Richiesta non inviata per un problema di connessione. Riprova oppure scrivi a ${form.dataset.email}.`;
+        }
+      } else {
+        const body = Object.entries(data).map(([k, v]) => `${k}: ${v}`).join('\n');
+        location.href = `mailto:${form.dataset.email}?subject=${encodeURIComponent('Verifica copertura FibraHero – ' + data.azienda)}&body=${encodeURIComponent(body)}`;
+        msg.textContent = 'Si è aperta una mail con i tuoi dati: inviala per completare la richiesta.';
+      }
+    });
+  }
+</script>
+
+<style>
+  .cf { display: grid; gap: 1.25rem; }
+  .cf__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 1.25rem; }
+  .cf__wide { grid-column: 1 / -1; }
+  label { display: grid; gap: 0.35rem; font-weight: 600; font-size: 0.95rem; }
+  label em { font-weight: 400; color: var(--muted); font-style: normal; }
+  input, select, textarea {
+    font: inherit; font-weight: 400; color: var(--ink);
+    padding: 0.7rem 0.85rem; min-height: 3rem;
+    border: 1.5px solid var(--line); border-radius: var(--radius-s); background: var(--white);
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--fiber); box-shadow: 0 0 0 3px rgba(18,164,182,.2); }
+  .cf--checked :invalid { border-color: #c2410c; }
+  .cf__check { display: flex; gap: 0.6rem; align-items: flex-start; font-weight: 400; font-size: 0.92rem; }
+  .cf__check input { min-height: auto; width: 1.15rem; height: 1.15rem; margin-top: 0.2rem; accent-color: var(--fiber); }
+  .cf .btn { justify-self: start; }
+  .cf__msg { margin: 0; font-size: 0.95rem; min-height: 1.5em; }
+  @media (max-width: 560px) { .cf__grid { grid-template-columns: 1fr; } .cf .btn { justify-self: stretch; } }
+</style>

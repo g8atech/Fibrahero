@@ -1,0 +1,53 @@
+---
+import Logo from './Logo.astro';
+import { SITE, SEDI } from '../data/site';
+import { SERVIZI } from '../data/servizi';
+const year = new Date().getFullYear();
+---
+<footer class="ftr">
+  <div class="wrap ftr__grid">
+    <div class="ftr__brand">
+      <Logo tone="light" />
+      <p>Connettività per aziende con l'assistenza diretta dei tecnici G8A.</p>
+      <p><a href={`mailto:${SITE.email}`}>{SITE.email}</a>{SITE.phone && <><br /><a href={`tel:${SITE.phone.replace(/\s/g, '')}`}>{SITE.phone}</a></>}</p>
+    </div>
+    <div>
+      <h2 class="ftr__h">Servizi</h2>
+      <ul>{SERVIZI.map((s) => <li><a href={`/${s.slug}`}>{s.name}</a></li>)}</ul>
+    </div>
+    <div>
+      <h2 class="ftr__h">Sedi</h2>
+      <ul>
+        {SEDI.map((s) => <li>{s.city}{s.operativa && ' (sede operativa)'}<br /><span class="ftr__addr">{s.address}</span></li>)}
+      </ul>
+    </div>
+    <div>
+      <h2 class="ftr__h">Azienda</h2>
+      <ul>
+        <li><a href="/chi-siamo">Chi siamo</a></li>
+        <li><a href="/fibra-aziendale">Zone servite</a></li>
+        <li><a href="/domande-frequenti">Domande frequenti</a></li>
+        <li><a href="/verifica-copertura">Verifica copertura</a></li>
+        <li><a href="https://www.g8a.it">G8A Technology</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap ftr__legal">
+    <span>© {year} {SITE.company}{SITE.vat && ` · P.IVA ${SITE.vat}`}</span>
+    <a href="/privacy">Privacy</a>
+  </div>
+</footer>
+
+<style>
+  .ftr { background: var(--ink); color: #d6dfea; padding-block: 3.5rem 2rem; font-size: 0.95rem; }
+  .ftr a { color: #fff; }
+  .ftr a:hover { color: var(--fiber-soft); }
+  .ftr__grid { display: grid; grid-template-columns: 1.4fr 1fr 1.2fr 1fr; gap: 2rem; }
+  .ftr__brand :global(.logo) { color: #fff; margin-bottom: 1rem; }
+  .ftr__h { font-size: 1rem; color: #fff; margin-bottom: 0.8rem; font-stretch: 100%; font-variation-settings: 'wdth' 100; font-weight: 700; }
+  .ftr ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; }
+  .ftr__addr { color: #9fb0c4; font-size: 0.88rem; }
+  .ftr__legal { display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #2a4064; color: #9fb0c4; font-size: 0.85rem; }
+  @media (max-width: 860px) { .ftr__grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .ftr__grid { grid-template-columns: 1fr; } .ftr__legal { flex-direction: column; } }
+</style>

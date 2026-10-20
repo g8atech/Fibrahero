@@ -1,0 +1,91 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { SERVIZI, type Servizio } from '../data/servizi';
+import { SITE } from '../data/site';
+
+export function getStaticPaths() {
+  return SERVIZI.map((s) => ({ params: { servizio: s.slug }, props: { s } }));
+}
+const { s } = Astro.props as { s: Servizio };
+const others = SERVIZI.filter((o) => o.slug !== s.slug);
+
+const service = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: s.title,
+  serviceType: s.name,
+  description: s.description,
+  provider: { '@id': `${SITE.url}/#organization` },
+  areaServed: ['Provincia di Varese', 'Città metropolitana di Milano', 'Provincia di Lecco'],
+  audience: { '@type': 'BusinessAudience', audienceType: 'Aziende e partite IVA' },
+};
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: s.faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<Base title={s.title} description={s.description} jsonLd={[service, faqSchema]}>
+  <section class="section section--white">
+    <div class="wrap">
+      <Breadcrumbs items={[{ name: 'Servizi', href: '/servizi' }, { name: s.name, href: `/${s.slug}` }]} />
+      <div class="sv">
+        <div>
+          <h1>{s.title}</h1>
+          <p class="lead">{s.intro}</p>
+          <a class="btn btn--signal" href="/verifica-copertura">Verifica copertura</a>
+        </div>
+        <aside class="sv__box">
+          <h2 class="sv__h">Cosa include</h2>
+          <ul class="ticks">{s.includes.map((i) => <li>{i}</li>)}</ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap sv__two">
+      <div>
+        <h2>Per chi è</h2>
+        <ul class="ticks">{s.forWho.map((i) => <li>{i}</li>)}</ul>
+      </div>
+      <div>
+        <h2>Assistenza</h2>
+        <p>Il servizio è seguito dai tecnici G8A dalle sedi di Solbiate Arno, Gallarate, Busto Arsizio, Jerago con Orago, Bollate e Lecco. Se qualcosa non funziona chiami noi, non un call center: verifichiamo da remoto e, se serve, veniamo in sede.</p>
+        <p><a href="/chi-siamo">Chi c'è dietro FibraHero</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--white">
+    <div class="wrap"><Faq items={s.faq} /></div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>Altri servizi</h2>
+      <ul class="others">
+        {others.map((o) => <li><a href={`/${o.slug}`}><strong>{o.name}</strong></a><span>{o.short}</span></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand />
+</Base>
+
+<style>
+  .sv { display: grid; grid-template-columns: 1.3fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: start; }
+  .sv__box { background: var(--paper); border-left: 4px solid var(--fiber); padding: 1.75rem; border-radius: 0 var(--radius-m) var(--radius-m) 0; }
+  .sv__h { font-size: 1.25rem; }
+  .sv__two { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); }
+  .others { list-style: none; padding: 0; margin: 1.5rem 0 0; display: grid; gap: 0; border-top: 2px solid var(--ink); }
+  .others li { display: grid; grid-template-columns: 14rem 1fr; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--line); }
+  .others span { color: var(--muted); }
+  @media (max-width: 800px) {
+    .sv, .sv__two { grid-template-columns: 1fr; }
+    .others li { grid-template-columns: 1fr; gap: 0.2rem; }
+  }
+</style>

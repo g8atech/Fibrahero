@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { FAQ_GENERALI } from '../data/faq';
+import { SERVIZI } from '../data/servizi';
+
+const all = [...FAQ_GENERALI, ...SERVIZI.flatMap((s) => s.faq)];
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: all.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+<Base
+  title="Domande frequenti sulla fibra per aziende"
+  description="Risposte su fibra FTTH e FTTC, radio FWA, linea di backup, centralino VoIP, tempi di attivazione e assistenza FibraHero per aziende."
+  jsonLd={[faqSchema]}
+>
+  <section class="section section--white">
+    <div class="wrap">
+      <Breadcrumbs items={[{ name: 'Domande frequenti', href: '/domande-frequenti' }]} />
+      <h1>Domande frequenti</h1>
+      <p class="lead">Se non trovi la tua risposta, scrivici: ti risponde un tecnico.</p>
+      <Faq items={FAQ_GENERALI} heading="FibraHero e assistenza" />
+      {SERVIZI.map((s) => <div class="block"><Faq items={s.faq} heading={s.name} /></div>)}
+    </div>
+  </section>
+  <CtaBand />
+</Base>
+
+<style>
+  .block { margin-top: 3rem; }
+  .block :global(h2), .section :global(.faq h2) { font-size: 1.5rem; margin-top: 2.5rem; }
+</style>
