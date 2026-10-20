@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import NetworkMap from '../../components/NetworkMap.astro';
 import CoverageForm from '../../components/CoverageForm.astro';
+import CoverageChecker from '../../components/CoverageChecker.astro';
 import Icon from '../../components/Icon.astro';
 import LightStreaks from '../../components/LightStreaks.astro';
 import Faq from '../../components/Faq.astro';
@@ -94,10 +95,14 @@ const faqSchema = {
   </section>
 
   <section class="section" id="verifica">
+    <div class="wrap"><CoverageChecker comune={c.name} /></div>
+  </section>
+
+  <section class="section section--paper">
     <div class="wrap loc">
       <div>
-        <h2>Verifica la copertura a {c.name}</h2>
-        <p class="lead">Lasciaci l'indirizzo della sede, oppure scrivilo su WhatsApp al {SITE.whatsappDisplay}: ti ricontatta un tecnico {same ? `della sede di ${c.name}` : `da ${sede.city}`}.</p>
+        <h2>Richiedi l'offerta a {c.name}</h2>
+        <p class="lead">Lasciaci l'indirizzo della sede, oppure scrivilo su WhatsApp allo {SITE.whatsappDisplay}: ti ricontatta un tecnico {same ? `della sede di ${c.name}` : `da ${sede.city}`}.</p>
         <h3 class="near__h">Serviamo anche</h3>
         <ul class="near">
           {near.map((n) => <li><a href={`/fibra-aziendale/${n.slug}`}>Fibra aziendale a {n.name}</a></li>)}
@@ -113,7 +118,7 @@ const faqSchema = {
   .loc--head { align-items: center; }
   .loc--head h1 { font-size: clamp(2.4rem, 5.4vw, 4.4rem); }
   .loc__actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.5rem; }
-  .loc__form { background: var(--paper); padding: clamp(1.25rem, 3vw, 2.25rem); border-radius: var(--radius-m); border-top: 5px solid var(--blue); }
+  .loc__form { background: var(--white); padding: clamp(1.25rem, 3vw, 2.25rem); border-radius: var(--radius-m); border-top: 5px solid var(--blue); }
   .tech { list-style: none; padding: 0; margin: 1.5rem 0 0; border-top: 3px solid var(--ink); }
   .tech li { display: grid; grid-template-columns: 18rem 1fr; gap: 1rem; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--line); }
   .tech a { display: inline-flex; gap: 0.7rem; align-items: center; text-decoration: none; }

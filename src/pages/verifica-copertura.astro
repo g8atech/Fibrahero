@@ -2,13 +2,14 @@
 import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import CoverageForm from '../components/CoverageForm.astro';
+import CoverageChecker from '../components/CoverageChecker.astro';
 import Icon from '../components/Icon.astro';
 import LightStreaks from '../components/LightStreaks.astro';
 import { SITE, waLink, telLink } from '../data/site';
 ---
 <Base
   title="Verifica copertura fibra per la tua azienda"
-  description="Verifica se all'indirizzo della tua azienda arriva la fibra FTTH o FTTC e ricevi un'offerta su misura da FibraHero by G8A. Anche su WhatsApp al 345 178 33 03."
+  description="Verifica se all'indirizzo della tua azienda arriva la fibra FTTH o FTTC e ricevi un'offerta su misura da FibraHero by G8A. Anche su WhatsApp allo 0331 139 0950."
 >
   <section class="pagehead">
     <LightStreaks />
@@ -18,12 +19,15 @@ import { SITE, waLink, telLink } from '../data/site';
       <p class="lead">Controlliamo cosa arriva all'indirizzo della tua sede e ti ricontattiamo con un'offerta su misura.</p>
     </div>
   </section>
-  <section class="section section--paper">
+  <section class="section section--paper vc-live">
+    <div class="wrap"><CoverageChecker /></div>
+  </section>
+  <section class="section" id="modulo">
     <div class="wrap vc">
       <div>
-        <h2 class="vc__h">Il modo più veloce</h2>
-        <p>Scrivici su WhatsApp l'indirizzo della sede e il nome dell'azienda.</p>
-        <a class="btn btn--wa" href={waLink('Ciao FibraHero, vorrei verificare la copertura per la mia azienda. Indirizzo: ')} target="_blank" rel="noopener"><Icon name="whatsapp" size={22} /> Scrivi al {SITE.whatsappDisplay}</a>
+        <h2 class="vc__h">Preferisci parlarne?</h2>
+        <p>Scrivici su WhatsApp l'indirizzo della sede e il nome dell'azienda, oppure chiamaci.</p>
+        <a class="btn btn--wa" href={waLink('Ciao FibraHero, vorrei verificare la copertura per la mia azienda. Indirizzo: ')} target="_blank" rel="noopener"><Icon name="whatsapp" size={22} /> Scrivi su WhatsApp</a>
         <p class="vc__alt">Oppure chiama il <a href={telLink}>{SITE.phone}</a> o scrivi a <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
         <ul class="ticks">
           <li>Verifica di fibra FTTH e FTTC</li>
@@ -32,7 +36,7 @@ import { SITE, waLink, telLink } from '../data/site';
         </ul>
       </div>
       <div class="vc__form">
-        <h2 class="vc__h">Oppure compila il modulo</h2>
+        <h2 class="vc__h">Richiedi l'offerta</h2>
         <CoverageForm />
       </div>
     </div>
@@ -43,6 +47,7 @@ import { SITE, waLink, telLink } from '../data/site';
   .vc { display: grid; grid-template-columns: 1fr 1.3fr; gap: clamp(2rem, 5vw, 4.5rem); align-items: start; }
   .vc__h { font-size: clamp(1.6rem, 3vw, 2.1rem); }
   .vc__alt { margin: 1rem 0 2rem; color: var(--muted); }
-  .vc__form { background: var(--white); padding: clamp(1.25rem, 3vw, 2.25rem); border-radius: var(--radius-m); border-top: 5px solid var(--blue); }
+  .vc-live { padding-top: clamp(2rem, 5vw, 3.5rem); }
+  .vc__form { background: var(--paper); padding: clamp(1.25rem, 3vw, 2.25rem); border-radius: var(--radius-m); border-top: 5px solid var(--blue); }
   @media (max-width: 860px) { .vc { grid-template-columns: 1fr; } }
 </style>

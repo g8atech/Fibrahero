@@ -5,11 +5,11 @@ export const SITE = {
   url: 'https://www.fibrahero.it',
   company: 'G8A Technology S.r.l.',
   email: 'info@g8a.it',
-  // Numero della sede (telefono fisso) e numero WhatsApp (dalla locandina).
+  // Numero della sede: telefono e WhatsApp Business.
   phone: '0331 139 0950',
   phoneIntl: '+3903311390950',
-  whatsappDisplay: '345 178 33 03',
-  whatsapp: '393451783303',
+  whatsappDisplay: '0331 139 0950',
+  whatsapp: '3903311390950',
   whatsappText: 'Ciao FibraHero, vorrei un\'offerta per la connessione della mia azienda.',
   // Dati societari (registro imprese). Obbligatori sul sito per una S.r.l.
   vat: '03981970126',

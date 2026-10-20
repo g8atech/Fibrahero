@@ -10,6 +10,7 @@ import NetCanvas from '../components/NetCanvas.astro';
 import Ticker from '../components/Ticker.astro';
 import Stats from '../components/Stats.astro';
 import AiSoon from '../components/AiSoon.astro';
+import CoverageChecker from '../components/CoverageChecker.astro';
 import heroImg from '../assets/hero-fibrahero.png';
 import rack from '../assets/rack.png';
 import { SITE, SEDI, waLink } from '../data/site';
@@ -61,8 +62,8 @@ const website = { '@context': 'https://schema.org', '@type': 'WebSite', name: 'F
         </p>
         <p class="hero__lead">Internet gestito per aziende, con firewall e centralino. La linea, la rete e i dispositivi li segue la stessa squadra di tecnici G8A, e per qualsiasi problema scrivi direttamente a noi.</p>
         <div class="hero__actions">
-          <a class="btn btn--wa" href={waLink()} target="_blank" rel="noopener"><Icon name="whatsapp" size={22} /> Scrivici al {SITE.whatsappDisplay}</a>
-          <a class="btn btn--ghost" href="/verifica-copertura">Verifica copertura</a>
+          <a class="btn btn--wa" href={waLink()} target="_blank" rel="noopener"><Icon name="whatsapp" size={22} /> Scrivici su WhatsApp</a>
+          <a class="btn btn--ghost" href="#verifica">Verifica copertura</a>
         </div>
         <p class="hero__note">Solo per aziende, professionisti e partite IVA.</p>
       </div>
@@ -85,6 +86,10 @@ const website = { '@context': 'https://schema.org', '@type': 'WebSite', name: 'F
   <section class="section section--night stats">
     <NetCanvas density={0.00005} />
     <div class="wrap" data-reveal><Stats items={stats} /></div>
+  </section>
+
+  <section class="section section--paper check" id="verifica">
+    <div class="wrap" data-reveal><CoverageChecker /></div>
   </section>
 
   <section class="section">
@@ -130,7 +135,7 @@ const website = { '@context': 'https://schema.org', '@type': 'WebSite', name: 'F
         <h2>Assistenza <span class="accent">diretta</span></h2>
         <p class="lead">Supporto tecnico dedicato e reperibile, interventi rapidi gestiti da tecnici specializzati. Nessun call center, solo persone che risolvono.</p>
         <ol class="steps">
-          <li><strong>Ci scrivi su WhatsApp</strong><span>Al {SITE.whatsappDisplay}, oppure chiama la sede allo {SITE.phone}.</span></li>
+          <li><strong>Ci scrivi su WhatsApp</strong><span>Allo {SITE.phone}, lo stesso numero della sede per chiamare o scrivere.</span></li>
           <li><strong>Verifichiamo da remoto</strong><span>Linea, router, firewall e rete: li gestiamo noi, quindi li vediamo.</span></li>
           <li><strong>Se serve, veniamo in sede</strong><span>Dalla sede G8A più vicina, tra Varese, Milano e Lecco.</span></li>
         </ol>

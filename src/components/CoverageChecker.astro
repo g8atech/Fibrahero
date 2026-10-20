@@ -1,0 +1,225 @@
+---
+// Verifica copertura in tempo reale (API EIS/Hive tramite /api/copertura/*).
+// Comune → via → civico con suggerimenti, poi risultato FTTH/FTTC.
+import Icon from './Icon.astro';
+import { SITE } from '../data/site';
+interface Props { comune?: string }
+const { comune = '' } = Astro.props;
+---
+<div class="cc" data-wa={SITE.whatsapp} data-tel={SITE.phoneIntl} data-phone={SITE.phone}>
+  <div class="cc__head">
+    <span class="cc__live"><span aria-hidden="true"></span> Verifica in tempo reale</span>
+    <h2 class="cc__title">Cosa arriva al tuo indirizzo?</h2>
+  </div>
+
+  <form class="cc__form" autocomplete="off" novalidate>
+    <div class="cc__field">
+      <label for="cc-comune">Comune</label>
+      <input id="cc-comune" name="comune" placeholder="Es. Gallarate" value={comune} role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cc-list-comune" />
+      <ul class="cc__list" id="cc-list-comune" role="listbox" hidden></ul>
+    </div>
+    <div class="cc__field">
+      <label for="cc-via">Via o piazza</label>
+      <input id="cc-via" name="via" placeholder="Es. Viale Milano" disabled role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cc-list-via" />
+      <ul class="cc__list" id="cc-list-via" role="listbox" hidden></ul>
+    </div>
+    <div class="cc__field cc__field--n">
+      <label for="cc-civico">Civico</label>
+      <input id="cc-civico" name="civico" placeholder="1" disabled role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cc-list-civico" />
+      <ul class="cc__list" id="cc-list-civico" role="listbox" hidden></ul>
+    </div>
+    <button class="btn btn--blue cc__go" type="submit" disabled>Verifica</button>
+  </form>
+
+  <div class="cc__out" aria-live="polite">
+    <div class="cc__scan" hidden>
+      <div class="cc__radar" aria-hidden="true"><span></span><span></span><span></span></div>
+      <p>Interrogo la rete all'indirizzo…</p>
+    </div>
+    <div class="cc__res" hidden></div>
+  </div>
+</div>
+
+<style>
+  .cc { position: relative; color: #fff; background: radial-gradient(120% 120% at 100% 0%, #173d8c 0%, var(--navy) 50%, var(--night) 100%); border: 1px solid rgba(143,208,255,.25); border-radius: var(--radius-m); padding: clamp(1.25rem, 3vw, 2.25rem); box-shadow: 0 30px 60px rgba(7,15,34,.35); }
+  .cc__live { display: inline-flex; align-items: center; gap: 0.5rem; font-weight: 700; font-size: 0.88rem; color: var(--cyan); }
+  .cc__live span { width: 0.55rem; height: 0.55rem; border-radius: 50%; background: #3ee07a; box-shadow: 0 0 0 0 rgba(62,224,122,.7); animation: live 1.8s ease-out infinite; }
+  @keyframes live { 70% { box-shadow: 0 0 0 9px rgba(62,224,122,0); } 100% { box-shadow: 0 0 0 0 rgba(62,224,122,0); } }
+  .cc__title { font-size: clamp(1.6rem, 3vw, 2.2rem); margin: 0.6rem 0 1.25rem; }
+
+  .cc__form { display: grid; grid-template-columns: 1.1fr 1.4fr 0.5fr auto; gap: 0.75rem; align-items: end; }
+  .cc__field { position: relative; display: grid; gap: 0.3rem; }
+  .cc__field label { font-size: 0.85rem; font-weight: 700; color: #b9c7df; }
+  .cc__field input { font: inherit; min-height: 3.1rem; padding: 0.6rem 0.85rem; border-radius: var(--radius-s); border: 1.5px solid rgba(143,208,255,.3); background: rgba(255,255,255,.96); color: var(--ink); min-width: 0; }
+  .cc__field input:disabled { background: rgba(255,255,255,.12); border-color: rgba(143,208,255,.15); color: #8ea3c8; }
+  .cc__field input:focus { outline: none; border-color: var(--electric); box-shadow: 0 0 0 3px rgba(47,139,255,.35); }
+  .cc__go { min-height: 3.1rem; }
+  .cc__go:disabled { opacity: .45; cursor: not-allowed; }
+  .cc__list { position: absolute; z-index: 20; top: 100%; left: 0; right: 0; margin: 0.3rem 0 0; padding: 0.3rem; list-style: none; background: #fff; color: var(--ink); border-radius: var(--radius-s); box-shadow: 0 16px 40px rgba(0,0,0,.35); max-height: 16rem; overflow: auto; min-width: 12rem; }
+  .cc__list li { padding: 0.55rem 0.7rem; border-radius: 6px; cursor: pointer; font-size: 0.95rem; }
+  .cc__list li[aria-selected='true'], .cc__list li:hover { background: #e8f0ff; color: var(--blue); }
+  .cc__list li small { color: var(--muted); margin-left: 0.5rem; font-size: 0.82rem; }
+  .cc__list .cc__empty { color: var(--muted); cursor: default; background: none !important; }
+
+  .cc__out { margin-top: 1.25rem; }
+  .cc__scan[hidden], .cc__res[hidden], .cc__list[hidden] { display: none; }
+  .cc__scan { display: flex; align-items: center; gap: 1rem; color: #b9c7df; }
+  .cc__scan p { margin: 0; }
+  .cc__radar { position: relative; width: 3.2rem; height: 3.2rem; border-radius: 50%; border: 1px solid rgba(111,214,255,.4); overflow: hidden; flex: none; background: radial-gradient(circle, rgba(47,139,255,.25), transparent 70%); }
+  .cc__radar::before { content: ''; position: absolute; inset: 0; background: conic-gradient(from 0deg, rgba(111,214,255,.8), transparent 30%); animation: sweep 1.2s linear infinite; }
+  .cc__radar span { position: absolute; inset: 30%; border-radius: 50%; border: 1px solid rgba(111,214,255,.4); }
+  .cc__radar span:nth-child(2) { inset: 15%; } .cc__radar span:nth-child(3) { inset: 46%; background: var(--cyan); border: 0; }
+  @keyframes sweep { to { transform: rotate(360deg); } }
+
+  .cc__res :global(.r__addr) { color: #b9c7df; font-size: 0.95rem; margin-bottom: 0.75rem; }
+  .cc__res :global(.r__grid) { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem; }
+  .cc__res :global(.r__card) { position: relative; overflow: hidden; padding: 1.1rem 1.25rem; border-radius: var(--radius-m); background: rgba(47,139,255,.14); border: 1px solid rgba(111,214,255,.35); animation: pop .5s cubic-bezier(.2,.8,.2,1.2) both; }
+  .cc__res :global(.r__card--best) { background: linear-gradient(140deg, rgba(47,139,255,.45), rgba(21,82,209,.25)); border-color: var(--cyan); box-shadow: 0 0 30px rgba(47,139,255,.35); }
+  .cc__res :global(.r__card::after) { content: ''; position: absolute; inset: 0; background: linear-gradient(100deg, transparent 30%, rgba(255,255,255,.18) 50%, transparent 70%); transform: translateX(-100%); animation: shine 1.4s .3s ease forwards; }
+  .cc__res :global(.r__tech) { display: inline-flex; align-items: center; gap: 0.4rem; font-weight: 800; font-size: 0.85rem; color: #3ee07a; text-transform: uppercase; letter-spacing: 0.04em; }
+  .cc__res :global(.r__name) { display: block; font-size: 1.35rem; font-weight: 800; margin: 0.25rem 0 0.1rem; text-transform: uppercase; font-stretch: 85%; font-variation-settings: 'wdth' 85; }
+  .cc__res :global(.r__speed) { color: var(--cyan); font-weight: 700; }
+  .cc__res :global(.r__msg) { color: #dbe5f5; }
+  .cc__res :global(.r__actions) { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+  @keyframes pop { from { opacity: 0; transform: translateY(12px) scale(.97); } }
+  @keyframes shine { to { transform: translateX(100%); } }
+
+  @media (max-width: 860px) { .cc__form { grid-template-columns: 1fr 1fr; } .cc__field--n { grid-column: auto; } .cc__go { grid-column: 1 / -1; } }
+  @media (max-width: 480px) { .cc__form { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: reduce) { .cc__live span, .cc__radar::before, .cc__res :global(.r__card), .cc__res :global(.r__card::after) { animation: none; } }
+</style>
+
+<script>
+  type Opt = { label: string; sub?: string; data: Record<string, string> };
+
+  document.querySelectorAll<HTMLElement>('.cc').forEach((root) => {
+    const form = root.querySelector('form')!;
+    const go = root.querySelector<HTMLButtonElement>('.cc__go')!;
+    const scan = root.querySelector<HTMLElement>('.cc__scan')!;
+    const res = root.querySelector<HTMLElement>('.cc__res')!;
+    const wa = root.dataset.wa!, tel = root.dataset.tel!, phone = root.dataset.phone!;
+    const state: { comune?: Record<string, string>; via?: Record<string, string>; civico?: Record<string, string> } = {};
+    let apiDown = false;
+
+    const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
+
+    function combo(name: 'comune' | 'via' | 'civico', fetcher: (q: string) => Promise<Opt[]>, onPick: () => void, minLen = 2) {
+      const input = root.querySelector<HTMLInputElement>(`[name="${name}"]`)!;
+      const list = input.parentElement!.querySelector<HTMLUListElement>('.cc__list')!;
+      let opts: Opt[] = [], active = -1, timer = 0, seq = 0;
+      const close = () => { list.hidden = true; input.setAttribute('aria-expanded', 'false'); active = -1; };
+      const render = () => {
+        list.innerHTML = opts.length
+          ? opts.map((o, i) => `<li role="option" id="${input.id}-o${i}" aria-selected="${i === active}" data-i="${i}">${esc(o.label)}${o.sub ? `<small>${esc(o.sub)}</small>` : ''}</li>`).join('')
+          : `<li class="cc__empty">Nessun risultato</li>`;
+        list.hidden = false; input.setAttribute('aria-expanded', 'true');
+        if (active >= 0) input.setAttribute('aria-activedescendant', `${input.id}-o${active}`);
+      };
+      const pick = (o: Opt) => { input.value = o.label; state[name] = o.data; close(); onPick(); };
+      input.addEventListener('input', () => {
+        delete state[name]; reset(name);
+        clearTimeout(timer);
+        const q = input.value.trim();
+        if (q.length < minLen) { close(); return; }
+        timer = window.setTimeout(async () => {
+          const my = ++seq;
+          try { opts = await fetcher(q); } catch { opts = []; }
+          if (my === seq && document.activeElement === input) { active = -1; render(); }
+        }, 220);
+      });
+      input.addEventListener('keydown', (e) => {
+        if (list.hidden) return;
+        if (e.key === 'ArrowDown') { active = Math.min(opts.length - 1, active + 1); render(); e.preventDefault(); }
+        else if (e.key === 'ArrowUp') { active = Math.max(0, active - 1); render(); e.preventDefault(); }
+        else if (e.key === 'Enter' && opts[active < 0 ? 0 : active]) { pick(opts[active < 0 ? 0 : active]); e.preventDefault(); }
+        else if (e.key === 'Escape') close();
+      });
+      list.addEventListener('mousedown', (e) => {
+        const li = (e.target as HTMLElement).closest('li[data-i]') as HTMLElement | null;
+        if (li) { e.preventDefault(); pick(opts[Number(li.dataset.i)]); }
+      });
+      input.addEventListener('blur', () => setTimeout(close, 120));
+      input.addEventListener('focus', () => { if (!state[name] && input.value.trim().length >= minLen) input.dispatchEvent(new Event('input')); });
+      return input;
+    }
+
+    const api = async (path: string) => {
+      const r = await fetch(`/api/copertura/${path}`);
+      if (r.status === 503 || r.status >= 500) { apiDown = true; manualMode(); throw new Error(String(r.status)); }
+      if (!r.ok) throw new Error(String(r.status));
+      return r.json();
+    };
+
+    const comuneIn = combo('comune', async (q) => (await api(`comuni?q=${encodeURIComponent(q)}`)).map((c: any) => ({ label: c.label ?? c.name, sub: `${c.province}${c.cap ? ' · ' + c.cap : ''}`, data: c })), () => { viaIn.disabled = false; viaIn.focus(); });
+    const viaIn = combo('via', async (q) => (await api(`vie?comune=${encodeURIComponent(state.comune!.id)}&q=${encodeURIComponent(q)}`)).map((v: any) => ({ label: v.label ?? v.name, data: v })), () => { civIn.disabled = false; civIn.focus(); });
+    const civIn = combo('civico', async (q) => (await api(`civici?via=${encodeURIComponent(state.via!.id)}&q=${encodeURIComponent(q)}`)).map((n: any) => ({ label: n.number, data: n })), () => { go.disabled = false; go.focus(); }, 1);
+
+    // Servizio non disponibile: tutti i campi diventano liberi e il bottone invia la richiesta manuale.
+    function manualMode() {
+      viaIn.disabled = false; civIn.disabled = false; go.disabled = false;
+      go.textContent = 'Richiedi la verifica';
+    }
+
+    function reset(from: 'comune' | 'via' | 'civico') {
+      if (apiDown) { go.disabled = false; res.hidden = true; return; }
+      if (from === 'comune') { delete state.via; delete state.civico; viaIn && (viaIn.value = '', viaIn.disabled = true); civIn && (civIn.value = '', civIn.disabled = true); }
+      if (from === 'via') { delete state.civico; civIn && (civIn.value = '', civIn.disabled = true); }
+      go.disabled = !apiDown && !(state.comune && state.via && state.civico);
+      res.hidden = true;
+    }
+
+    const fmt = (m: number) => (m >= 1000 ? `${(m / 1000).toLocaleString('it-IT', { maximumFractionDigits: 1 })} Gbit/s` : `${Math.round(m)} Mbit/s`);
+    const waUrl = (t: string) => `https://wa.me/${wa}?text=${encodeURIComponent(t)}`;
+
+    function actions(addr: string, summary: string) {
+      return `<div class="r__actions">
+        <a class="btn btn--wa" target="_blank" rel="noopener" href="${waUrl(`Ciao FibraHero, ho verificato la copertura per ${addr}: ${summary}. Vorrei un'offerta per la mia azienda.`)}">Richiedi l'offerta su WhatsApp</a>
+        <a class="btn btn--ghost" href="/verifica-copertura?indirizzo=${encodeURIComponent(addr.split(',')[0])}&comune=${encodeURIComponent(state.comune?.name ?? '')}#modulo">Compila il modulo</a>
+        <a class="btn btn--ghost" href="tel:${tel}">Chiama ${phone}</a>
+      </div>`;
+    }
+
+    function fallback(addr: string) {
+      res.innerHTML = `<p class="r__addr">${esc(addr)}</p>
+        <p class="r__msg">La verifica automatica in questo momento non risponde. Mandaci l'indirizzo: la controlliamo noi e ti ricontattiamo.</p>
+        ${actions(addr, 'verifica da fare')}`;
+      res.hidden = false;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const c = state.comune, v = state.via, n = state.civico;
+      const addr = `${viaIn.value} ${civIn.value}, ${comuneIn.value}`.trim();
+      if (!c || !v || !n) { if (apiDown) fallback(addr); return; }
+      res.hidden = true; scan.hidden = false; go.disabled = true;
+      const minWait = new Promise((r) => setTimeout(r, 1400));
+      try {
+        const qs = new URLSearchParams({ comune: c.name, provincia: c.province, comuneEgon: c.egon ?? '', via: v.name, viaEgon: v.egon ?? '', civico: n.number });
+        const [data] = await Promise.all([api(`verifica?${qs}`), minWait]);
+        const avail = (data.available ?? []) as { tech: string; label: string; maxMbps: number }[];
+        if (avail.length) {
+          const best = avail.reduce((a, b) => (b.maxMbps > a.maxMbps ? b : a));
+          const summary = avail.map((a) => `${a.label}${a.maxMbps ? ' fino a ' + fmt(a.maxMbps) : ''}`).join(', ');
+          res.innerHTML = `<p class="r__addr">${esc(addr)}</p>
+            <div class="r__grid">${avail.map((a, i) => `<div class="r__card ${a === best ? 'r__card--best' : ''}" style="animation-delay:${i * 0.12}s">
+              <span class="r__tech">● Disponibile</span>
+              <span class="r__name">${esc(a.label)}</span>
+              ${a.maxMbps ? `<span class="r__speed">fino a ${fmt(a.maxMbps)}</span>` : ''}
+            </div>`).join('')}</div>
+            ${actions(addr, summary)}`;
+          window.dispatchEvent(new CustomEvent('fh:copertura', { detail: { addr, comune: c.label ?? c.name, via: v.label ?? v.name, civico: n.number, summary } }));
+        } else {
+          res.innerHTML = `<p class="r__addr">${esc(addr)}</p>
+            <p class="r__msg">A questo civico non risulta ancora la fibra. Possiamo comunque collegarti con altre soluzioni: scrivici e ti diciamo cosa si può fare.</p>
+            ${actions(addr, 'fibra non risultante, valutare alternative')}`;
+        }
+        res.hidden = false;
+      } catch {
+        await minWait; fallback(addr);
+      } finally {
+        scan.hidden = true; go.disabled = false;
+      }
+    });
+
+  });
+</script>

@@ -60,6 +60,14 @@ const { comune = '' } = Astro.props;
       const field = form.elements.namedItem(key) as HTMLInputElement | null;
       if (v && field && !field.value) field.value = v;
     }
+    // Se l'utente ha appena fatto la verifica automatica, riportiamo indirizzo ed esito nel modulo.
+    window.addEventListener('fh:copertura', (e) => {
+      const d = (e as CustomEvent).detail as { via: string; civico: string; comune: string; summary: string };
+      const set = (k: string, v: string) => { const f = form.elements.namedItem(k) as HTMLInputElement | null; if (f) f.value = v; };
+      set('indirizzo', `${d.via} ${d.civico}`); set('comune', d.comune);
+      const note = form.elements.namedItem('note') as HTMLTextAreaElement | null;
+      if (note && !note.value) note.value = `Esito verifica online: ${d.summary}`;
+    });
     const msg = form.querySelector('.cf__msg') as HTMLElement;
     form.addEventListener('submit', async (e) => {
       e.preventDefault();

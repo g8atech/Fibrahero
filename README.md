@@ -28,6 +28,21 @@ Per aggiungere un comune basta una riga in `src/data/comuni.ts`: pagina, sitemap
 
 Se la variabile d'ambiente `PUBLIC_LEAD_ENDPOINT` è impostata (su Vercel: Settings → Environment Variables), il form invia i dati in JSON a quell'indirizzo, ad esempio una funzione su Brain/Supabase. Se non è impostata, il form apre una mail precompilata verso l'indirizzo in `site.ts`.
 
+## Verifica copertura in tempo reale (API EIS / Hive)
+
+Il verificatore (home, pagina Verifica copertura e pagine dei comuni) usa le API di copertura EIS tramite una funzione server su Vercel (`src/pages/api/copertura/[azione].ts`). Le credenziali restano sul server e non arrivano mai al browser.
+
+Su Vercel → Settings → Environment Variables impostare:
+
+| Variabile | Valore |
+|---|---|
+| `HIVE_CLIENT_ID` | clientId generato nel portale Hive (Profilo utente → API Keys) |
+| `HIVE_API_KEY` | API Key generata insieme al clientId |
+| `HIVE_BASE_URL` | facoltativa: `https://staging.api.eis.it` per i test, altrimenti produzione |
+| `HIVE_DEBUG` | facoltativa: `1` per vedere nei log Vercel le risposte grezze di copertura |
+
+Senza credenziali, o se le API non rispondono, il verificatore passa da solo alla richiesta manuale (WhatsApp, modulo, telefono).
+
 ## Pubblicazione su Vercel
 
 Importa il repository su Vercel: il framework Astro viene riconosciuto in automatico. Ogni push sul ramo principale aggiorna il sito.
