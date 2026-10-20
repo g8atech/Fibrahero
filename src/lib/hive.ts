@@ -86,15 +86,20 @@ const GROUPS: { tech: 'FTTH' | 'FTTC'; label: string; filters: string[] }[] = [
  * con la velocità massima. I dati del fornitore (carrier, armadi, centrali) restano sul server.
  */
 export async function getCoverage(streetEgon: string, streetNumber: string, mainEgon: string): Promise<CoverageResult> {
+  // Tutte le tecnologie in parallelo: una sola attesa invece di quattro in fila.
+  const results = await Promise.all(
+    GROUPS.flatMap((g) =>
+      g.filters.map((technology) =>
+        hiveGet<TechItem[]>('/v1/coverage/getcoverage', { streetEgon, streetNumber, mainEgon, technology })
+          .catch(() => [] as TechItem[])
+          .then((list) => ({ g, list })),
+      ),
+    ),
+  );
   const available: CoverageResult['available'] = [];
   for (const g of GROUPS) {
-    const lists = await Promise.all(
-      g.filters.map((technology) =>
-        hiveGet<TechItem[]>('/v1/coverage/getcoverage', { streetEgon, streetNumber, mainEgon, technology }).catch(() => [] as TechItem[]),
-      ),
-    );
-    const items = lists.flat().filter((i) => i && i.coverage !== false);
-    if (process.env.HIVE_DEBUG === '1') console.log('[hive] coverage', g.tech, JSON.stringify(items).slice(0, 2000));
+    const items = results.filter((r) => r.g === g).flatMap((r) => r.list).filter((i) => i && i.coverage !== false);
+    if (process.env.HIVE_DEBUG === '1') console.log('[hive] coverage', g.tech, mainEgon, JSON.stringify(items).slice(0, 2000));
     if (!items.length) continue;
     const best = items.reduce((a, b) => ((b.speedLimit ?? 0) > (a.speedLimit ?? 0) ? b : a));
     available.push({ tech: g.tech, label: g.label, maxMbps: best.speedLimit ?? 0, speedText: best.speedComplete ?? null });
@@ -129,18 +134,30 @@ async function validateAddress(body: { city: string; province: string; address: 
 
 /**
  * Verifica completa a partire dall'indirizzo scelto dall'utente.
- * Il "mainEgon" richiesto da getcoverage non è documentato in dettaglio: proviamo
- * prima il codice EGON del civico, poi quello della via e del comune.
+ * Percorso veloce: codice della via + codice del civico (dalla ricerca civici) come mainEgon.
+ * Se non bastano, si valida l'indirizzo e si provano gli altri codici EGON.
  */
-export async function checkAddress(a: { city: string; province: string; street: string; number: string; streetEgon?: string; cityEgon?: string }) {
+export async function checkAddress(a: { city: string; province: string; street: string; number: string; streetEgon?: string; cityEgon?: string; numberEgon?: string }) {
+  const tried = new Set<string>();
+  const tryWith = async (streetEgon: string, mainEgon?: string) => {
+    if (!mainEgon || tried.has(`${streetEgon}|${mainEgon}`)) return null;
+    tried.add(`${streetEgon}|${mainEgon}`);
+    const r = await getCoverage(streetEgon, a.number, mainEgon);
+    return r.available.length ? r : null;
+  };
+
+  if (a.streetEgon && a.numberEgon) {
+    const r = await tryWith(a.streetEgon, a.numberEgon);
+    if (r) return { valid: true, ...r };
+  }
+
   const v = await validateAddress({ city: a.city, province: a.province, address: a.street, number: a.number }).catch(() => null);
   if (process.env.HIVE_DEBUG === '1') console.log('[hive] validate', JSON.stringify(v));
   const streetEgon = v?.address?.egonCode || a.streetEgon;
   if (!streetEgon) return { valid: false, available: [] as CoverageResult['available'] };
-  const candidates = [v?.egonCode, streetEgon, v?.city?.egonCode || a.cityEgon].filter((x, i, arr): x is string => !!x && arr.indexOf(x) === i);
-  for (const mainEgon of candidates) {
-    const r = await getCoverage(streetEgon, a.number, mainEgon);
-    if (r.available.length) return { valid: true, ...r };
+  for (const mainEgon of [v?.egonCode, a.numberEgon, streetEgon, v?.city?.egonCode || a.cityEgon]) {
+    const r = await tryWith(streetEgon, mainEgon);
+    if (r) return { valid: true, ...r };
   }
   return { valid: v?.valid ?? true, available: [] as CoverageResult['available'] };
 }

@@ -194,7 +194,7 @@ const { comune = '' } = Astro.props;
       res.hidden = true; scan.hidden = false; go.disabled = true;
       const minWait = new Promise((r) => setTimeout(r, 1400));
       try {
-        const qs = new URLSearchParams({ comune: c.name, provincia: c.province, comuneEgon: c.egon ?? '', via: v.name, viaEgon: v.egon ?? '', civico: n.number });
+        const qs = new URLSearchParams({ comune: c.name, provincia: c.province, comuneEgon: c.egon ?? '', via: v.name, viaEgon: v.egon ?? '', civico: n.number, civicoId: n.id ?? '' });
         const [data] = await Promise.all([api(`verifica?${qs}`), minWait]);
         const avail = (data.available ?? []) as { tech: string; label: string; maxMbps: number }[];
         if (avail.length) {

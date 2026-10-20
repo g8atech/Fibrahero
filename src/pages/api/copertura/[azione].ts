@@ -41,13 +41,19 @@ export const GET: APIRoute = async ({ params, url }) => {
         const n = clean(q.get('q'), 10);
         if (!idAddress || !n) return json([]);
         const list = await searchNumbers(idAddress, n);
-        return json(list.slice(0, 20).map((s) => ({ id: s.idStreetNumber, number: s.toponomastico || s.number })), 200, 86400);
+        // Ordine naturale (1, 1A, 2, 10…) con la corrispondenza esatta per prima.
+        const coll = new Intl.Collator('it', { numeric: true, sensitivity: 'base' });
+        const out = list
+          .map((s) => ({ id: s.idStreetNumber, number: s.toponomastico || s.number }))
+          .sort((x, y) => Number(y.number.toLowerCase() === n.toLowerCase()) - Number(x.number.toLowerCase() === n.toLowerCase()) || coll.compare(x.number, y.number));
+        return json(out.slice(0, 20), 200, 86400);
       }
       case 'verifica': {
         const a = {
           city: clean(q.get('comune')), province: clean(q.get('provincia'), 4),
           street: clean(q.get('via')), number: clean(q.get('civico'), 10),
           streetEgon: id(q.get('viaEgon')) || undefined, cityEgon: id(q.get('comuneEgon')) || undefined,
+          numberEgon: id(q.get('civicoId')) || undefined,
         };
         if (!a.city || !a.street || !a.number) return json({ error: 'indirizzo_incompleto' }, 400);
         return json(await checkAddress(a), 200, 3600);
