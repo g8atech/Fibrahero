@@ -42,7 +42,11 @@ const year = new Date().getFullYear();
     </div>
   </div>
   <div class="wrap ftr__legal">
-    <span>© {year} {SITE.company} · {SITE.legalAddress} · P.IVA e C.F. {SITE.vat} · REA {SITE.rea} · Capitale sociale {SITE.capital}</span>
+    <span>
+      © {year} {SITE.company} · {SITE.legalAddress} · P.IVA e C.F. {SITE.vat} · REA {SITE.rea} · Capitale sociale {SITE.capital}
+      {SITE.roc && <> · Iscrizione al ROC n. {SITE.roc}</>}
+      {SITE.mimit && <> · Autorizzazione generale MIMIT {SITE.mimit}</>}
+    </span>
     <a href="/privacy">Privacy</a>
   </div>
 </footer>

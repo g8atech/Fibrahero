@@ -16,6 +16,10 @@ export const SITE = {
   legalAddress: 'Via Caronno Varesino 33, 21048 Solbiate Arno (VA)',
   rea: 'VA-393252',
   capital: '€ 10.000,00',
+  // Iscrizione al Registro degli Operatori di Comunicazione (AGCOM). Se vuoto, non compare.
+  roc: '',
+  // Eventuale autorizzazione generale MIMIT per i servizi di comunicazione elettronica (es. "n. 123/2026"). Se vuoto, non compare.
+  mimit: '',
   // Endpoint che riceve le richieste di verifica copertura (es. funzione su Brain/Supabase).
   // Se vuoto, il form apre una mail precompilata verso SITE.email.
   leadEndpoint: import.meta.env.PUBLIC_LEAD_ENDPOINT ?? '',
