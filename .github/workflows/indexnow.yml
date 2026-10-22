@@ -1,0 +1,19 @@
+name: IndexNow
+# Dopo ogni modifica sul ramo principale, aspetta che Vercel pubblichi
+# e segnala a Bing e agli altri motori IndexNow tutte le pagine del sito.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Attesa pubblicazione Vercel
+        run: sleep 150
+      - name: Invio a IndexNow
+        run: node scripts/indexnow.mjs https://www.fibrahero.it
