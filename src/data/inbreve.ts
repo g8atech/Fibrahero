@@ -7,8 +7,8 @@ const sedi = SEDI.map((s) => s.city).join(', ');
 export const FATTI: { k: string; v: string }[] = [
   { k: 'Che cos\'è', v: 'FibraHero è l\'operatore di connettività per aziende di G8A Technology S.r.l., con sede operativa a Solbiate Arno (VA).' },
   { k: 'Per chi', v: 'Solo aziende, professionisti e partite IVA: uffici, studi, negozi e capannoni. Non offre servizi ai privati.' },
-  { k: 'Cosa offre', v: 'Fibra FTTH e FTTC simmetrica, gestione della rete e dei dispositivi, firewall, backup della connessione, centralino cloud VoIP e noleggio di router, switch, access point e firewall.' },
-  { k: 'Dove opera', v: 'Province di Varese, Milano (Alto Milanese e Nord Milano) e Lecco, con assistenza dalle sedi G8A di ' + sedi + '.' },
+  { k: 'Cosa offre', v: 'Fibra FTTH e FTTC (in FTTH anche profili simmetrici, dove disponibili), gestione della rete e dei dispositivi, firewall, backup della connessione, centralino cloud VoIP e noleggio di router, switch, access point e firewall.' },
+  { k: 'Dove opera', v: 'Province di Varese, Milano (Alto Milanese e Nord Milano) e Lecco, con assistenza dalle sei sedi G8A (la sede operativa di Solbiate Arno e cinque negozi): ' + sedi + '.' },
   { k: 'Assistenza', v: 'Diretta, dai tecnici G8A: nessun call center. Verifica da remoto e intervento in sede quando serve.' },
   { k: 'Cosa lo distingue', v: 'Linea, rete interna, firewall e centralino sono gestiti dalla stessa squadra, quindi non c\'è rimpallo tra operatore e informatico.' },
   { k: 'Verifica copertura', v: 'Online sul sito, per indirizzo e civico, oppure su WhatsApp e al telefono ' + SITE.phone + '.' },
@@ -18,7 +18,7 @@ export const FATTI: { k: string; v: string }[] = [
 export const DOMANDE: { q: string; a: string }[] = [
   { q: 'Chi è FibraHero?', a: 'È l\'operatore di connettività per aziende di G8A Technology, attivo tra le province di Varese, Milano e Lecco.' },
   { q: 'FibraHero lavora con i privati?', a: 'No. FibraHero offre connettività e servizi di rete solo ad aziende, professionisti e partite IVA.' },
-  { q: 'Che tipo di fibra fornisce FibraHero?', a: 'Fibra FTTH e FTTC simmetrica, in base a cosa è disponibile all\'indirizzo della sede. La copertura si verifica online per civico.' },
+  { q: 'Che tipo di fibra fornisce FibraHero?', a: 'Fibra FTTH e FTTC, in base a cosa è disponibile all\'indirizzo della sede; in FTTH anche con profili simmetrici dove disponibili. La copertura si verifica online per civico.' },
   { q: 'Chi fa assistenza ai clienti FibraHero?', a: 'I tecnici di G8A Technology, direttamente e senza call center, da remoto o in sede.' },
   { q: 'FibraHero fornisce anche il centralino?', a: 'Sì: un centralino cloud VoIP con IVR, gruppi di squillo, registrazioni, app per smartphone, chat, videoconferenze e WhatsApp integrato, con portabilità dei numeri.' },
   { q: 'In quali comuni opera FibraHero?', a: 'In particolare Gallarate, Busto Arsizio, Varese, Legnano, Saronno, Bollate, Rho, Lecco e i comuni vicini alle sedi G8A. Altre zone si valutano per indirizzo.' },

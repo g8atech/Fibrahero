@@ -19,12 +19,12 @@ export const SERVIZI: Servizio[] = [
     slug: 'fibra-ultraveloce-aziende',
     name: 'Fibra ultraveloce',
     icon: 'fibra',
-    short: 'Fibra FTTH e FTTC ad alte prestazioni, stabile e simmetrica, per ogni esigenza del tuo business.',
+    short: 'Fibra FTTH e FTTC ad alte prestazioni e stabile, con profili simmetrici in FTTH dove disponibili.',
     title: 'Fibra ultraveloce per aziende',
     description:
-      'Fibra ottica FTTH e FTTC per aziende, stabile e simmetrica, tra Varese, Milano e Lecco. FibraHero è l\'operatore, con assistenza diretta G8A.',
+      'Fibra ottica FTTH e FTTC per aziende tra Varese, Milano e Lecco, con profili simmetrici in FTTH dove disponibili. FibraHero è l\'operatore, con assistenza diretta G8A.',
     intro:
-      'Connessioni in fibra ottica FTTH e FTTC ad alte prestazioni, stabili e simmetriche: carichi in cloud alla stessa velocità con cui scarichi, fai videochiamate senza scatti e tieni in rete sedi, telecamere e gestionali.',
+      'Connessioni in fibra ottica FTTH e FTTC ad alte prestazioni e stabili, per lavorare in cloud, fare videochiamate senza scatti e tenere in rete sedi, telecamere e gestionali. Dove arriva la FTTH sono disponibili anche profili simmetrici, con la stessa velocità in download e in upload.',
     forWho: [
       'Uffici che lavorano con gestionali in cloud e videochiamate',
       'Capannoni e laboratori con molte postazioni e telecamere',
@@ -32,7 +32,7 @@ export const SERVIZI: Servizio[] = [
     ],
     includes: [
       'Verifica della copertura FTTH o FTTC all\'indirizzo',
-      'Banda simmetrica: stessa velocità in download e in upload',
+      'Profili simmetrici in FTTH, dove disponibili all\'indirizzo',
       'Router professionale configurato e gestito da noi',
       'IP statico per VPN, telecamere e accessi da remoto',
     ],
@@ -43,7 +43,7 @@ export const SERVIZI: Servizio[] = [
       },
       {
         q: 'Cosa vuol dire connessione simmetrica?',
-        a: 'Che la velocità in upload è uguale a quella in download. Per un\'azienda conta molto: backup in cloud, invio di file, videochiamate e accessi da remoto usano soprattutto l\'upload.',
+        a: 'Che la velocità in upload è uguale a quella in download. Per un\'azienda conta molto, perché backup in cloud, invio di file, videochiamate e accessi da remoto usano soprattutto l\'upload. I profili simmetrici sono disponibili in FTTH, a seconda dell\'indirizzo; la FTTC ha sempre un upload più basso del download.',
       },
     ],
   },

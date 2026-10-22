@@ -70,7 +70,8 @@ const faqSchema = {
     <section class="section section--paper">
       <div class="wrap">
         <h2>Tutte le funzioni</h2>
-        <p class="lead">Quello che il tuo centralino sa fare dal primo giorno. Lo configuriamo noi, tu lo usi.</p>
+        <p class="lead">Le funzioni del centralino cloud. Lo configuriamo noi, tu lo usi.</p>
+        <p class="fg__note">La maggior parte delle funzioni è inclusa e attivabile subito. Alcune, come le integrazioni con gestionali e CRM, l'app per più utenti o le videoconferenze con esterni, dipendono dal profilo scelto e possono richiedere una configurazione dedicata: le definiamo insieme in fase di offerta.</p>
         {s.featureGroups.map((g) => (
           <div class="fg">
             <h3 class="fg__h">{g.title}</h3>
@@ -117,6 +118,7 @@ const faqSchema = {
   .sv__box { background: #fff; color: var(--ink); padding: 1.9rem; border-radius: var(--radius-m); border-top: 5px solid var(--blue); }
   .sv__h { font-size: 1.6rem; }
   .sv__two { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); }
+  .fg__note { color: var(--muted); font-size: 0.95rem; max-width: 70ch; border-left: 3px solid var(--blue); padding-left: 1rem; }
   .fg { margin-top: 2.5rem; }
   .fg__h { font-size: 1.1rem; padding-bottom: 0.75rem; border-bottom: 3px solid var(--blue); margin-bottom: 0; }
   .fg__list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr)); gap: 0 2rem; }

@@ -20,15 +20,15 @@ import { FAQ_GENERALI } from '../data/faq';
 
 const faq = FAQ_GENERALI.slice(0, 5);
 const highlights = [
-  { icon: 'fibra', t: 'Fibra ultraveloce', d: 'FTTH e FTTC, stabile e simmetrica.' },
+  { icon: 'fibra', t: 'Fibra ultraveloce', d: 'FTTH e FTTC, anche simmetrica in FTTH.' },
   { icon: 'assistenza', t: 'Assistenza diretta', d: 'Nessun call center, solo persone che risolvono.' },
   { icon: 'firewall', t: 'Firewall e rete gestiti', d: 'Sicurezza e dispositivi sotto controllo.' },
   { icon: 'voip', t: 'Centralino cloud', d: 'Numeri, interni e code, ovunque tu sia.' },
 ];
-const tickerItems = ['Fibra FTTH', 'FTTC simmetrica', 'Firewall', 'Backup rete', 'Centralino cloud', 'IVR multilivello', 'WhatsApp integrato', 'App per smartphone', 'Wi-Fi aziendale', 'VPN', 'Noleggio dispositivi', 'Assistenza diretta'];
+const tickerItems = ['Fibra FTTH', 'FTTC', 'Firewall', 'Backup rete', 'Centralino cloud', 'IVR multilivello', 'WhatsApp integrato', 'App per smartphone', 'Wi-Fi aziendale', 'VPN', 'Noleggio dispositivi', 'Assistenza diretta'];
 const stats = [
   { n: 15, prefix: '~', label: 'anni di informatica per le aziende' },
-  { n: 6, label: 'sedi tra Varese, Milano e Lecco' },
+  { n: 6, label: 'sedi tra Varese, Milano e Lecco: 5 negozi e la sede operativa' },
   { n: 1, label: 'numero per linea, rete e centralino' },
   { n: 0, label: 'call center tra te e il tecnico' },
 ];
@@ -42,7 +42,7 @@ const website = { '@context': 'https://schema.org', '@type': 'WebSite', name: 'F
 ---
 <Base
   title="FibraHero — Internet superveloce per aziende con assistenza dedicata"
-  description="FibraHero by G8A è l'operatore per aziende: fibra FTTH/FTTC simmetrica, firewall, backup della rete e centralino cloud VoIP con assistenza diretta, tra Varese, Milano e Lecco."
+  description="FibraHero by G8A è l'operatore per aziende: fibra FTTH e FTTC, firewall, backup della rete e centralino cloud VoIP con assistenza diretta, tra Varese, Milano e Lecco."
   jsonLd={[website, faqSchema]}
 >
   <section class="hero">
@@ -101,7 +101,7 @@ const website = { '@context': 'https://schema.org', '@type': 'WebSite', name: 'F
         <p>Con un grande operatore hai la linea e un numero verde. Con FibraHero hai un partner che segue connessione, rete, firewall e telefonia, e che conosce la tua azienda perché ci è già stato.</p>
       </div>
       <ul class="cmp" data-reveal>
-        <li><span class="cmp__no">Call center e operatori a turno</span><span class="cmp__yes">Tecnici G8A specializzati, sempre reperibili</span></li>
+        <li><span class="cmp__no">Call center e operatori a turno</span><span class="cmp__yes">Tecnici G8A che conoscono la tua rete</span></li>
         <li><span class="cmp__no">"Il guasto è sul tuo router"</span><span class="cmp__yes">Linea, router e rete interna gestiti insieme</span></li>
         <li><span class="cmp__no">Apparati da comprare e aggiornare</span><span class="cmp__yes">Dispositivi a noleggio, sempre aggiornati</span></li>
         <li><span class="cmp__no">Offerte pensate per le famiglie</span><span class="cmp__yes">Solo aziende e partite IVA</span></li>
@@ -133,7 +133,7 @@ const website = { '@context': 'https://schema.org', '@type': 'WebSite', name: 'F
     <div class="wrap support__grid">
       <div>
         <h2>Assistenza <span class="accent">diretta</span></h2>
-        <p class="lead">Supporto tecnico dedicato e reperibile, interventi rapidi gestiti da tecnici specializzati. Nessun call center, solo persone che risolvono.</p>
+        <p class="lead">Supporto tecnico dedicato, con interventi gestiti dai tecnici G8A. Nessun call center, solo persone che risolvono.</p>
         <ol class="steps">
           <li><strong>Ci scrivi su WhatsApp</strong><span>Allo {SITE.phone}, lo stesso numero della sede per chiamare o scrivere.</span></li>
           <li><strong>Verifichiamo da remoto</strong><span>Linea, router, firewall e rete: li gestiamo noi, quindi li vediamo.</span></li>

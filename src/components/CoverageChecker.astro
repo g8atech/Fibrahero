@@ -80,6 +80,7 @@ const { comune = '' } = Astro.props;
   .cc__res :global(.r__name) { display: block; font-size: 1.35rem; font-weight: 800; margin: 0.25rem 0 0.1rem; text-transform: uppercase; font-stretch: 85%; font-variation-settings: 'wdth' 85; }
   .cc__res :global(.r__speed) { color: var(--cyan); font-weight: 700; }
   .cc__res :global(.r__msg) { color: #dbe5f5; }
+  .cc__res :global(.r__note) { color: #9fb2d3; font-size: 0.85rem; max-width: 70ch; margin: -0.25rem 0 1.1rem; }
   .cc__res :global(.r__actions) { display: flex; gap: 0.6rem; flex-wrap: wrap; }
   @keyframes pop { from { opacity: 0; transform: translateY(12px) scale(.97); } }
   @keyframes shine { to { transform: translateX(100%); } }
@@ -206,6 +207,7 @@ const { comune = '' } = Astro.props;
               <span class="r__name">${esc(a.label)}</span>
               ${a.maxMbps ? `<span class="r__speed">fino a ${fmt(a.maxMbps)}</span>` : ''}
             </div>`).join('')}</div>
+            <p class="r__note">Verifica preliminare sui dati della rete di accesso. Le velocità indicate sono i massimi tecnici della rete al civico: profilo, velocità e simmetria si confermano con la verifica tecnica prima dell'attivazione.</p>
             ${actions(addr, summary)}`;
           window.dispatchEvent(new CustomEvent('fh:copertura', { detail: { addr, comune: c.label ?? c.name, via: v.label ?? v.name, civico: n.number, summary } }));
         } else {

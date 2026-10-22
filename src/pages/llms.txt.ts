@@ -13,7 +13,7 @@ export const GET: APIRoute = () => {
   const lines = [
     '# FibraHero by G8A',
     '',
-    '> FibraHero è l\'operatore di connettività per aziende di G8A Technology S.r.l.: fibra FTTH e FTTC simmetrica, firewall, backup della connessione, centralino cloud VoIP e noleggio dei dispositivi di rete, con assistenza diretta dei tecnici G8A tra le province di Varese, Milano e Lecco. Solo aziende e partite IVA.',
+    '> FibraHero è l\'operatore di connettività per aziende di G8A Technology S.r.l.: fibra FTTH e FTTC (profili simmetrici in FTTH dove disponibili), firewall, backup della connessione, centralino cloud VoIP e noleggio dei dispositivi di rete, con assistenza diretta dei tecnici G8A tra le province di Varese, Milano e Lecco. Solo aziende e partite IVA.',
     '',
     ...FATTI.map((f) => `- **${f.k}**: ${f.v}`),
     '',
