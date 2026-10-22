@@ -1,0 +1,83 @@
+---
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import LightStreaks from '../components/LightStreaks.astro';
+import Listino from '../components/Listino.astro';
+import Faq from '../components/Faq.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { LISTINO, NOTA_PREZZI, euro } from '../data/servizi';
+import { SITE } from '../data/site';
+
+const faq = [
+  { q: 'Quanto costa la fibra per aziende con FibraHero?', a: `La fibra aziendale parte da ${euro(49)} al mese IVA esclusa, con router professionale configurato e assistenza diretta dei tecnici G8A. Il prezzo finale dipende da cosa è disponibile all'indirizzo (FTTH o FTTC) e dal profilo scelto.` },
+  { q: 'Quanto costa aggiungere una linea di backup?', a: `La linea di backup parte da ${euro(19)} al mese IVA esclusa. Entra in funzione da sola se la linea principale si ferma.` },
+  { q: 'Quanto costa il firewall gestito?', a: `Il firewall aziendale gestito parte da ${euro(39)} al mese IVA esclusa, con regole di sicurezza su misura e aggiornamenti a cura dei nostri tecnici.` },
+  { q: 'Quanto costa il centralino cloud?', a: `Il centralino cloud VoIP parte da ${euro(19)} al mese IVA esclusa. Il prezzo cresce con il numero di interni e le funzioni attivate.` },
+  { q: 'I prezzi includono l\'assistenza?', a: `Sì: l'assistenza è sempre diretta con i tecnici G8A, senza call center, con presa in carico del problema ${SITE.presaInCarico} nei giorni lavorativi.` },
+  { q: 'Perché i prezzi sono "a partire da"?', a: NOTA_PREZZI },
+];
+const catalog = {
+  '@context': 'https://schema.org',
+  '@type': 'OfferCatalog',
+  name: 'Listino FibraHero per aziende',
+  itemListElement: LISTINO.map((s) => ({
+    '@type': 'Offer',
+    itemOffered: { '@type': 'Service', name: s.title, url: `${SITE.url}/${s.slug}` },
+    priceSpecification: { '@type': 'UnitPriceSpecification', price: s.priceFrom, priceCurrency: 'EUR', unitText: 'mese', valueAddedTaxIncluded: false, description: 'Prezzo di partenza' },
+    seller: { '@id': `${SITE.url}/#organization` },
+    eligibleCustomerType: 'Business',
+  })),
+};
+const faqSchema = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
+---
+<Base
+  title="Prezzi fibra e servizi per aziende"
+  description="Prezzi FibraHero per aziende: fibra da 49 €/mese, linea di backup da 19 €, firewall gestito da 39 €, centralino cloud da 19 € al mese IVA esclusa, con assistenza diretta G8A."
+  jsonLd={[catalog, faqSchema]}
+>
+  <section class="pagehead">
+    <LightStreaks />
+    <div class="wrap">
+      <Breadcrumbs items={[{ name: 'Prezzi', href: '/prezzi' }]} />
+      <h1>Prezzi chiari, da subito</h1>
+      <p class="lead">Ogni servizio ha un prezzo di partenza. Li combini come ti servono: noi verifichiamo cosa arriva all'indirizzo e ti confermiamo l'offerta.</p>
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="wrap"><Listino /></div>
+  </section>
+
+  <section class="section">
+    <div class="wrap two">
+      <div>
+        <h2>Cosa è sempre incluso</h2>
+        <hr class="rule" />
+        <ul class="ticks">
+          <li>Assistenza diretta dei tecnici G8A, senza call center</li>
+          <li>Presa in carico del problema {SITE.presaInCarico}, nei giorni lavorativi{SITE.orari && ` (${SITE.orari})`}</li>
+          <li>Configurazione fatta da noi: router, firewall, centralino</li>
+          <li>Un solo referente per linea, rete e telefonia</li>
+        </ul>
+      </div>
+      <div>
+        <h2>Un esempio</h2>
+        <hr class="rule" />
+        <p>Un ufficio che vuole non fermarsi mai può partire da <strong>fibra + linea di backup</strong>, cioè da {euro(49 + 19)} al mese IVA esclusa. Con firewall e centralino cloud si arriva a un pacchetto completo da {euro(49 + 19 + 39 + 19)} al mese, tutto gestito dalla stessa squadra.</p>
+        <a class="btn btn--blue" href="/verifica-copertura">Verifica copertura e prezzo</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="wrap"><Faq items={faq} heading="Domande sui prezzi" /></div>
+  </section>
+
+  <CtaBand title="Ti prepariamo l'offerta" text="Scrivici l'indirizzo della sede: verifichiamo la copertura e ti mandiamo il prezzo esatto per la tua azienda." />
+</Base>
+
+<style>
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 5vw, 4rem); }
+  .two .btn { margin-top: 0.5rem; }
+  @media (max-width: 800px) { .two { grid-template-columns: 1fr; } }
+</style>

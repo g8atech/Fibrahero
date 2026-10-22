@@ -4,7 +4,7 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Icon from '../components/Icon.astro';
 import LightStreaks from '../components/LightStreaks.astro';
 import CtaBand from '../components/CtaBand.astro';
-import { SERVIZI } from '../data/servizi';
+import { SERVIZI, euro } from '../data/servizi';
 ---
 <Base
   title="Servizi di connettività gestita per aziende"
@@ -25,6 +25,7 @@ import { SERVIZI } from '../data/servizi';
           <span class="row__icon"><Icon name={s.icon} size={32} /></span>
           <div>
             <h2><a href={`/${s.slug}`}>{s.name}</a></h2>
+            {s.priceFrom != null && <p class="row__price">da <strong>{euro(s.priceFrom)}</strong>/mese + IVA</p>}
             <p>{s.intro}</p>
             <ul class="ticks">{s.includes.slice(0, 3).map((i) => <li>{i}</li>)}</ul>
             <p class="row__more"><a href={`/${s.slug}`}>Scopri {s.name.toLowerCase()}</a></p>
@@ -42,6 +43,8 @@ import { SERVIZI } from '../data/servizi';
   .row__icon { display: grid; place-items: center; width: 4.5rem; height: 4.5rem; border-radius: 50%; background: var(--blue); color: #fff; }
   .row h2 { font-size: clamp(1.7rem, 3vw, 2.3rem); }
   .row h2 a { text-decoration: none; }
+  .row__price { margin: -0.4rem 0 0.8rem; color: var(--muted); }
+  .row__price strong { color: var(--blue); font-size: 1.3rem; }
   .row__more { margin-top: 1.1rem; font-weight: 700; }
   @media (max-width: 560px) { .row { grid-template-columns: 1fr; gap: 1rem; } .row__icon { width: 3.5rem; height: 3.5rem; } }
 </style>

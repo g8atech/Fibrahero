@@ -11,6 +11,10 @@ export const SITE = {
   whatsappDisplay: '0331 139 0950',
   whatsapp: '3903311390950',
   whatsappText: 'Ciao FibraHero, vorrei un\'offerta per la connessione della mia azienda.',
+  // Assistenza: orari della sede e impegno di presa in carico.
+  // TODO: inserire gli orari reali della sede (es. 'lun–ven 9:00–13:00 e 14:00–18:30'). Se vuoto, non vengono mostrati.
+  orari: '',
+  presaInCarico: 'in giornata',
   // Dati societari (registro imprese). Obbligatori sul sito per una S.r.l.
   vat: '03981970126',
   legalAddress: 'Via Caronno Varesino 33, 21048 Solbiate Arno (VA)',

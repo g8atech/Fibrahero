@@ -8,7 +8,7 @@ import Icon from '../../components/Icon.astro';
 import LightStreaks from '../../components/LightStreaks.astro';
 import Faq from '../../components/Faq.astro';
 import { COMUNI, PROVINCE, nearestSede, neighbours, type Comune } from '../../data/comuni';
-import { SERVIZI } from '../../data/servizi';
+import { SERVIZI, euro } from '../../data/servizi';
 import { SITE, waLink } from '../../data/site';
 
 export function getStaticPaths() {
@@ -85,7 +85,7 @@ const faqSchema = {
     <div class="wrap">
       <h2>Cosa possiamo attivare a {c.name}</h2>
       <ul class="tech">
-        {SERVIZI.map((s) => <li><a href={`/${s.slug}`}><span class="tech__icon"><Icon name={s.icon} size={22} /></span><strong>{s.name}</strong></a><span>{s.short}</span></li>)}
+        {SERVIZI.map((s) => <li><a href={`/${s.slug}`}><span class="tech__icon"><Icon name={s.icon} size={22} /></span><strong>{s.name}</strong></a><span>{s.short}{s.priceFrom != null && <b class="tech__price"> Da {euro(s.priceFrom)}/mese + IVA.</b>}</span></li>)}
       </ul>
     </div>
   </section>
@@ -124,6 +124,7 @@ const faqSchema = {
   .tech a { display: inline-flex; gap: 0.7rem; align-items: center; text-decoration: none; }
   .tech__icon { display: grid; place-items: center; width: 2.3rem; height: 2.3rem; border-radius: 50%; background: var(--blue); color: #fff; flex: none; }
   .tech span { color: var(--muted); }
+  .tech__price { color: var(--ink); font-weight: 700; }
   .near__h { margin-top: 2rem; }
   .near { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.5rem; }
   @media (max-width: 860px) { .loc { grid-template-columns: 1fr; } .tech li { grid-template-columns: 1fr; gap: 0.2rem; } }

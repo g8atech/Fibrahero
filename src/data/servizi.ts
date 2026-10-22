@@ -3,6 +3,8 @@ export type Servizio = {
   slug: string;
   name: string;
   icon: 'fibra' | 'rete' | 'firewall' | 'backup' | 'voip' | 'noleggio';
+  // Prezzo di partenza al mese, IVA esclusa. Se assente, il prezzo non viene mostrato.
+  priceFrom?: number;
   short: string;
   title: string;
   description: string;
@@ -17,6 +19,7 @@ export type Servizio = {
 export const SERVIZI: Servizio[] = [
   {
     slug: 'fibra-ultraveloce-aziende',
+    priceFrom: 49,
     name: 'Fibra ultraveloce',
     icon: 'fibra',
     short: 'Fibra FTTH e FTTC ad alte prestazioni e stabile, con profili simmetrici in FTTH dove disponibili.',
@@ -77,6 +80,7 @@ export const SERVIZI: Servizio[] = [
   },
   {
     slug: 'firewall-aziendale',
+    priceFrom: 39,
     name: 'Firewall',
     icon: 'firewall',
     short: 'Proteggiamo la tua azienda da minacce e accessi indesiderati, con regole di sicurezza su misura.',
@@ -105,6 +109,7 @@ export const SERVIZI: Servizio[] = [
   },
   {
     slug: 'backup-connessione-aziendale',
+    priceFrom: 19,
     name: 'Backup rete',
     icon: 'backup',
     short: 'Soluzioni di backup della rete e dei collegamenti internet, per restare sempre connessi.',
@@ -132,6 +137,7 @@ export const SERVIZI: Servizio[] = [
   },
   {
     slug: 'centralino-cloud-voip',
+    priceFrom: 19,
     name: 'Centralino cloud VoIP',
     icon: 'voip',
     short: 'Centralino in cloud completo: IVR, gruppi, registrazioni, app, chat, videoconferenze e WhatsApp integrato.',
@@ -235,3 +241,7 @@ export const SERVIZI: Servizio[] = [
     ],
   },
 ];
+
+export const euro = (n: number) => `${n.toLocaleString('it-IT')} €`;
+export const LISTINO = SERVIZI.filter((s) => s.priceFrom != null);
+export const NOTA_PREZZI = 'Prezzi mensili IVA esclusa. Il prezzo finale dipende dalla tecnologia disponibile all\'indirizzo e dalla configurazione: lo confermiamo in offerta dopo la verifica.';

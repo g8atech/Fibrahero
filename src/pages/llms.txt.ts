@@ -20,6 +20,7 @@ export const GET: APIRoute = () => {
     '## Pagine principali',
     `- [FibraHero in breve](${u('/fibrahero-in-breve')}): fatti essenziali e risposte brevi`,
     `- [Verifica copertura](${u('/verifica-copertura')}): verifica FTTH/FTTC per indirizzo e civico`,
+    `- [Prezzi](${u('/prezzi')}): prezzi di partenza dei servizi`,
     `- [Chi siamo](${u('/chi-siamo')}): il gruppo G8A, storia, brand e sedi`,
     `- [Domande frequenti](${u('/domande-frequenti')})`,
     '',

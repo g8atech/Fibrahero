@@ -6,7 +6,7 @@ import Icon from '../components/Icon.astro';
 import LightStreaks from '../components/LightStreaks.astro';
 import CtaBand from '../components/CtaBand.astro';
 import AiSoon from '../components/AiSoon.astro';
-import { SERVIZI, type Servizio } from '../data/servizi';
+import { SERVIZI, euro, NOTA_PREZZI, type Servizio } from '../data/servizi';
 import { SITE, waLink } from '../data/site';
 
 export function getStaticPaths() {
@@ -25,6 +25,7 @@ const service = {
   provider: { '@id': `${SITE.url}/#organization` },
   areaServed: ['Provincia di Varese', 'Città metropolitana di Milano', 'Provincia di Lecco'],
   audience: { '@type': 'BusinessAudience', audienceType: 'Aziende e partite IVA' },
+  ...(s.priceFrom != null ? { offers: { '@type': 'Offer', priceSpecification: { '@type': 'UnitPriceSpecification', price: s.priceFrom, priceCurrency: 'EUR', unitText: 'mese', valueAddedTaxIncluded: false, description: 'Prezzo di partenza. ' + NOTA_PREZZI }, eligibleCustomerType: 'Business' } } : {}),
 };
 const faqSchema = {
   '@context': 'https://schema.org',
@@ -40,6 +41,7 @@ const faqSchema = {
         <Breadcrumbs items={[{ name: 'Servizi', href: '/servizi' }, { name: s.name, href: `/${s.slug}` }]} />
         <span class="sv__icon"><Icon name={s.icon} size={34} /></span>
         <h1>{s.title}</h1>
+        {s.priceFrom != null && <p class="sv__price"><span>da <strong>{euro(s.priceFrom)}</strong> al mese</span> <small>IVA esclusa · <a href="/prezzi">tutti i prezzi</a></small></p>}
         <p class="lead">{s.intro}</p>
         <a class="btn btn--wa" href={waLink(wa)} target="_blank" rel="noopener"><Icon name="whatsapp" size={22} /> Chiedi un'offerta su WhatsApp</a>
       </div>
@@ -113,6 +115,11 @@ const faqSchema = {
 
 <style>
   .sv { display: grid; grid-template-columns: 1.35fr 1fr; gap: clamp(2rem, 5vw, 4rem); align-items: center; }
+  .sv__price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 0.6rem; margin: -0.25rem 0 1.25rem; }
+  .sv__price span { font-size: 1.15rem; color: #c0cde3; }
+  .sv__price strong { font-size: 2rem; color: #fff; font-stretch: 80%; font-variation-settings: 'wdth' 80; }
+  .sv__price small { color: #9fb2d3; }
+  .sv__price a { color: var(--cyan); }
   .sv__icon { display: grid; place-items: center; width: 4rem; height: 4rem; border-radius: 50%; background: var(--blue); color: #fff; margin-bottom: 1.25rem; box-shadow: 0 0 0 6px rgba(47,139,255,.2), 0 0 40px rgba(47,139,255,.5); }
   .sv h1 { font-size: clamp(2.4rem, 5vw, 4rem); }
   .sv__box { background: #fff; color: var(--ink); padding: 1.9rem; border-radius: var(--radius-m); border-top: 5px solid var(--blue); }

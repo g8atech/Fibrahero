@@ -11,10 +11,11 @@ import Ticker from '../components/Ticker.astro';
 import Stats from '../components/Stats.astro';
 import AiSoon from '../components/AiSoon.astro';
 import CoverageChecker from '../components/CoverageChecker.astro';
+import Listino from '../components/Listino.astro';
 import heroImg from '../assets/hero-fibrahero.png';
 import rack from '../assets/rack.png';
 import { SITE, SEDI, waLink } from '../data/site';
-import { SERVIZI } from '../data/servizi';
+import { SERVIZI, euro } from '../data/servizi';
 import { COMUNI } from '../data/comuni';
 import { FAQ_GENERALI } from '../data/faq';
 
@@ -41,7 +42,7 @@ const faqSchema = {
 const website = { '@context': 'https://schema.org', '@type': 'WebSite', name: 'FibraHero by G8A', url: SITE.url, inLanguage: 'it-IT' };
 ---
 <Base
-  title="FibraHero — Internet superveloce per aziende con assistenza dedicata"
+  title="FibraHero — La connessione aziendale che non si ferma"
   description="FibraHero by G8A è l'operatore per aziende: fibra FTTH e FTTC, firewall, backup della rete e centralino cloud VoIP con assistenza diretta, tra Varese, Milano e Lecco."
   jsonLd={[website, faqSchema]}
 >
@@ -53,14 +54,14 @@ const website = { '@context': 'https://schema.org', '@type': 'WebSite', name: 'F
       <div class="hero__copy">
         <p class="hero__tag">Operatore per aziende</p>
         <h1>
-          <span class="hero__big" data-text="Superveloce">Superveloce</span>
-          <span class="hero__sub">con assistenza dedicata</span>
+          <span class="hero__sub">La tua azienda non può fermarsi.</span>
+          <span class="hero__big" data-text="La tua connessione nemmeno.">La tua connessione nemmeno.</span>
         </h1>
         <p class="rot" aria-hidden="true">
           <span class="rot__lbl">Per la tua azienda</span>
           <span class="rot__win"><span class="rot__list">{[...words, words[0]].map((w) => <span>{w}</span>)}</span></span>
         </p>
-        <p class="hero__lead">Internet gestito per aziende, con firewall e centralino. La linea, la rete e i dispositivi li segue la stessa squadra di tecnici G8A, e per qualsiasi problema scrivi direttamente a noi.</p>
+        <p class="hero__lead">Fibra aziendale, firewall, rete e centralino gestiti da un'unica squadra di tecnici G8A. Senza rimbalzi tra operatori e assistenze: un problema, un referente, presa in carico in giornata.</p>
         <div class="hero__actions">
           <a class="btn btn--wa" href={waLink()} target="_blank" rel="noopener"><Icon name="whatsapp" size={22} /> Scrivici su WhatsApp</a>
           <a class="btn btn--ghost" href="#verifica">Verifica copertura</a>
@@ -120,6 +121,7 @@ const website = { '@context': 'https://schema.org', '@type': 'WebSite', name: 'F
               <span class="svc__icon"><Icon name={s.icon} size={30} /></span>
               <h3>{s.name}</h3>
               <p>{s.short}</p>
+              {s.priceFrom != null && <span class="svc__price">da {euro(s.priceFrom)}/mese</span>}
               <span class="svc__go">Scopri di più</span>
             </a>
           </li>
@@ -128,14 +130,24 @@ const website = { '@context': 'https://schema.org', '@type': 'WebSite', name: 'F
     </div>
   </section>
 
+  <section class="section prices" id="prezzi">
+    <div class="wrap">
+      <h2>Prezzi chiari, da subito</h2>
+      <p class="lead">Prezzi di partenza per i servizi principali. Li combini come ti servono, poi verifichiamo l'indirizzo e ti confermiamo l'offerta.</p>
+      <Listino compact />
+      <p class="more"><a href="/prezzi">Tutti i prezzi e cosa include</a></p>
+    </div>
+  </section>
+
   <section class="section section--night support">
     <LightStreaks />
     <div class="wrap support__grid">
       <div>
         <h2>Assistenza <span class="accent">diretta</span></h2>
-        <p class="lead">Supporto tecnico dedicato, con interventi gestiti dai tecnici G8A. Nessun call center, solo persone che risolvono.</p>
+        <p class="lead">La rete in strada non la controlla nessun operatore locale. Quello che possiamo fare è progettare bene la tua: linea principale, backup automatico e un tecnico che si prende in carico il problema in giornata. Nessun call center, solo persone che risolvono.</p>
         <ol class="steps">
-          <li><strong>Ci scrivi su WhatsApp</strong><span>Allo {SITE.phone}, lo stesso numero della sede per chiamare o scrivere.</span></li>
+          <li><strong>Chiami o scrivi su WhatsApp</strong><span>Allo {SITE.phone}, il numero della sede{SITE.orari && `, ${SITE.orari}`}.</span></li>
+          <li><strong>Presa in carico {SITE.presaInCarico}</strong><span>Nei giorni lavorativi un tecnico G8A prende in mano il problema lo stesso giorno.</span></li>
           <li><strong>Verifichiamo da remoto</strong><span>Linea, router, firewall e rete: li gestiamo noi, quindi li vediamo.</span></li>
           <li><strong>Se serve, veniamo in sede</strong><span>Dalla sede G8A più vicina, tra Varese, Milano e Lecco.</span></li>
         </ol>
@@ -213,8 +225,9 @@ const website = { '@context': 'https://schema.org', '@type': 'WebSite', name: 'F
   .hero h1 { margin-bottom: 1.25rem; }
   .hero__big {
     display: block;
-    font-size: clamp(3.4rem, 9vw, 7.2rem);
-    line-height: 0.9;
+    font-size: clamp(2.4rem, 5.2vw, 4.5rem);
+    line-height: 0.95;
+    margin-top: 0.15em;
     background: linear-gradient(180deg, #e9f6ff 0%, #8fd0ff 45%, #2f8bff 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
     filter: drop-shadow(0 0 22px rgba(47,139,255,.45));
@@ -255,7 +268,7 @@ const website = { '@context': 'https://schema.org', '@type': 'WebSite', name: 'F
   @media (prefers-reduced-motion: reduce) {
     .hero__scan, .hero__big::after, .rot__list, .holo span, .hero__visual :global(.hero__img) { animation: none; }
   }
-  .hero__sub { display: block; font-size: clamp(1.9rem, 4.4vw, 3.4rem); color: #fff; margin-top: 0.35rem; }
+  .hero__sub { display: block; font-size: clamp(1.6rem, 3.6vw, 2.8rem); color: #fff; }
   .hero__lead { font-size: 1.18rem; color: #cbd8ee; max-width: 48ch; }
   .hero__actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 1.75rem; }
   .hero__note { font-size: 0.9rem; color: #94a8cc; margin-top: 0.9rem; }
@@ -304,7 +317,9 @@ const website = { '@context': 'https://schema.org', '@type': 'WebSite', name: 'F
   .svc a { border-radius: 0; }
   .svc a:hover .svc__icon { transform: scale(1.08) rotate(-6deg); box-shadow: 0 0 0 6px rgba(47,139,255,.18), 0 0 24px rgba(47,139,255,.55); }
   .svc__icon { transition: transform .25s ease, box-shadow .25s ease; }
-  .svc__go { display: inline-block; margin-top: 0.9rem; font-weight: 700; color: var(--blue); font-size: 0.95rem; }
+  .svc__price { display: inline-block; margin-top: 0.8rem; font-weight: 800; color: var(--ink); background: #e8f0ff; border-radius: 6px; padding: 0.15rem 0.55rem; font-size: 0.92rem; }
+  .prices { padding-block: clamp(3rem, 7vw, 5rem); }
+  .svc__go { display: block; width: fit-content; margin-top: 0.9rem; font-weight: 700; color: var(--blue); font-size: 0.95rem; }
   .svc__go::after { content: ''; display: inline-block; width: 1.4rem; height: 2px; background: currentColor; vertical-align: middle; margin-left: 0.5rem; transition: width .25s ease; }
   .svc a:hover .svc__go::after { width: 2.4rem; }
 

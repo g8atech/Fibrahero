@@ -21,7 +21,7 @@ export const FAQ_GENERALI = [
   },
   {
     q: 'Cosa succede se la linea non funziona?',
-    a: 'Contatti direttamente noi, anche su WhatsApp. Un tecnico G8A verifica la linea da remoto e, se serve, interviene in sede.',
+    a: 'Contatti direttamente noi, al telefono o su WhatsApp. Nei giorni lavorativi un tecnico G8A prende in carico il problema in giornata, verifica la linea da remoto e, se serve, interviene in sede. La rete pubblica in strada non dipende da noi: per questo consigliamo una linea di backup che entra in funzione da sola.',
   },
   {
     q: 'Possiamo tenere i numeri di telefono attuali?',

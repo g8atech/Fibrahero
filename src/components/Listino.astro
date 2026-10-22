@@ -1,0 +1,44 @@
+---
+import Icon from './Icon.astro';
+import { LISTINO, NOTA_PREZZI, euro } from '../data/servizi';
+interface Props { compact?: boolean }
+const { compact = false } = Astro.props;
+---
+<div class={`ls ${compact ? 'ls--compact' : ''}`}>
+  <ul class="ls__grid">
+    {LISTINO.map((s, i) => (
+      <li data-reveal style={`--d:${0.08 * i}s`}>
+        <a class="ls__card glow" href={`/${s.slug}`}>
+          <span class="ls__icon"><Icon name={s.icon} size={26} /></span>
+          <span class="ls__name">{s.name}</span>
+          <span class="ls__price"><small>da</small> {euro(s.priceFrom!)}<small>/mese</small></span>
+          {!compact && <span class="ls__desc">{s.short}</span>}
+          <span class="ls__go">Dettagli</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+  <p class="ls__note">{NOTA_PREZZI}</p>
+</div>
+
+<style>
+  .ls__grid { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; }
+  .ls__card {
+    display: flex; flex-direction: column; height: 100%; text-decoration: none; color: var(--ink);
+    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-m); padding: 1.5rem;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .ls__card:hover { color: var(--ink); transform: translateY(-4px); box-shadow: 0 16px 36px rgba(13,31,66,.12); }
+  .ls__icon { display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 50%; background: var(--blue); color: #fff; margin-bottom: 1rem; }
+  .ls__name { font-weight: 800; text-transform: uppercase; font-stretch: 85%; font-variation-settings: 'wdth' 85; font-size: 1.1rem; }
+  .ls__price { font-weight: 800; font-size: 2.3rem; line-height: 1.1; color: var(--blue); margin: 0.4rem 0 0.6rem; font-stretch: 80%; font-variation-settings: 'wdth' 80; }
+  .ls__price small { font-size: 0.95rem; font-weight: 700; color: var(--muted); font-stretch: 100%; font-variation-settings: 'wdth' 100; }
+  .ls__price small:first-child { margin-right: 0.15rem; }
+  .ls__desc { color: var(--muted); font-size: 0.95rem; flex: 1; }
+  .ls__go { margin-top: 0.9rem; font-weight: 700; color: var(--blue); font-size: 0.92rem; }
+  .ls__note { color: var(--muted); font-size: 0.88rem; margin-top: 1rem; max-width: 80ch; }
+  .ls--compact .ls__card { padding: 1.1rem 1.25rem; }
+  .ls--compact .ls__price { font-size: 1.9rem; }
+  @media (max-width: 960px) { .ls__grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 480px) { .ls__grid { grid-template-columns: 1fr; } }
+</style>
