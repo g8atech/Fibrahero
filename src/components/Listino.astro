@@ -7,7 +7,7 @@ const { compact = false } = Astro.props;
 <div class={`ls ${compact ? 'ls--compact' : ''}`}>
   <ul class="ls__grid">
     {LISTINO.map((s, i) => (
-      <li data-reveal style={`--d:${0.08 * i}s`}>
+      <li data-reveal data-spotlight style={`--d:${0.08 * i}s`}>
         <a class="ls__card glow" href={`/${s.slug}`}>
           <span class="ls__icon"><Icon name={s.icon} size={26} /></span>
           <span class="ls__name">{s.name}</span>

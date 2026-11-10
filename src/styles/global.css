@@ -29,6 +29,7 @@
 *::after { box-sizing: border-box; }
 
 html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+html.lenis-on { scroll-behavior: auto; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
 
 body {
@@ -159,3 +160,25 @@ p { margin: 0 0 1em; max-width: 64ch; }
 .glow:hover::before, .glow:focus-within::before { opacity: 1; }
 @keyframes spin-ang { to { --ang: 360deg; } }
 @media (prefers-reduced-motion: reduce) { .glow::before { animation: none; } }
+
+/* ---- Kit animazioni (src/scripts/motion.ts) ---- */
+/* Barra di avanzamento sotto l'header */
+.scroll-bar {
+  position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; pointer-events: none;
+  background: linear-gradient(90deg, var(--electric), var(--cyan));
+  box-shadow: 0 0 10px rgba(111,214,255,.7);
+  transform: scaleX(0); transform-origin: 0 50%;
+}
+/* Luce che segue il mouse sulle card */
+.spot { position: relative; isolation: isolate; }
+.spot::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: -1;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(47,139,255,.16), transparent 70%);
+  opacity: 0; transition: opacity .3s ease;
+}
+.spot:hover::after { opacity: 1; }
+.group__brands .is-on.spot::after { background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), rgba(111,214,255,.22), transparent 70%); }
+/* Parole dei titoli divise per l'animazione */
+.sw { will-change: transform, filter; }
+/* Bottoni calamita: niente transizione CSS sul transform, lo gestisce GSAP */
+.btn { will-change: transform; }

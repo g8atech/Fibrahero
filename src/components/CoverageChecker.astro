@@ -16,17 +16,17 @@ const { comune = '' } = Astro.props;
     <div class="cc__field">
       <label for="cc-comune">Comune</label>
       <input id="cc-comune" name="comune" placeholder="Es. Gallarate" value={comune} role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cc-list-comune" />
-      <ul class="cc__list" id="cc-list-comune" role="listbox" hidden></ul>
+      <ul class="cc__list" data-lenis-prevent id="cc-list-comune" role="listbox" hidden></ul>
     </div>
     <div class="cc__field">
       <label for="cc-via">Via o piazza</label>
       <input id="cc-via" name="via" placeholder="Es. Viale Milano" disabled role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cc-list-via" />
-      <ul class="cc__list" id="cc-list-via" role="listbox" hidden></ul>
+      <ul class="cc__list" data-lenis-prevent id="cc-list-via" role="listbox" hidden></ul>
     </div>
     <div class="cc__field cc__field--n">
       <label for="cc-civico">Civico</label>
       <input id="cc-civico" name="civico" placeholder="1" disabled role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="cc-list-civico" />
-      <ul class="cc__list" id="cc-list-civico" role="listbox" hidden></ul>
+      <ul class="cc__list" data-lenis-prevent id="cc-list-civico" role="listbox" hidden></ul>
     </div>
     <button class="btn btn--blue cc__go" type="submit" disabled>Verifica</button>
   </form>
