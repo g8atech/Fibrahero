@@ -159,3 +159,8 @@ p { margin: 0 0 1em; max-width: 64ch; }
 .glow:hover::before, .glow:focus-within::before { opacity: 1; }
 @keyframes spin-ang { to { --ang: 360deg; } }
 @media (prefers-reduced-motion: reduce) { .glow::before { animation: none; } }
+
+/* Movimento (src/scripts/motion.ts): Lenis gestisce lo scroll, quindi niente smooth nativo */
+html.motion { scroll-behavior: auto !important; }
+.w-mask { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.08em; margin-bottom: -0.08em; }
+.w { display: inline-block; will-change: transform; }

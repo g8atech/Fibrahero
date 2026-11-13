@@ -1,0 +1,318 @@
+---
+// Scena "la linea cade, il backup entra": mentre si scorre la sezione resta ferma e
+// racconta in 4 passi cosa succede durante un guasto. Il testo è HTML vero (SEO);
+// il disegno è decorativo. Senza JS o con "riduci movimento" si vede lo stato finale.
+---
+<section class="bk" id="backup-live" aria-labelledby="bk-h" data-state="3">
+  <div class="bk__pin">
+    <div class="bk__glow" aria-hidden="true"></div>
+    <div class="wrap bk__grid">
+      <div class="bk__copy">
+        <p class="bk__eyebrow">Cosa succede quando la linea cade</p>
+        <h2 id="bk-h">Il guasto arriva.<br /><span class="accent">La tua azienda resta online.</span></h2>
+        <ol class="bk__steps">
+          <li data-step="0" data-n="1"><strong>Lavori normalmente</strong><span>La fibra porta dati, telefonate del centralino e gestionale.</span></li>
+          <li data-step="1" data-n="2"><strong>Un guasto in strada interrompe la fibra</strong><span>Lavori, scavi, maltempo: la rete in strada non la controlla nessun operatore locale.</span></li>
+          <li data-step="2" data-n="3"><strong>Il backup entra da solo</strong><span>Il firewall sposta il traffico sulla linea di backup, senza che nessuno debba toccare niente.</span></li>
+          <li data-step="3" data-n="4"><strong>Del guasto ci occupiamo noi</strong><span>Un tecnico G8A lo prende in carico in giornata e segue il ripristino della fibra.</span></li>
+        </ol>
+        <div class="bk__bar" aria-hidden="true"><span></span></div>
+        <a class="btn btn--blue" href="/backup-connessione-aziendale">Scopri il backup della connessione</a>
+      </div>
+
+      <div class="bk__stage" aria-hidden="true">
+        <div class="bk__status">
+          <span class="bk__dot"></span>
+          <span class="bk__lbl" data-s="0">Online · fibra principale</span>
+          <span class="bk__lbl" data-s="1">Fibra interrotta</span>
+          <span class="bk__lbl" data-s="2">Online · backup attivo</span>
+          <span class="bk__lbl" data-s="3">Online · guasto in carico a G8A</span>
+        </div>
+
+        <svg class="bk__svg" viewBox="0 0 600 440">
+          <defs>
+            <linearGradient id="bkMain" x1="0" x2="1"><stop offset="0" stop-color="#2f8bff" /><stop offset="1" stop-color="#6fd6ff" /></linearGradient>
+            <linearGradient id="bkBack" x1="0" x2="1"><stop offset="0" stop-color="#25d366" /><stop offset="1" stop-color="#6fd6ff" /></linearGradient>
+            <filter id="bkBlur" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6" /></filter>
+          </defs>
+
+          <!-- griglia di fondo -->
+          <g class="bk__grid-bg" opacity=".25">
+            {Array.from({ length: 13 }, (_, i) => <line x1={i * 50} y1="0" x2={i * 50} y2="440" />)}
+            {Array.from({ length: 9 }, (_, i) => <line x1="0" y1={i * 55} x2="600" y2={i * 55} />)}
+          </g>
+
+          <!-- linee: principale (fibra) e backup -->
+          <path id="bkPathMain" class="bk__glowline bk__main" d="M95 220 C 170 70, 300 60, 372 205" filter="url(#bkBlur)" />
+          <path class="bk__line bk__main" d="M95 220 C 170 70, 300 60, 372 205" />
+          <path id="bkPathBack" class="bk__glowline bk__back" d="M95 232 C 150 360, 220 372, 250 372 C 290 372, 340 330, 372 240" filter="url(#bkBlur)" />
+          <path class="bk__line bk__back bk__back--track" d="M95 232 C 150 360, 220 372, 250 372 C 290 372, 340 330, 372 240" />
+          <path class="bk__line bk__back bk__back--draw" pathLength="1" d="M95 232 C 150 360, 220 372, 250 372 C 290 372, 340 330, 372 240" />
+          <path class="bk__line bk__link" d="M408 222 L 440 222" />
+
+          <!-- punto del guasto -->
+          <g class="bk__cut" transform="translate(236 98)">
+            <circle r="22" class="bk__cut-halo" />
+            <path d="M-9 -9 L9 9 M9 -9 L-9 9" />
+            <g class="bk__sparks">
+              <line x1="0" y1="0" x2="-26" y2="-18" /><line x1="0" y1="0" x2="24" y2="-22" />
+              <line x1="0" y1="0" x2="-20" y2="20" /><line x1="0" y1="0" x2="28" y2="14" />
+            </g>
+          </g>
+
+          <!-- pacchetti dati (mossi dallo script) -->
+          <g class="bk__packets"></g>
+
+          <!-- Internet -->
+          <g transform="translate(70 226)">
+            <circle r="44" class="bk__node-halo" />
+            <circle r="30" class="bk__node" />
+            <path class="bk__ico" d="M-14 0 H14 M0 -14 C -8 -6, -8 6, 0 14 M0 -14 C 8 -6, 8 6, 0 14" />
+            <circle r="14" class="bk__ico" />
+            <text y="58" class="bk__txt">INTERNET</text>
+          </g>
+
+          <!-- antenna backup -->
+          <g class="bk__tower" transform="translate(250 372)">
+            <circle r="26" class="bk__tower-halo" />
+            <path class="bk__ico" d="M0 -14 L-9 12 M0 -14 L9 12 M-6 4 H6 M0 -14 V-16" />
+            <path class="bk__waves" d="M-12 -22 A 16 16 0 0 1 12 -22 M-18 -28 A 24 24 0 0 1 18 -28" />
+            <text x="-36" y="5" class="bk__txt" text-anchor="end" style="text-anchor:end">BACKUP 5G</text>
+          </g>
+          <text x="232" y="56" class="bk__txt bk__txt--main">FIBRA</text>
+
+          <!-- firewall -->
+          <g transform="translate(390 222)">
+            <rect x="-20" y="-20" width="40" height="40" rx="8" class="bk__fw" />
+            <path class="bk__ico" d="M-10 -8 H10 M-10 0 H10 M-10 8 H10 M-3 -8 V0 M4 0 V8" />
+            <text y="-30" class="bk__txt">FIREWALL</text>
+          </g>
+
+          <!-- azienda -->
+          <g class="bk__office" transform="translate(440 112)">
+            <rect width="140" height="220" rx="14" class="bk__card" />
+            <text x="70" y="30" class="bk__txt bk__txt--card">LA TUA AZIENDA</text>
+            {['PC e gestionale', 'Centralino', 'Wi-Fi', 'Cloud e mail'].map((t, i) => (
+              <g transform={`translate(16 ${56 + i * 40})`}>
+                <rect width="108" height="30" rx="7" class="bk__row" />
+                <circle cx="15" cy="15" r="5" class="bk__led" />
+                <text x="28" y="19" class="bk__rowtxt">{t}</text>
+              </g>
+            ))}
+          </g>
+        </svg>
+
+        <div class="bk__toast">
+          <span class="bk__toast-ico">G8A</span>
+          <span><strong>Tecnico G8A</strong>Guasto preso in carico, ti aggiorniamo noi.</span>
+        </div>
+        <div class="bk__flash"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bk { position: relative; background: var(--night); color: #fff; overflow: hidden; }
+  .bk__pin { position: relative; padding-block: clamp(3.5rem, 7vw, 5.5rem); }
+  .bk__glow { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(60% 70% at 72% 50%, rgba(47,139,255,.22), transparent 70%); transition: background .6s ease; }
+  .bk[data-state="1"] .bk__glow { background: radial-gradient(60% 70% at 72% 50%, rgba(255,64,96,.22), transparent 70%); }
+  .bk[data-state="2"] .bk__glow, .bk[data-state="3"] .bk__glow { background: radial-gradient(60% 70% at 72% 50%, rgba(37,211,102,.16), transparent 70%); }
+  .bk__grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1.15fr; gap: clamp(1.5rem, 4vw, 3.5rem); align-items: center; }
+  .bk__eyebrow { color: var(--cyan); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; font-size: .9rem; margin-bottom: .7rem; }
+  .bk h2 { margin-bottom: 1.4rem; }
+  .bk h2 .accent { color: var(--electric); }
+  .bk__steps { list-style: none; padding: 0; margin: 0 0 1.4rem; display: grid; gap: .3rem; counter-reset: s; }
+  .bk__steps li { counter-increment: s; position: relative; padding: .7rem .9rem .7rem 3.2rem; border-radius: 10px; transition: background .4s ease, opacity .4s ease, transform .4s ease; }
+  .bk__steps li::before { content: attr(data-n); position: absolute; left: .8rem; top: .75rem; width: 1.75rem; height: 1.75rem; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: .9rem; background: #1a2b52; color: #9fb2d3; transition: background .4s ease, color .4s ease, box-shadow .4s ease; }
+  .bk__steps strong { display: block; font-size: 1.05rem; }
+  .bk__steps span { display: block; color: #a9badb; font-size: .95rem; line-height: 1.45; }
+  .bk__bar { display: none; }
+
+  /* Modalità animata (attivata dallo script) */
+  .bk.is-live .bk__steps li { opacity: .38; }
+  .bk.is-live .bk__steps li.is-on { opacity: 1; background: rgba(47,139,255,.1); transform: translateX(6px); }
+  .bk.is-live .bk__steps li.is-on::before { background: var(--electric); color: #fff; box-shadow: 0 0 0 5px rgba(47,139,255,.25), 0 0 22px rgba(47,139,255,.7); }
+  .bk.is-live[data-state="1"] .bk__steps li.is-on { background: rgba(255,64,96,.12); }
+  .bk.is-live[data-state="1"] .bk__steps li.is-on::before { background: #ff4060; box-shadow: 0 0 0 5px rgba(255,64,96,.25), 0 0 22px rgba(255,64,96,.7); }
+  .bk.is-live .bk__bar { display: block; height: 3px; border-radius: 3px; background: #1a2b52; margin: 0 0 1.4rem; overflow: hidden; }
+  .bk.is-live .bk__bar span { display: block; height: 100%; width: 100%; transform-origin: left; transform: scaleX(var(--p, 0)); background: linear-gradient(90deg, var(--electric), var(--cyan)); }
+  .bk.is-live .bk__pin { min-height: calc(100svh - 4.5rem); display: grid; align-items: center; }
+
+  /* Palco */
+  .bk__stage { position: relative; border-radius: 22px; padding: 1rem; background: linear-gradient(160deg, rgba(19,41,90,.7), rgba(7,15,34,.9)); border: 1px solid rgba(111,214,255,.18); box-shadow: 0 30px 80px rgba(0,0,0,.45), inset 0 0 60px rgba(47,139,255,.08); }
+  .bk__svg { width: 100%; height: auto; overflow: visible; }
+  .bk__grid-bg line { stroke: #1f3566; stroke-width: 1; }
+  .bk__line { fill: none; stroke-width: 4; stroke-linecap: round; transition: stroke .4s ease, opacity .4s ease; }
+  .bk__glowline { fill: none; stroke-width: 12; opacity: .5; transition: stroke .4s ease, opacity .4s ease; }
+  .bk__main { stroke: url(#bkMain); }
+  .bk__back { stroke: url(#bkBack); }
+  .bk__back--track { stroke: #1f3566; stroke-dasharray: 6 8; }
+  .bk__back--draw { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1s cubic-bezier(.6,0,.2,1); }
+  .bk__glowline.bk__back { opacity: 0; }
+  .bk__link { stroke: var(--cyan); }
+  .bk__node { fill: #13295a; stroke: var(--electric); stroke-width: 2; }
+  .bk__node-halo { fill: rgba(47,139,255,.15); animation: bkPulse 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+  .bk__ico { fill: none; stroke: #cfe9ff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .bk__txt { fill: #9fb2d3; font: 700 12px var(--font); letter-spacing: .08em; text-anchor: middle; }
+  .bk__txt--main { fill: var(--cyan); }
+  .bk__txt--card { fill: #fff; font-size: 11px; }
+  .bk__fw { fill: #13295a; stroke: var(--cyan); stroke-width: 2; }
+  .bk__card { fill: rgba(13,31,66,.95); stroke: rgba(111,214,255,.35); stroke-width: 1.5; }
+  .bk__row { fill: #0b1a38; stroke: #1f3566; }
+  .bk__rowtxt { fill: #cbd8ee; font: 600 11px var(--font); }
+  .bk__led { fill: #25d366; filter: drop-shadow(0 0 4px #25d366); transition: fill .3s ease; }
+  .bk__tower { opacity: .45; transition: opacity .4s ease; }
+  .bk__tower-halo { fill: rgba(37,211,102,.0); transition: fill .4s ease; }
+  .bk__waves { fill: none; stroke: #25d366; stroke-width: 2; stroke-linecap: round; opacity: 0; }
+  .bk__cut { opacity: 0; transition: opacity .2s ease; }
+  .bk__cut path { stroke: #ff4060; stroke-width: 4; stroke-linecap: round; }
+  .bk__cut-halo { fill: rgba(255,64,96,.25); }
+  .bk__sparks line { stroke: #ffb3c0; stroke-width: 2; stroke-linecap: round; stroke-dasharray: 30; stroke-dashoffset: 30; }
+  .bk__packets circle { fill: #fff; filter: drop-shadow(0 0 6px #6fd6ff); }
+
+  .bk__status { position: absolute; top: 1rem; left: 1rem; z-index: 2; display: inline-flex; align-items: center; gap: .55rem; padding: .4rem .85rem; border-radius: 999px; background: rgba(7,15,34,.85); border: 1px solid rgba(37,211,102,.45); font-weight: 700; font-size: .88rem; transition: border-color .3s ease; }
+  .bk__dot { width: .6rem; height: .6rem; border-radius: 50%; background: #25d366; box-shadow: 0 0 10px #25d366; animation: bkBlink 1.6s ease-in-out infinite; }
+  .bk__lbl { display: none; }
+
+  .bk__toast { position: absolute; right: 1rem; bottom: 1rem; z-index: 2; display: flex; gap: .7rem; align-items: center; max-width: 17rem; padding: .7rem .9rem; border-radius: 14px; background: #fff; color: var(--ink); font-size: .88rem; line-height: 1.35; box-shadow: 0 18px 40px rgba(0,0,0,.4); opacity: 0; transform: translateY(16px) scale(.96); transition: opacity .45s ease, transform .45s cubic-bezier(.2,.9,.3,1.3); }
+  .bk__toast strong { display: block; }
+  .bk__toast-ico { flex: none; display: grid; place-items: center; width: 2.3rem; height: 2.3rem; border-radius: 50%; background: var(--blue); color: #fff; font-weight: 800; font-size: .75rem; }
+  .bk__flash { position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: radial-gradient(circle at 40% 25%, rgba(255,64,96,.55), transparent 60%); opacity: 0; }
+
+  /* Stati */
+  .bk[data-state="0"] .bk__lbl[data-s="0"], .bk[data-state="1"] .bk__lbl[data-s="1"],
+  .bk[data-state="2"] .bk__lbl[data-s="2"], .bk[data-state="3"] .bk__lbl[data-s="3"] { display: inline; }
+
+  .bk[data-state="1"] .bk__status { border-color: rgba(255,64,96,.6); }
+  .bk[data-state="1"] .bk__dot { background: #ff4060; box-shadow: 0 0 10px #ff4060; animation-duration: .5s; }
+  .bk[data-state="1"] .bk__main, .bk[data-state="2"] .bk__main, .bk[data-state="3"] .bk__main { stroke: #ff4060; }
+  .bk[data-state="1"] .bk__line.bk__main, .bk[data-state="2"] .bk__line.bk__main, .bk[data-state="3"] .bk__line.bk__main { stroke-dasharray: 10 10; opacity: .55; }
+  .bk[data-state="2"] .bk__glowline.bk__main, .bk[data-state="3"] .bk__glowline.bk__main { opacity: .12; }
+  .bk[data-state="1"] .bk__cut, .bk[data-state="2"] .bk__cut, .bk[data-state="3"] .bk__cut { opacity: 1; }
+  .bk[data-state="1"] .bk__sparks line { animation: bkSpark .5s ease-out infinite; }
+  .bk[data-state="1"] .bk__led { fill: #ff4060; filter: drop-shadow(0 0 4px #ff4060); animation: bkBlink .5s ease-in-out infinite; }
+  .bk[data-state="1"] .bk__link { stroke: #ff4060; opacity: .5; }
+  .bk[data-state="1"] .bk__office { animation: bkShake .35s linear 2; }
+
+  .bk[data-state="2"] .bk__back--draw, .bk[data-state="3"] .bk__back--draw { stroke-dashoffset: 0; }
+  .bk[data-state="2"] .bk__glowline.bk__back, .bk[data-state="3"] .bk__glowline.bk__back { opacity: .55; }
+  .bk[data-state="2"] .bk__tower, .bk[data-state="3"] .bk__tower { opacity: 1; }
+  .bk[data-state="2"] .bk__tower-halo, .bk[data-state="3"] .bk__tower-halo { fill: rgba(37,211,102,.18); }
+  .bk[data-state="2"] .bk__waves, .bk[data-state="3"] .bk__waves { animation: bkWaves 1.4s ease-out infinite; }
+  .bk[data-state="3"] .bk__toast { opacity: 1; transform: none; }
+
+  @keyframes bkPulse { 50% { transform: scale(1.15); opacity: .5; } }
+  @keyframes bkBlink { 50% { opacity: .35; } }
+  @keyframes bkSpark { from { stroke-dashoffset: 30; opacity: 1; } to { stroke-dashoffset: -30; opacity: 0; } }
+  @keyframes bkShake { 0%,100% { transform: translate(440px,112px); } 25% { transform: translate(436px,114px); } 50% { transform: translate(444px,110px); } 75% { transform: translate(438px,111px); } }
+  @keyframes bkWaves { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-8px); } }
+
+  @media (max-width: 900px) {
+    .bk__grid { grid-template-columns: 1fr; }
+    .bk__stage { order: -1; padding: .6rem; }
+    .bk__status { font-size: .78rem; top: .6rem; left: .6rem; }
+    .bk__toast { right: .6rem; bottom: .6rem; font-size: .8rem; max-width: 14rem; }
+    /* Da telefono la scena deve stare in uno schermo: si vede solo il passo attivo */
+    .bk.is-live .bk__steps li:not(.is-on) { display: none; }
+    .bk.is-live .bk__steps li.is-on { transform: none; }
+    .bk.is-live h2 { font-size: clamp(1.5rem, 6.5vw, 2rem); margin-bottom: .8rem; }
+    .bk.is-live .bk__eyebrow { display: none; }
+    .bk.is-live .btn { display: none; }
+    .bk.is-live .bk__pin { padding-block: 1rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bk *, .bk *::before { animation: none !important; transition: none !important; }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  gsap.registerPlugin(ScrollTrigger);
+
+  const sec = document.querySelector<HTMLElement>('.bk');
+  if (sec && !reduce) {
+    const steps = sec.querySelectorAll<HTMLElement>('.bk__steps li');
+    const bar = sec.querySelector<HTMLElement>('.bk__bar');
+    const flash = sec.querySelector<HTMLElement>('.bk__flash');
+    const stage = sec.querySelector<HTMLElement>('.bk__stage');
+    const main = sec.querySelector<SVGPathElement>('#bkPathMain')!;
+    const back = sec.querySelector<SVGPathElement>('#bkPathBack')!;
+    const layer = sec.querySelector<SVGGElement>('.bk__packets')!;
+    const NS = 'http://www.w3.org/2000/svg';
+    const lenMain = main.getTotalLength(), lenBack = back.getTotalLength();
+    const CUT = 0.5; // posizione del guasto sulla linea principale
+
+    let state = -1;
+    function setState(s: number) {
+      if (s === state) return;
+      const prev = state; state = s;
+      sec!.dataset.state = String(s);
+      steps.forEach((li, i) => li.classList.toggle('is-on', i === s));
+      if (s === 1 && prev < 1) {
+        gsap.fromTo(flash, { opacity: 1 }, { opacity: 0, duration: 0.9, ease: 'power2.out' });
+        gsap.fromTo(stage, { x: -8 }, { x: 0, duration: 0.5, ease: 'elastic.out(1, 0.25)' });
+      }
+      if (s === 2 && prev < 2) gsap.fromTo(stage, { boxShadow: '0 0 0 0 rgba(37,211,102,.6), 0 30px 80px rgba(0,0,0,.45)' }, { boxShadow: '0 0 0 18px rgba(37,211,102,0), 0 30px 80px rgba(0,0,0,.45)', duration: 1, ease: 'power2.out' });
+    }
+
+    sec.classList.add('is-live');
+    setState(0);
+
+    const mm = gsap.matchMedia();
+    mm.add({ desk: '(min-width: 901px)', mob: '(max-width: 900px)' }, () => {
+      ScrollTrigger.create({
+        trigger: sec,
+        start: () => `top top+=${document.querySelector('.hdr')?.getBoundingClientRect().height ?? 72}`,
+        invalidateOnRefresh: true,
+        end: '+=260%',
+        pin: true,
+        anticipatePin: 1,
+        onUpdate: (st) => {
+          const p = st.progress;
+          bar?.style.setProperty('--p', p.toFixed(3));
+          setState(p < 0.24 ? 0 : p < 0.5 ? 1 : p < 0.76 ? 2 : 3);
+        },
+      });
+    });
+
+    // Pacchetti dati: corrono sulla fibra; durante il guasto si fermano al taglio;
+    // col backup attivo passano dall'antenna.
+    type Pk = { el: SVGCircleElement; t: number; v: number; onBack: boolean; dead: number };
+    const pk: Pk[] = [];
+    for (let i = 0; i < 9; i++) {
+      const el = document.createElementNS(NS, 'circle');
+      el.setAttribute('r', '4');
+      layer.append(el);
+      pk.push({ el, t: i / 9, v: 0.32 + Math.random() * 0.12, onBack: false, dead: 0 });
+    }
+    let visible = false;
+    new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(sec);
+    gsap.ticker.add((_, dt) => {
+      if (!visible) return;
+      const d = dt / 1000;
+      for (const p of pk) {
+        const prev = p.t;
+        p.t += p.v * d;
+        const blocked = !p.onBack && state >= 1;
+        if (blocked && prev <= CUT && p.t > CUT) p.t = CUT;
+        if (blocked && p.t === CUT) p.dead += d;
+        if (!blocked) p.dead = 0;
+        if (p.t >= 1 || p.dead > 0.6) {
+          p.t = 0; p.dead = 0;
+          p.onBack = state >= 2;
+        }
+        const path = p.onBack ? back : main;
+        const pt = path.getPointAtLength((p.onBack ? lenBack : lenMain) * p.t);
+        p.el.setAttribute('cx', pt.x.toFixed(1));
+        p.el.setAttribute('cy', pt.y.toFixed(1));
+        const fade = p.dead > 0 ? 1 - p.dead / 0.6 : 1;
+        p.el.style.opacity = String(Math.min(1, p.t * 8, (1 - p.t) * 8) * fade);
+        p.el.style.fill = p.dead > 0 ? '#ff4060' : p.onBack ? '#bdf5d4' : '#ffffff';
+      }
+    });
+  }
+</script>

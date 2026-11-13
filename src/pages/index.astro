@@ -7,6 +7,8 @@ import Press from '../components/Press.astro';
 import Faq from '../components/Faq.astro';
 import CtaBand from '../components/CtaBand.astro';
 import NetCanvas from '../components/NetCanvas.astro';
+import FiberCanvas from '../components/FiberCanvas.astro';
+import BackupScene from '../components/BackupScene.astro';
 import Ticker from '../components/Ticker.astro';
 import Stats from '../components/Stats.astro';
 import AiSoon from '../components/AiSoon.astro';
@@ -47,8 +49,7 @@ const website = { '@context': 'https://schema.org', '@type': 'WebSite', name: 'F
   jsonLd={[website, faqSchema]}
 >
   <section class="hero">
-    <LightStreaks />
-    <NetCanvas />
+    <FiberCanvas />
     <div class="hero__scan" aria-hidden="true"></div>
     <div class="wrap hero__grid">
       <div class="hero__copy">
@@ -88,6 +89,8 @@ const website = { '@context': 'https://schema.org', '@type': 'WebSite', name: 'F
     <NetCanvas density={0.00005} />
     <div class="wrap" data-reveal><Stats items={stats} /></div>
   </section>
+
+  <BackupScene />
 
   <section class="section section--paper check" id="verifica">
     <div class="wrap" data-reveal><CoverageChecker /></div>
