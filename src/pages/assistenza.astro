@@ -1,0 +1,116 @@
+---
+// Assistenza clienti FibraHero: gli stessi canali della pagina Contatti di g8a.it (WhatsApp, telefono, email,
+// assistenza remota, ticket dall'area clienti). È anche la pagina aperta dal QR delle etichette noleggio:
+// /assistenza?q=CODICE mostra dispositivo e azienda e Brain (funzione qr-assistenza) conta la scansione
+// e il canale scelto. Senza codice è una normale pagina di contatto.
+import Base from '../layouts/Base.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import LightStreaks from '../components/LightStreaks.astro';
+import Icon from '../components/Icon.astro';
+import { SITE, SEDI, waLink, telLink } from '../data/site';
+
+const testoWa = 'Ciao, sono un cliente FibraHero e ho bisogno di assistenza.';
+const canali = [
+  { canale: 'whatsapp', icon: 'whatsapp', t: 'WhatsApp', d: 'Il modo più rapido: ti risponde una persona del team.', cta: 'Scrivici su WhatsApp', href: waLink(testoWa), cls: 'btn--wa', nuova: true },
+  { canale: 'chiama', icon: 'voip', t: 'Telefono', d: SITE.phone, cta: 'Chiama la sede', href: telLink, cls: 'btn--blue' },
+  { canale: 'email', icon: 'partner', t: 'Email', d: SITE.assistenzaEmail, cta: 'Scrivi una email', href: `mailto:${SITE.assistenzaEmail}?subject=${encodeURIComponent('Assistenza FibraHero')}`, cls: 'btn--blue' },
+  { canale: 'remoto', icon: 'rete', t: 'Assistenza remota', d: 'Il tecnico ti chiede di aprire questo link per collegarsi al tuo PC.', cta: 'Avvia assistenza remota', href: SITE.assistenzaRemota, cls: 'btn--ghost', nuova: true },
+  { canale: 'ticket', icon: 'assistenza', t: 'Sei già cliente?', d: 'Apri un ticket dall\'area clienti: lo prende in carico un tecnico.', cta: 'Apri un ticket', href: SITE.ticket, cls: 'btn--ghost', nuova: true },
+];
+const sede = SEDI.find((s) => s.operativa) ?? SEDI[0];
+---
+<Base
+  title="Assistenza clienti FibraHero: WhatsApp, telefono e ticket"
+  description={`Assistenza FibraHero per le aziende: WhatsApp e telefono ${SITE.phone}, email ${SITE.assistenzaEmail}, assistenza remota e ticket dall'area clienti. Ti risponde un tecnico G8A, presa in carico ${SITE.presaInCarico}.`}
+>
+  <section class="pagehead">
+    <LightStreaks />
+    <div class="wrap">
+      <Breadcrumbs items={[{ name: 'Assistenza', href: '/assistenza' }]} />
+      <h1>Assistenza <span class="accent">clienti</span></h1>
+      <p class="lead">Ti risponde una persona del team G8A, non un call center. Problemi su linea, rete o dispositivi a noleggio: li prendiamo in carico {SITE.presaInCarico}.</p>
+
+      <div class="as-disp" id="as-disp" hidden>
+        <span class="as-disp__k">Dispositivo a noleggio</span>
+        <strong id="as-nome"></strong>
+        <span id="as-azienda"></span>
+        <span class="as-disp__c">Noleggio di proprietà di G8A Technology · codice <span id="as-codice" style="white-space:nowrap"></span></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--paper">
+    <div class="wrap">
+      <div class="as-grid">
+        {canali.map((c, i) => (
+          <div class={`as-card glow${i === 0 ? ' as-card--top' : ''}`} data-reveal style={`--d:${i * 0.06}s`}>
+            <span class="as-ic"><Icon name={c.icon} size={26} /></span>
+            <h2 class="as-t">{c.t}</h2>
+            <p>{c.d}</p>
+            <a class={`btn ${c.cls}`} href={c.href} data-canale={c.canale} {...(c.nuova ? { target: '_blank', rel: 'noopener' } : {})}>{c.cta}</a>
+          </div>
+        ))}
+      </div>
+      <p class="as-note">
+        Sede operativa: {sede.address}, {sede.cap} {sede.city} ({sede.province}).{SITE.orari ? ` Orari: ${SITE.orari}.` : ''}
+        Per i dispositivi a noleggio indica il codice scritto sotto il QR dell'etichetta.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<script is:inline define:vars={{ ep: SITE.qrEndpoint, wa: SITE.whatsapp, mail: SITE.assistenzaEmail }}>
+  (function () {
+    var q = (new URLSearchParams(location.search).get('q') || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+    if (!/^[A-HJ-NP-Z2-9]{8}$/.test(q)) return;
+    var invia = function (body, keepalive) {
+      return fetch(ep, { method: 'POST', headers: { 'Content-Type': 'text/plain' }, body: JSON.stringify(body), keepalive: !!keepalive });
+    };
+    // Ogni contatto scelto dal QR viene contato in Brain (anche se la pagina viene lasciata subito)
+    document.querySelectorAll('[data-canale]').forEach(function (a) {
+      a.addEventListener('click', function () {
+        try { invia({ azione: 'contatto', codice: q, canale: a.getAttribute('data-canale') }, true).catch(function () {}); } catch (e) { /* mai bloccare il contatto */ }
+      });
+    });
+    invia({ azione: 'apri', codice: q })
+      .then(function (r) { return r.json(); })
+      .then(function (j) {
+        if (!j || !j.ok) return;
+        var d = j.dispositivo || {};
+        var leggibile = q.slice(0, 4) + '-' + q.slice(4);
+        document.getElementById('as-nome').textContent = d.nome || 'Dispositivo';
+        document.getElementById('as-azienda').textContent = d.azienda || '';
+        document.getElementById('as-codice').textContent = leggibile;
+        document.getElementById('as-disp').hidden = false;
+        var rif = [d.nome, d.azienda, 'codice ' + leggibile].filter(Boolean).join(' · ');
+        var waEl = document.querySelector('[data-canale="whatsapp"]');
+        if (waEl) waEl.href = 'https://wa.me/' + wa + '?text=' + encodeURIComponent('Ciao, ho bisogno di assistenza per il dispositivo a noleggio: ' + rif);
+        var mailEl = document.querySelector('[data-canale="email"]');
+        if (mailEl) mailEl.href = 'mailto:' + mail + '?subject=' + encodeURIComponent('Assistenza · ' + rif);
+      })
+      .catch(function () {});
+  })();
+</script>
+
+<style>
+  .as-disp {
+    margin-top: 1.6rem; max-width: 34rem; display: grid; gap: 0.15rem;
+    padding: 1rem 1.2rem; border-radius: var(--radius-m);
+    background: rgba(255, 255, 255, 0.08); box-shadow: inset 0 0 0 1px rgba(111, 214, 255, 0.35);
+  }
+  .as-disp[hidden] { display: none; }
+  .as-disp__k { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--cyan); font-weight: 700; }
+  .as-disp strong { font-size: 1.25rem; line-height: 1.25; }
+  .as-disp__c { font-size: 0.85rem; color: #9fb2d3; }
+  .as-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15.5rem), 1fr)); }
+  .as-card {
+    display: flex; flex-direction: column; align-items: flex-start; gap: 0.2rem;
+    padding: 1.4rem; border-radius: var(--radius-m); background: var(--white); box-shadow: 0 1px 0 var(--line), 0 10px 30px -18px rgba(13, 31, 66, 0.35);
+  }
+  .as-card p { color: var(--muted); flex: 1; }
+  .as-card .btn { width: 100%; }
+  .as-card--top { box-shadow: inset 0 0 0 2px var(--wa), 0 10px 30px -18px rgba(13, 31, 66, 0.35); }
+  .as-ic { display: inline-flex; padding: 0.55rem; border-radius: 10px; background: linear-gradient(135deg, var(--cyan), var(--blue)); color: #fff; margin-bottom: 0.6rem; }
+  .as-t { font-size: 1.35rem; text-transform: none; font-stretch: 100%; font-variation-settings: normal; letter-spacing: 0; color: var(--ink); margin-bottom: 0.3rem; }
+  .as-note { margin-top: 1.6rem; color: var(--muted); font-size: 0.95rem; }
+</style>

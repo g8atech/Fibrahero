@@ -27,6 +27,14 @@ export const SITE = {
   // Endpoint che riceve le richieste di verifica copertura (es. funzione su Brain/Supabase).
   // Se vuoto, il form apre una mail precompilata verso SITE.email.
   leadEndpoint: import.meta.env.PUBLIC_LEAD_ENDPOINT ?? '',
+  // Pagina /assistenza: contatti dell'assistenza clienti (come la pagina Contatti di g8a.it).
+  assistenzaEmail: 'assistenza@g8a.it',
+  // Assistenza remota: link NinjaOne per far collegare il tecnico al PC del cliente.
+  assistenzaRemota: 'https://g8a.rmmservice.eu/connect/#/8175714087',
+  // I ticket li aprono i clienti dall'area clienti di Brain.
+  ticket: 'https://parts-plan.vercel.app/area-clienti',
+  // QR delle etichette noleggio (/assistenza?q=CODICE): Brain conta scansioni e contatti scelti.
+  qrEndpoint: 'https://ijrrnuurjbgugystlfry.supabase.co/functions/v1/qr-assistenza',
 };
 
 export type Sede = {

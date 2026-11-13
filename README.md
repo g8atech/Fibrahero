@@ -50,3 +50,9 @@ Importa il repository su Vercel: il framework Astro viene riconosciuto in automa
 ## Da completare prima di andare online
 
 Cerca `TODO` nel codice: partita IVA, informativa privacy definitiva.
+
+## Pagina Assistenza e QR delle etichette noleggio
+
+`/assistenza` (`src/pages/assistenza.astro`) ha gli stessi canali della pagina Contatti di g8a.it: WhatsApp e telefono della sede, email assistenza, assistenza remota (NinjaOne) e ticket dall'area clienti di Brain. I link sono in `src/data/site.ts`.
+
+È anche la pagina aperta dal QR delle etichette noleggio FibraHero stampate da Brain: `/assistenza?q=CODICE`. Con il codice la pagina mostra dispositivo e azienda, mette il riferimento nel messaggio WhatsApp e nell'oggetto dell'email, e Brain (funzione `qr-assistenza`, indirizzo in `SITE.qrEndpoint`) conta la scansione e il canale scelto. Non cambiare l'indirizzo della pagina: è stampato sulle etichette.
