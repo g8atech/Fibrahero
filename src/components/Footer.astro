@@ -5,6 +5,7 @@ import Icon from './Icon.astro';
 import g8a from '../assets/g8a-logo.png';
 import { SITE, SEDI, waLink, telLink } from '../data/site';
 import { SERVIZI } from '../data/servizi';
+import { GUIDE_NINA } from '../data/guideNina';
 const year = new Date().getFullYear();
 ---
 <footer class="ftr">
@@ -36,6 +37,7 @@ const year = new Date().getFullYear();
         <li><a href="/fibrahero-in-breve">FibraHero in breve</a></li>
         <li><a href="/fibra-aziendale">Zone servite</a></li>
         <li><a href="/domande-frequenti">Domande frequenti</a></li>
+        {GUIDE_NINA.length > 0 && <li><a href="/guide">Guide</a></li>}
         <li><a href="/verifica-copertura">Verifica copertura</a></li>
       </ul>
       <a class="ftr__g8a" href="https://www.g8a.it" aria-label="G8A Technology">

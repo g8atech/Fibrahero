@@ -5,6 +5,7 @@ import { SITE, SEDI } from '../data/site';
 import { SERVIZI } from '../data/servizi';
 import { COMUNI } from '../data/comuni';
 import { FATTI, DOMANDE } from '../data/inbreve';
+import { GUIDE_NINA } from '../data/guideNina';
 
 export const prerender = true;
 
@@ -33,6 +34,7 @@ export const GET: APIRoute = () => {
     '## Zone servite',
     ...COMUNI.map((c) => `- [Fibra per aziende a ${c.name}](${u('/fibra-aziendale/' + c.slug)})`),
     '',
+    ...(GUIDE_NINA.length ? ['## Guide', ...GUIDE_NINA.map((g: any) => `- [${g.h1}](${u('/guide/' + g.slug)}): ${g.descrizione}`), ''] : []),
     '## Domande brevi',
     ...DOMANDE.flatMap((d) => [`### ${d.q}`, d.a, '']),
     '## Contatti',
