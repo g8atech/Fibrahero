@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Faq from '../components/Faq.astro';
 import Icon from '../components/Icon.astro';
-import LightStreaks from '../components/LightStreaks.astro';
+import FiberCanvas from '../components/FiberCanvas.astro';
 import CtaBand from '../components/CtaBand.astro';
 import AiSoon from '../components/AiSoon.astro';
 import { SERVIZI, euro, NOTA_PREZZI, type Servizio } from '../data/servizi';
@@ -35,7 +35,7 @@ const faqSchema = {
 ---
 <Base title={s.title} description={s.description} jsonLd={[service, faqSchema]}>
   <section class="pagehead">
-    <LightStreaks />
+    <FiberCanvas />
     <div class="wrap sv">
       <div>
         <Breadcrumbs items={[{ name: 'Servizi', href: '/servizi' }, { name: s.name, href: `/${s.slug}` }]} />

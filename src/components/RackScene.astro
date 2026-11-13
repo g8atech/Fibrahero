@@ -191,6 +191,13 @@ const patch = [0, 1, 2, 3, 5, 6, 8, 9, 11, 12].map((p, i) => {
   .rk.is-live .rk__pin { min-height: calc(100svh - 4.5rem); display: grid; align-items: center; }
 
   .rk__stage { position: relative; }
+  .rk.is-3d .rk__stage { aspect-ratio: 1 / 0.92; }
+  .rk.is-3d .rk__svg { display: none; }
+  .rk__stage :global(.rk__gl) {
+    position: absolute; inset: -10% -14%; width: 128%; height: 120%; display: block;
+    -webkit-mask-image: radial-gradient(closest-side, #000 78%, transparent 100%);
+    mask-image: radial-gradient(closest-side, #000 78%, transparent 100%);
+  }
   .rk__svg { width: 100%; height: auto; overflow: visible; }
   .rk__lbl { font: 800 10px var(--font); letter-spacing: .14em; fill: #8a96a8; }
   .rk__lbl--s { font-size: 7px; letter-spacing: .08em; }
@@ -306,5 +313,20 @@ const patch = [0, 1, 2, 3, 5, 6, 8, 9, 11, 12].map((p, i) => {
       onUpdate: mark,
     });
     tl.eventCallback('onUpdate', mark);
+
+    // Versione 3D (Three.js): si carica solo quando la sezione si avvicina e se il browser
+    // supporta WebGL. Fino ad allora (o senza WebGL) resta il disegno SVG.
+    const stage = sec.querySelector<HTMLElement>('.rk__stage')!;
+    const gl = (() => { try { return !!document.createElement('canvas').getContext('webgl2'); } catch { return false; } })();
+    if (gl) {
+      const io = new IntersectionObserver(async ([e]) => {
+        if (!e.isIntersecting) return;
+        io.disconnect();
+        const { initRack3D } = await import('../scripts/rack3d');
+        initRack3D(stage, () => tl.time(), tl.labels);
+        sec.classList.add('is-3d');
+      }, { rootMargin: '150% 0px' });
+      io.observe(sec);
+    }
   }
 </script>

@@ -4,7 +4,7 @@ import Breadcrumbs from '../components/Breadcrumbs.astro';
 import CoverageForm from '../components/CoverageForm.astro';
 import CoverageChecker from '../components/CoverageChecker.astro';
 import Icon from '../components/Icon.astro';
-import LightStreaks from '../components/LightStreaks.astro';
+import FiberCanvas from '../components/FiberCanvas.astro';
 import { SITE, waLink, telLink } from '../data/site';
 ---
 <Base
@@ -12,7 +12,7 @@ import { SITE, waLink, telLink } from '../data/site';
   description="Verifica se all'indirizzo della tua azienda arriva la fibra FTTH o FTTC e ricevi un'offerta su misura da FibraHero by G8A. Anche su WhatsApp allo 0331 139 0950."
 >
   <section class="pagehead">
-    <LightStreaks />
+    <FiberCanvas />
     <div class="wrap">
       <Breadcrumbs items={[{ name: 'Verifica copertura', href: '/verifica-copertura' }]} />
       <h1>Verifica la copertura</h1>

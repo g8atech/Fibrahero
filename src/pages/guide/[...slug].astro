@@ -5,7 +5,7 @@
 import Base from '../../layouts/Base.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import Faq from '../../components/Faq.astro';
-import LightStreaks from '../../components/LightStreaks.astro';
+import FiberCanvas from '../../components/FiberCanvas.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import { GUIDE_NINA } from '../../data/guideNina';
 import { SITE } from '../../data/site';
@@ -57,7 +57,7 @@ const altre = guida ? guide.filter((g) => g.slug !== guida.slug).slice(0, 4) : g
   jsonLd={jsonLd}
 >
   <section class="pagehead">
-    <LightStreaks />
+    <FiberCanvas />
     <div class="wrap">
       <Breadcrumbs items={crumbs} />
       {guida ? <h1>{guida.h1}</h1> : <h1>Guide sulla connessione per aziende</h1>}

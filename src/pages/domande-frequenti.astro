@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import Faq from '../components/Faq.astro';
-import LightStreaks from '../components/LightStreaks.astro';
+import FiberCanvas from '../components/FiberCanvas.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { FAQ_GENERALI } from '../data/faq';
 import { SERVIZI } from '../data/servizi';
@@ -20,7 +20,7 @@ const faqSchema = {
   jsonLd={[faqSchema]}
 >
   <section class="pagehead">
-    <LightStreaks />
+    <FiberCanvas />
     <div class="wrap">
       <Breadcrumbs items={[{ name: 'Domande frequenti', href: '/domande-frequenti' }]} />
       <h1>Domande frequenti</h1>

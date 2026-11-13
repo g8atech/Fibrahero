@@ -5,7 +5,7 @@
 // e il canale scelto. Senza codice è una normale pagina di contatto.
 import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import LightStreaks from '../components/LightStreaks.astro';
+import FiberCanvas from '../components/FiberCanvas.astro';
 import Icon from '../components/Icon.astro';
 import { SITE, SEDI, waLink, telLink } from '../data/site';
 
@@ -24,7 +24,7 @@ const sede = SEDI.find((s) => s.operativa) ?? SEDI[0];
   description={`Assistenza FibraHero per le aziende: WhatsApp e telefono ${SITE.phone}, email ${SITE.assistenzaEmail}, assistenza remota e ticket dall'area clienti. Ti risponde un tecnico G8A, presa in carico ${SITE.presaInCarico}.`}
 >
   <section class="pagehead">
-    <LightStreaks />
+    <FiberCanvas />
     <div class="wrap">
       <Breadcrumbs items={[{ name: 'Assistenza', href: '/assistenza' }]} />
       <h1>Assistenza <span class="accent">clienti</span></h1>

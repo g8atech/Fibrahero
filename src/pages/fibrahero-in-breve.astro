@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
-import LightStreaks from '../components/LightStreaks.astro';
+import FiberCanvas from '../components/FiberCanvas.astro';
 import CtaBand from '../components/CtaBand.astro';
 import { FATTI, DOMANDE } from '../data/inbreve';
 import { SERVIZI } from '../data/servizi';
@@ -30,7 +30,7 @@ const localBusinesses = SEDI.map((s) => ({
   jsonLd={[faqSchema, ...localBusinesses]}
 >
   <section class="pagehead">
-    <LightStreaks />
+    <FiberCanvas />
     <div class="wrap">
       <Breadcrumbs items={[{ name: 'FibraHero in breve', href: '/fibrahero-in-breve' }]} />
       <h1>FibraHero in breve</h1>
