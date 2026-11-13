@@ -1,0 +1,310 @@
+---
+// Scena "armadio di rete che si monta": mentre si scorre la sezione resta ferma e
+// gli apparati entrano uno alla volta nell'armadio (gateway, firewall, patch panel,
+// switch, UPS), i cavi si collegano, si accende l'access point. Stile pulito, pannelli
+// chiari e LED azzurri. Il testo è HTML vero; senza JS o con "riduci movimento"
+// si vede l'armadio già montato.
+import { SERVIZI, euro } from '../data/servizi';
+const fw = SERVIZI.find((s) => s.slug === 'firewall-aziendale');
+
+const steps = [
+  { t: 'Router con fibra e backup', d: 'La linea principale e quella di backup arrivano qui, già configurate da noi.' },
+  { t: 'Firewall', d: 'Filtra il traffico e protegge l\'azienda da accessi indesiderati.', price: fw?.priceFrom },
+  { t: 'Switch e cablaggio ordinato', d: 'Ogni PC, stampante e telefono ha la sua porta, con cavi corti e ordinati.' },
+  { t: 'Wi-Fi aziendale', d: 'Access point negli uffici, gestiti insieme al resto della rete.' },
+  { t: 'UPS', d: 'Se va via la corrente, router e rete restano accesi per i minuti che servono.' },
+  { t: 'A noleggio e gestito da remoto', d: 'Configurato, aggiornato e controllato dai tecnici G8A: tu non devi pensarci.' },
+];
+
+// Geometria dell'armadio (unità SVG)
+const X0 = 62, W = 316;
+const U = (n: number) => 40 + n * 44;
+const ppPorts = Array.from({ length: 24 }, (_, i) => 76 + i * 12.6);
+const swPorts = Array.from({ length: 24 }, (_, i) => 108 + i * 10.6);
+const fwPorts = Array.from({ length: 8 }, (_, i) => 212 + i * 20);
+const gwPorts = Array.from({ length: 4 }, (_, i) => 286 + i * 22);
+const patch = [0, 1, 2, 3, 5, 6, 8, 9, 11, 12].map((p, i) => {
+  const s = [0, 2, 1, 4, 6, 5, 9, 8, 12, 14][i];
+  const xp = ppPorts[p] + 4.5, xs = swPorts[s] + 4;
+  const c = ['#2f8bff', '#e9eef5', '#6fd6ff', '#2f8bff', '#e9eef5'][i % 5];
+  return { d: `M${xp} ${U(2) + 24} C ${xp} ${U(3) + 30}, ${xs} ${U(3) + 6}, ${xs} ${U(4) + 26}`, c };
+});
+---
+<section class="rk" id="armadio" aria-labelledby="rk-h">
+  <div class="rk__pin">
+    <div class="wrap rk__grid">
+      <div class="rk__copy">
+        <p class="rk__eyebrow">La tua rete, dentro l'armadio</p>
+        <h2 id="rk-h" data-nosplit>Un armadio di rete <span class="accent">montato e gestito da noi</span></h2>
+        <ol class="rk__steps">
+          {steps.map((s, i) => (
+            <li data-n={i + 1}>
+              <strong>{s.t}</strong>
+              <span>{s.d}</span>
+              {s.price != null && <em>da {euro(s.price)}/mese</em>}
+            </li>
+          ))}
+        </ol>
+        <div class="rk__bar" aria-hidden="true"><span></span></div>
+        <div class="rk__cta">
+          <a class="btn btn--blue" href="/gestione-rete-aziendale">Gestione della rete</a>
+          <a class="btn btn--ghost" href="/noleggio-dispositivi-rete">Dispositivi a noleggio</a>
+        </div>
+      </div>
+
+      <div class="rk__stage" aria-hidden="true">
+        <div class="rk__chip"><span></span>Tutti i dispositivi online</div>
+        <svg class="rk__svg" viewBox="0 0 600 470">
+          <defs>
+            <linearGradient id="rkPanel" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff" /><stop offset="1" stop-color="#e4e9f0" /></linearGradient>
+            <linearGradient id="rkDark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b323d" /><stop offset="1" stop-color="#1a1f27" /></linearGradient>
+            <radialGradient id="rkAp" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#ffffff" /><stop offset="1" stop-color="#dfe5ee" /></radialGradient>
+            <radialGradient id="rkFloor" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#2f8bff" stop-opacity=".35" /><stop offset="1" stop-color="#2f8bff" stop-opacity="0" /></radialGradient>
+            <filter id="rkShadow" x="-10%" y="-30%" width="120%" height="180%"><feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#0b1a38" flood-opacity=".25" /></filter>
+            <filter id="rkLed" x="-200%" y="-200%" width="500%" height="500%"><feGaussianBlur stdDeviation="1.6" result="b" /><feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge></filter>
+          </defs>
+
+          <ellipse class="rk__floor" cx="220" cy="452" rx="230" ry="20" fill="url(#rkFloor)" />
+
+          <!-- linee in arrivo: fibra e backup -->
+          <g class="rk__wan">
+            <path class="rk__draw" pathLength="1" d={`M${gwPorts[2] + 9} -10 L ${gwPorts[2] + 9} ${U(0) + 14}`} stroke="#6fd6ff" />
+            <path class="rk__draw" pathLength="1" d={`M${gwPorts[3] + 9} -10 L ${gwPorts[3] + 9} ${U(0) + 14}`} stroke="#25d366" />
+            <text x={gwPorts[2] + 2} y="10" text-anchor="end" class="rk__tag rk__tag--fibra">FIBRA</text>
+            <text x={gwPorts[3] + 18} y="10" class="rk__tag rk__tag--5g">BACKUP 5G</text>
+          </g>
+
+          <!-- armadio: montanti forati, traverse -->
+          <g class="rk__frame">
+            <rect x="40" y="20" width="360" height="404" rx="10" fill="#141922" />
+            <rect x="40" y="20" width="22" height="404" rx="6" fill="url(#rkDark)" />
+            <rect x="378" y="20" width="22" height="404" rx="6" fill="url(#rkDark)" />
+            {Array.from({ length: 27 }, (_, i) => (
+              <>
+                <rect x="48" y={34 + i * 14.5} width="6" height="6" rx="1" fill="#0b0f15" />
+                <rect x="386" y={34 + i * 14.5} width="6" height="6" rx="1" fill="#0b0f15" />
+              </>
+            ))}
+            <rect x="40" y="20" width="360" height="16" rx="6" fill="url(#rkDark)" />
+            <rect x="40" y="408" width="360" height="16" rx="6" fill="url(#rkDark)" />
+            <rect x="56" y="424" width="26" height="10" rx="3" fill="#1a1f27" />
+            <rect x="358" y="424" width="26" height="10" rx="3" fill="#1a1f27" />
+          </g>
+
+          <!-- 1 · gateway -->
+          <g class="rk__dev" data-dev="gw" filter="url(#rkShadow)">
+            <rect x={X0} y={U(0)} width={W} height="40" rx="5" fill="url(#rkPanel)" stroke="#c9d2df" />
+            <circle cx="84" cy={U(0) + 20} r="7" fill="none" stroke="#c9d2df" stroke-width="3" />
+            <circle class="rk__led" cx="84" cy={U(0) + 20} r="7" fill="none" stroke="#3fa2ff" stroke-width="3" />
+            <text x="100" y={U(0) + 24} class="rk__lbl">GATEWAY</text>
+            {gwPorts.map((x) => (<><rect x={x} y={U(0) + 14} width="18" height="14" rx="2" fill="#1b2433" /><rect class="rk__led" x={x + 2} y={U(0) + 9} width="5" height="2.5" rx="1" fill="#3fa2ff" /></>))}
+          </g>
+
+          <!-- 2 · firewall -->
+          <g class="rk__dev" data-dev="fw" filter="url(#rkShadow)">
+            <rect x={X0} y={U(1)} width={W} height="40" rx="5" fill="url(#rkPanel)" stroke="#c9d2df" />
+            <rect x="76" y={U(1) + 10} width="46" height="20" rx="3" fill="#1b2433" />
+            <path class="rk__led" d={`M84 ${U(1) + 20} h6 m4 0 h6 m4 0 h12`} stroke="#3fa2ff" stroke-width="2.5" stroke-linecap="round" />
+            <text x="132" y={U(1) + 24} class="rk__lbl">FIREWALL</text>
+            {fwPorts.map((x) => (<><rect x={x} y={U(1) + 14} width="16" height="13" rx="2" fill="#1b2433" /><rect class="rk__led" x={x + 2} y={U(1) + 9} width="5" height="2.5" rx="1" fill="#3fa2ff" /></>))}
+          </g>
+
+          <!-- 3 · patch panel -->
+          <g class="rk__dev" data-dev="pp">
+            <rect x={X0} y={U(2)} width={W} height="40" rx="5" fill="url(#rkDark)" stroke="#39424f" />
+            {ppPorts.map((x) => (<><rect x={x} y={U(2) + 15} width="9" height="11" rx="1.5" fill="#0b0f15" /><rect x={x + 2} y={U(2) + 17} width="5" height="4" rx="1" fill="#e9eef5" opacity=".85" /></>))}
+            {ppPorts.map((x, i) => (<text x={x + 4.5} y={U(2) + 10} class="rk__num">{i + 1}</text>))}
+          </g>
+
+          <!-- 4 · passacavi -->
+          <g class="rk__dev" data-dev="cm">
+            <rect x={X0} y={U(3)} width={W} height="40" rx="5" fill="url(#rkDark)" stroke="#39424f" />
+            <rect x="80" y={U(3) + 14} width={W - 36} height="12" rx="6" fill="#07090d" />
+          </g>
+
+          <!-- 5 · switch -->
+          <g class="rk__dev" data-dev="sw" filter="url(#rkShadow)">
+            <rect x={X0} y={U(4)} width={W} height="40" rx="5" fill="url(#rkPanel)" stroke="#c9d2df" />
+            <text x="72" y={U(4) + 17} class="rk__lbl rk__lbl--s">SWITCH</text>
+            <text x="72" y={U(4) + 28} class="rk__lbl rk__lbl--s">24 PoE</text>
+            {swPorts.map((x) => (<><rect x={x} y={U(4) + 16} width="8" height="11" rx="1.5" fill="#1b2433" /><rect class="rk__led" x={x + 1.5} y={U(4) + 10} width="5" height="2.5" rx="1" fill="#3fa2ff" /></>))}
+            <rect x="366" y={U(4) + 15} width="8" height="13" rx="1.5" fill="#1b2433" />
+          </g>
+
+          <!-- 6 · pannello cieco + UPS -->
+          <g class="rk__dev" data-dev="ups" filter="url(#rkShadow)">
+            <rect x={X0} y={U(5)} width={W} height="40" rx="5" fill="url(#rkPanel)" stroke="#c9d2df" />
+            {Array.from({ length: 16 }, (_, i) => <rect x={110 + i * 15} y={U(5) + 16} width="9" height="8" rx="2" fill="#cdd5e1" />)}
+            <rect x={X0} y={U(6)} width={W} height="84" rx="6" fill="url(#rkPanel)" stroke="#c9d2df" />
+            <rect x="80" y={U(6) + 18} width="78" height="46" rx="5" fill="#0d1420" />
+            <text class="rk__screen" x="119" y={U(6) + 38}>ONLINE</text>
+            <rect class="rk__screen-bar" x="92" y={U(6) + 47} width="54" height="6" rx="3" fill="#25d366" />
+            <text x="172" y={U(6) + 36} class="rk__lbl">UPS</text>
+            <circle class="rk__led" cx="178" cy={U(6) + 52} r="4" fill="#25d366" />
+            {Array.from({ length: 6 }, (_, i) => <rect x="240" y={U(6) + 16 + i * 9} width="122" height="4" rx="2" fill="#cdd5e1" />)}
+          </g>
+
+          <!-- cavi patch -->
+          <g class="rk__cables" fill="none" stroke-linecap="round">
+            {patch.map((c) => <path class="rk__draw rk__patch" pathLength="1" d={c.d} stroke={c.c} />)}
+            <path class="rk__draw rk__uplink" pathLength="1" d={`M${gwPorts[0] + 9} ${U(0) + 22} C ${gwPorts[0] + 9} ${U(0) + 40}, ${fwPorts[0] + 8} ${U(1) - 4}, ${fwPorts[0] + 8} ${U(1) + 22}`} stroke="#f2a93b" />
+            <path class="rk__draw rk__uplink" pathLength="1" d={`M${fwPorts[7] + 8} ${U(1) + 22} C 420 ${U(1) + 40}, 420 ${U(4) + 10}, 370 ${U(4) + 22}`} stroke="#f2a93b" />
+            <path class="rk__draw rk__apcable" pathLength="1" d={`M${swPorts[23] + 4} ${U(4) + 22} C 430 ${U(4) + 24}, 500 ${U(3)}, 512 128`} stroke="#e9eef5" />
+          </g>
+
+          <!-- access point a parete -->
+          <g class="rk__ap">
+            <g class="rk__waves" fill="none" stroke="#2f8bff" stroke-linecap="round">
+              <path d="M478 46 A 48 48 0 0 1 546 46" /><path d="M462 30 A 70 70 0 0 1 562 30" /><path d="M446 14 A 92 92 0 0 1 578 14" />
+            </g>
+            <circle cx="512" cy="88" r="40" fill="url(#rkAp)" stroke="#c9d2df" filter="url(#rkShadow)" />
+            <circle cx="512" cy="88" r="28" fill="none" stroke="#dde3ec" stroke-width="4" />
+            <circle class="rk__led rk__ring" cx="512" cy="88" r="28" fill="none" stroke="#3fa2ff" stroke-width="4" filter="url(#rkLed)" />
+            <text x="512" y="148" class="rk__tag" text-anchor="middle">ACCESS POINT</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .rk { position: relative; overflow: hidden; color: var(--ink); background: radial-gradient(80% 90% at 75% 45%, #ffffff 0%, #eef2f7 55%, #e3e9f1 100%); }
+  .rk__pin { position: relative; padding-block: clamp(3.5rem, 7vw, 5.5rem); }
+  .rk__grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(1.5rem, 4vw, 3.5rem); align-items: center; }
+  .rk__eyebrow { color: var(--blue); font-weight: 700; letter-spacing: .04em; text-transform: uppercase; font-size: .9rem; margin-bottom: .7rem; }
+  .rk h2 { margin-bottom: 1.3rem; }
+  .rk__steps { list-style: none; padding: 0; margin: 0 0 1.3rem; display: grid; gap: .2rem; }
+  .rk__steps li { position: relative; padding: .6rem .9rem .6rem 3.1rem; border-radius: 12px; transition: background .4s ease, opacity .4s ease, transform .4s ease, box-shadow .4s ease; }
+  .rk__steps li::before { content: attr(data-n); position: absolute; left: .75rem; top: .65rem; width: 1.7rem; height: 1.7rem; border-radius: 50%; display: grid; place-items: center; font-weight: 800; font-size: .85rem; background: #dfe6f0; color: var(--muted); transition: background .4s ease, color .4s ease, box-shadow .4s ease; }
+  .rk__steps strong { display: block; font-size: 1.04rem; }
+  .rk__steps span { display: block; color: var(--muted); font-size: .94rem; line-height: 1.45; }
+  .rk__steps em { display: inline-block; margin-top: .3rem; font-style: normal; font-weight: 800; font-size: .85rem; background: #e3edff; color: var(--blue); padding: .1rem .5rem; border-radius: 6px; }
+  .rk__cta { display: flex; gap: .7rem; flex-wrap: wrap; }
+  .rk__bar { display: none; }
+
+  .rk.is-live .rk__steps li { opacity: .4; }
+  .rk.is-live .rk__steps li.is-on { opacity: 1; background: #fff; transform: translateX(6px); box-shadow: 0 10px 30px rgba(11,26,56,.08); }
+  .rk.is-live .rk__steps li.is-on::before { background: var(--blue); color: #fff; box-shadow: 0 0 0 5px rgba(21,82,209,.15); }
+  .rk.is-live .rk__bar { display: block; height: 3px; border-radius: 3px; background: #d6dfec; margin: 0 0 1.3rem; overflow: hidden; }
+  .rk.is-live .rk__bar span { display: block; height: 100%; transform-origin: left; transform: scaleX(var(--p, 0)); background: linear-gradient(90deg, var(--blue), var(--electric)); }
+  .rk.is-live .rk__pin { min-height: calc(100svh - 4.5rem); display: grid; align-items: center; }
+
+  .rk__stage { position: relative; }
+  .rk__svg { width: 100%; height: auto; overflow: visible; }
+  .rk__lbl { font: 800 10px var(--font); letter-spacing: .14em; fill: #8a96a8; }
+  .rk__lbl--s { font-size: 7px; letter-spacing: .08em; }
+  .rk__num { font: 600 5px var(--font); fill: #7d8796; text-anchor: middle; }
+  .rk__tag { font: 800 10px var(--font); letter-spacing: .1em; fill: var(--muted); }
+  .rk__tag--fibra { fill: #1aa6d9; }
+  .rk__tag--5g { fill: #13a150; }
+  .rk__screen { font: 800 11px var(--font); fill: #25d366; text-anchor: middle; letter-spacing: .1em; }
+  .rk__led { filter: url(#rkLed); }
+  .rk__draw { stroke-dasharray: 1; stroke-dashoffset: 0; }
+  .rk__wan path { stroke-width: 3; fill: none; stroke-linecap: round; }
+  .rk__patch { stroke-width: 3.2; }
+  .rk__uplink { stroke-width: 3.2; }
+  .rk__apcable { stroke-width: 3.2; }
+  .rk__waves path { stroke-width: 3; opacity: .55; }
+
+  .rk__chip { position: absolute; bottom: 4%; right: 0; z-index: 2; display: inline-flex; align-items: center; gap: .5rem; padding: .45rem .9rem; border-radius: 999px; background: #fff; box-shadow: 0 10px 30px rgba(11,26,56,.12); font-weight: 700; font-size: .88rem; }
+  .rk__chip span { width: .6rem; height: .6rem; border-radius: 50%; background: #25d366; box-shadow: 0 0 10px #25d366; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .rk__waves path { animation: rkWave 2s ease-out infinite; }
+    .rk__waves path:nth-child(2) { animation-delay: .3s; }
+    .rk__waves path:nth-child(3) { animation-delay: .6s; }
+  }
+  @keyframes rkWave { 0% { opacity: 0; } 30% { opacity: .7; } 100% { opacity: 0; } }
+
+  @media (max-width: 900px) {
+    .rk__grid { grid-template-columns: 1fr; }
+    .rk__stage { order: -1; }
+    .rk__chip { font-size: .78rem; }
+    .rk.is-live .rk__steps li:not(.is-on) { display: none; }
+    .rk.is-live .rk__steps li.is-on { transform: none; }
+    .rk.is-live h2 { font-size: clamp(1.5rem, 6.5vw, 2rem); margin-bottom: .8rem; }
+    .rk.is-live .rk__eyebrow, .rk.is-live .rk__cta { display: none; }
+    .rk.is-live .rk__pin { padding-block: 1rem; }
+  }
+</style>
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  gsap.registerPlugin(ScrollTrigger);
+
+  const sec = document.querySelector<HTMLElement>('.rk');
+  if (sec && !reduce) {
+    const q = (s: string) => sec.querySelectorAll<SVGElement>(s);
+    const dev = (k: string) => sec.querySelector<SVGGElement>(`[data-dev="${k}"]`);
+    const leds = (k: string) => sec.querySelectorAll(`[data-dev="${k}"] .rk__led`);
+    const steps = sec.querySelectorAll<HTMLElement>('.rk__steps li');
+    const bar = sec.querySelector<HTMLElement>('.rk__bar');
+    sec.classList.add('is-live');
+
+    // Stato iniziale: armadio vuoto, LED spenti, cavi da tirare
+    gsap.set(q('.rk__led'), { opacity: 0.12 });
+    gsap.set(q('.rk__draw'), { strokeDashoffset: 1 });
+    gsap.set(sec.querySelector('.rk__chip'), { opacity: 0, y: -10 });
+    gsap.set(q('.rk__waves'), { opacity: 0 });
+    gsap.set(sec.querySelector('.rk__floor'), { opacity: 0 });
+
+    const slide = { x: 460, opacity: 0, ease: 'power3.out', duration: 1 };
+    const on = { opacity: 1, duration: 0.25, stagger: { each: 0.03, from: 'random' as const } };
+
+    const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+    tl.from(sec.querySelector('.rk__frame'), { opacity: 0, y: 30, scale: 0.96, transformOrigin: '50% 100%', duration: 0.8 })
+      .addLabel('gw')
+      .from(dev('gw'), slide)
+      .to(q('.rk__wan .rk__draw'), { strokeDashoffset: 0, duration: 0.6, stagger: 0.15 }, '-=.3')
+      .to(leds('gw'), on)
+      .addLabel('fw', '+=.3')
+      .from(dev('fw'), slide, 'fw')
+      .to(q('.rk__uplink'), { strokeDashoffset: 0, duration: 0.7, stagger: 0.3 })
+      .to(leds('fw'), on)
+      .addLabel('sw', '+=.3')
+      .from([dev('pp'), dev('cm'), dev('sw')], { ...slide, stagger: 0.3 }, 'sw')
+      .to(q('.rk__patch'), { strokeDashoffset: 0, duration: 0.5, stagger: 0.08 })
+      .to(leds('sw'), { ...on, stagger: { each: 0.02, from: 'start' as const } })
+      .addLabel('ap', '+=.3')
+      .from(sec.querySelector('.rk__ap'), { scale: 0.5, opacity: 0, transformOrigin: '512px 88px', duration: 0.8, ease: 'back.out(1.7)' }, 'ap')
+      .to(q('.rk__apcable'), { strokeDashoffset: 0, duration: 0.8 })
+      .to(q('.rk__ring'), { opacity: 1, duration: 0.4 })
+      .to(q('.rk__waves'), { opacity: 1, duration: 0.4 })
+      .addLabel('ups', '+=.3')
+      .from(dev('ups'), slide, 'ups')
+      .from(sec.querySelector('.rk__screen-bar'), { scaleX: 0, transformOrigin: '0% 50%', duration: 0.6 })
+      .to(leds('ups'), on)
+      .addLabel('done', '+=.3')
+      .to(sec.querySelector('.rk__floor'), { opacity: 1, duration: 0.6 }, 'done')
+      .to(sec.querySelector('.rk__chip'), { opacity: 1, y: 0, duration: 0.5, ease: 'back.out(2)' }, 'done')
+      .to({}, { duration: 1 });
+
+    const labels = ['gw', 'fw', 'sw', 'ap', 'ups', 'done'].map((l) => tl.labels[l]);
+    let cur = -1;
+    const mark = () => {
+      const t = tl.time();
+      let s = 0;
+      labels.forEach((v, i) => { if (t >= v - 0.05) s = i; });
+      if (s !== cur) { cur = s; steps.forEach((li, i) => li.classList.toggle('is-on', i === s)); }
+      bar?.style.setProperty('--p', (t / tl.duration()).toFixed(3));
+    };
+    mark();
+
+    ScrollTrigger.create({
+      trigger: sec,
+      start: () => `top top+=${document.querySelector('.hdr')?.getBoundingClientRect().height ?? 72}`,
+      end: '+=320%',
+      pin: true,
+      anticipatePin: 1,
+      invalidateOnRefresh: true,
+      animation: tl,
+      scrub: 0.6,
+      onUpdate: mark,
+    });
+    tl.eventCallback('onUpdate', mark);
+  }
+</script>
