@@ -40,7 +40,8 @@ const organization = {
     addressRegion: SEDI[0].province,
     addressCountry: 'IT',
   },
-  parentOrganization: { '@type': 'Organization', name: SITE.company, url: 'https://www.g8a.it' },
+  // Scheda Google della sede G8A (Solbiate Arno): FibraHero non ha una scheda propria.
+  parentOrganization: { '@type': 'Organization', name: SITE.company, url: 'https://www.g8a.it', sameAs: ['https://www.google.com/maps/place/?q=place_id:ChIJj7G_qVu2ImgR7SoyoB5PA5s'] },
 };
 const schemas = [organization, ...jsonLd];
 ---
