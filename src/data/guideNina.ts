@@ -3,6 +3,159 @@
 /* eslint-disable */
 export const GUIDE_NINA: any[] = [
   {
+    "slug": "backup-connessione-internet-azienda",
+    "titolo": "Backup connessione internet azienda: serve davvero?",
+    "h1": "Backup della connessione internet per l'azienda: serve davvero?",
+    "descrizione": "Il backup della connessione internet in azienda serve? Come funziona il failover su 4G/5G, quando conviene e cosa controllare. Chiedi una verifica.",
+    "intro": "Se la tua azienda lavora con gestionale in cloud, posta, telefono VoIP, cassa o pagamenti elettronici, quando cade internet ti fermi. Il backup della connessione è una seconda via d'uscita che entra in funzione da sola quando la linea principale non risponde. Per molte attività è una protezione semplice e sensata, ma non per tutte: vediamo come capire se serve a te.",
+    "in_breve": [
+      "Serve se, senza internet, in ufficio o in negozio non puoi lavorare, incassare o rispondere ai clienti.",
+      "Il backup più comune è una seconda connessione, spesso su rete mobile 4G/5G, collegata a un router che passa da una linea all'altra in automatico (failover).",
+      "Non basta una SIM in un cassetto: il router giusto, la prova prima del guasto e un gruppo di continuità fanno la differenza.",
+      "Se internet ti serve solo per navigare, puoi anche valutare di farne a meno: conta quanto costa a te un'ora di fermo."
+    ],
+    "sezioni": [
+      {
+        "punti": [],
+        "titolo": "Che cos'è il backup della connessione internet?",
+        "paragrafi": [
+          "È una seconda connessione che resta in attesa. Quando la linea principale, per esempio la fibra, smette di funzionare, il router sposta il traffico sulla linea di riserva. Quando la principale torna, il router ci ritorna da solo.",
+          "Questo passaggio si chiama failover, e il ritorno failback. Non è un backup dei file: non salva i tuoi dati, tiene aperta la porta verso internet."
+        ]
+      },
+      {
+        "punti": [
+          "Usi un gestionale o un programma di fatturazione in cloud.",
+          "Hai un centralino VoIP o telefoni che passano da internet.",
+          "Incassi con POS o casse collegate alla rete.",
+          "Hai telecamere, allarmi o accessi che devi poter controllare da remoto.",
+          "Lavori con clienti che ti scrivono o ti chiamano tutto il giorno.",
+          "Hai una sede dove le persone lavorano insieme su file condivisi online."
+        ],
+        "titolo": "Quando il backup serve davvero?",
+        "paragrafi": [
+          "La domanda giusta non è «la mia fibra si guasta?». Nessuna connessione è sicura al 100%, e i guasti possono arrivare da un cantiere, da un cavo tranciato o da un problema dell'operatore, cose che non dipendono da te. La domanda giusta è: cosa succede alla mia attività se internet manca per qualche ora?"
+        ]
+      },
+      {
+        "punti": [],
+        "titolo": "Quando puoi farne a meno?",
+        "paragrafi": [
+          "Se in ufficio internet serve soprattutto per consultare qualche sito e una volta al giorno la posta, e se potete lavorare qualche ora offline o dal telefono, un backup dedicato può essere un di più. In quel caso, un'alternativa semplice è sapere in anticipo come condividere la connessione dallo smartphone in caso di emergenza.",
+          "Fai due conti in modo onesto: quante persone si fermano, quanti ordini o appuntamenti perdi, quanto ti pesa non rispondere ai clienti. Se il fermo è un fastidio, forse basta. Se è un danno, il backup si ripaga."
+        ]
+      },
+      {
+        "punti": [],
+        "titolo": "Come funziona il backup su 4G/5G?",
+        "immagine": {
+          "alt": "Schema del failover: guasto della fibra e passaggio automatico del router alla linea di riserva",
+          "url": "https://ijrrnuurjbgugystlfry.supabase.co/storage/v1/object/public/guide-immagini/fibrahero/backup-connessione-internet-azienda-1cd0bf68.jpg",
+          "fonte": "nina",
+          "didascalia": "Il failover in tre passi"
+        },
+        "paragrafi": [
+          "La soluzione più diffusa per chi ha la fibra è una connessione su rete mobile. Serve un router con due ingressi internet (dual WAN) o con una SIM dati integrata. Il router controlla di continuo la linea principale: se non risponde, attiva la rete mobile e instrada il traffico lì.",
+          "Poiché la rete mobile è pensata come riserva, di solito si usa solo nei momenti di guasto e non come seconda linea sempre attiva. In alternativa si può usare una seconda linea fissa, meglio se passa per un percorso diverso dalla prima: due linee che viaggiano nello stesso cavo si fermano insieme."
+        ]
+      },
+      {
+        "punti": [
+          "Il router supporta il failover automatico e non richiede di fare nulla a mano.",
+          "Il segnale mobile nel punto in cui è installato il router è buono: va misurato, non dato per scontato.",
+          "La linea di riserva è davvero indipendente da quella principale, per quanto possibile anche come operatore o tecnologia.",
+          "Router, centralino e apparati di rete sono collegati a un gruppo di continuità, altrimenti un black-out ti ferma comunque.",
+          "Le chiamate in corso possono cadere nel momento del passaggio: chiedi come si comporta il tuo centralino.",
+          "Servizi come telecamere o accessi da remoto possono richiedere un indirizzo IP fisso anche sulla linea di riserva: chiedilo prima.",
+          "Il passaggio è stato simulato, staccando la linea principale in un momento tranquillo."
+        ],
+        "titolo": "Cosa controllare perché il backup funzioni davvero",
+        "paragrafi": [
+          "Un backup che non è mai stato provato è una speranza, non una protezione. Prima di fidarti controlla questi punti."
+        ]
+      },
+      {
+        "punti": [
+          "Non affidarti a una SIM inserita in un router economico senza averlo provato.",
+          "Non dare per buona una promessa di velocità sulla linea di riserva: la rete mobile varia con la zona e con l'orario.",
+          "Non usare la linea di riserva per tutto il traffico pesante, come aggiornamenti e copie di file: le regole del router servono proprio a evitarlo.",
+          "Non confondere il backup della connessione con il backup dei dati: servono tutti e due, ma proteggono cose diverse."
+        ],
+        "titolo": "Cosa non fare",
+        "paragrafi": []
+      },
+      {
+        "punti": [],
+        "titolo": "Cosa fa FibraHero per il backup",
+        "paragrafi": [
+          "FibraHero è l'operatore di connettività di G8A Technology, solo per aziende. Non controlliamo la rete in strada, ma progettiamo bene la rete dentro la tua sede: fibra, backup, router, firewall e Wi-Fi pensati insieme, così l'azienda non si ferma. Se vuoi capire come funziona il servizio, leggi la pagina sul backup della connessione aziendale.",
+          "L'assistenza è diretta, con i tecnici G8A, negli orari della sede e con presa in carico in giornata. Per velocità reali e tempi di attivazione sul tuo indirizzo, la strada giusta è la verifica copertura."
+        ]
+      }
+    ],
+    "faq": [
+      {
+        "d": "Il backup si attiva da solo?",
+        "r": "Sì, se il router supporta il failover automatico. Il router controlla la linea principale e, quando non risponde, sposta il traffico sulla riserva. Le chiamate in corso possono cadere, quelle successive partono sulla linea di riserva."
+      },
+      {
+        "d": "Basta una SIM 4G in un router qualsiasi?",
+        "r": "Di solito no. Serve un router adatto al failover, un segnale mobile verificato nel punto di installazione e una prova fatta prima del guasto."
+      },
+      {
+        "d": "Il backup della connessione protegge anche i miei file?",
+        "r": "No. Mantiene l'accesso a internet, non salva i dati. Per i file serve un backup dei dati separato."
+      },
+      {
+        "d": "La linea di riserva ha la stessa velocità della fibra?",
+        "r": "Non necessariamente. Serve a far continuare il lavoro, non a replicare in tutto la linea principale. Per i valori reali sul tuo indirizzo usa la verifica copertura."
+      },
+      {
+        "d": "Serve anche un gruppo di continuità?",
+        "r": "È consigliato per router, centralino e apparati di rete: se manca la corrente, anche il miglior backup si ferma."
+      }
+    ],
+    "link": [
+      {
+        "url": "/backup-connessione-aziendale",
+        "testo": "backup della connessione aziendale"
+      },
+      {
+        "url": "/guide/fibra-ftth-o-fttc-azienda",
+        "testo": "fibra FTTH o FTTC per l'azienda"
+      },
+      {
+        "url": "/gestione-rete-aziendale",
+        "testo": "gestione della rete aziendale"
+      },
+      {
+        "url": "/firewall-aziendale",
+        "testo": "firewall aziendale"
+      },
+      {
+        "url": "/centralino-cloud-voip",
+        "testo": "centralino cloud VoIP"
+      },
+      {
+        "url": "/verifica-copertura",
+        "testo": "verifica la copertura al tuo indirizzo"
+      },
+      {
+        "url": "/prezzi",
+        "testo": "prezzi e canoni"
+      }
+    ],
+    "extra": {},
+    "copertina": {
+      "alt": "Router aziendale con linea in fibra e linea di riserva 4G/5G per il backup della connessione internet",
+      "url": "https://ijrrnuurjbgugystlfry.supabase.co/storage/v1/object/public/guide-immagini/fibrahero/backup-connessione-internet-azienda-19b6874a.jpg",
+      "fonte": "nina"
+    },
+    "firmato_da": "Antonio Arrigo",
+    "pubblicata_il": "2026-11-14",
+    "aggiornata_il": "2026-11-14"
+  },
+  {
     "slug": "fibra-ftth-o-fttc-azienda",
     "titolo": "Fibra FTTH o FTTC per l'azienda: differenze e scelta",
     "h1": "Fibra FTTH o FTTC per l'azienda: quale arriva al tuo ufficio e quale ti serve",
