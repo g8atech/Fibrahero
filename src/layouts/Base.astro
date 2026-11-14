@@ -3,6 +3,8 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE, SEDI } from '../data/site';
+import ConsentHead from '../components/ConsentHead.astro';
+import ConsentBanner from '../components/ConsentBanner.astro';
 
 interface Props {
   title: string;
@@ -48,21 +50,13 @@ const schemas = [organization, ...jsonLd];
     <meta charset="utf-8" />
     <script is:inline>document.documentElement.classList.add('js');</script>
 
-    <!-- Google Tag Manager -->
+    <!-- Consenso cookie (Consent Mode v2 negato finché il visitatore non sceglie) e Microsoft Clarity solo dopo il consenso -->
+    <ConsentHead />
+    <!-- Google Tag Manager (GA4 dentro il contenitore rispetta il consenso) -->
     <script is:inline async src="https://www.googletagmanager.com/gtm.js?id=GTM-KPVRPZQS"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-    </script>
-
-    <!-- Microsoft Clarity -->
-    <script is:inline type="text/javascript">
-      (function(c,l,a,r,i,t,y){
-          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-      })(window, document, "clarity", "script", "zbn4qjiqy4");
+      dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{fullTitle}</title>
@@ -102,5 +96,17 @@ const schemas = [organization, ...jsonLd];
     <script>
       import '../scripts/motion';
     </script>
+    <script is:inline>
+      // Contatti: ogni clic su telefono, WhatsApp o email va nel dataLayer come evento "contatto" (GA4 via Tag Manager).
+      document.addEventListener('click', function (e) {
+        var a = e.target && e.target.closest ? e.target.closest('a') : null;
+        if (!a) return;
+        var h = a.getAttribute('href') || '';
+        var canale = h.indexOf('tel:') === 0 ? 'telefono' : /wa\.me\/|api\.whatsapp\.com/.test(h) ? 'whatsapp' : h.indexOf('mailto:') === 0 ? 'email' : null;
+        if (!canale) return;
+        (window.dataLayer = window.dataLayer || []).push({ event: 'contatto', canale: canale, pagina: location.pathname });
+      });
+    </script>
+    <ConsentBanner />
   </body>
 </html>

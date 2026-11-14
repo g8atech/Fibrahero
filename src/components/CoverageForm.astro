@@ -89,6 +89,8 @@ const { comune = '' } = Astro.props;
         try {
           const res = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, fonte: 'fibrahero.it', pagina: location.pathname }) });
           if (!res.ok) throw new Error(String(res.status));
+          // Conteggio della richiesta come contatto (evento "contatto", canale modulo), poi la pagina di ringraziamento.
+          try { sessionStorage.setItem('fh_modulo_inviato', location.pathname); } catch {}
           location.href = '/grazie';
         } catch {
           button.disabled = false;

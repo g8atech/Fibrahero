@@ -9,4 +9,11 @@ import Base from '../layouts/Base.astro';
       <a class="btn btn--ghost" href="/">Torna alla home</a>
     </div>
   </section>
+  <script is:inline>
+    // Solo dopo un invio vero del modulo (non a chi apre /grazie direttamente) e una volta sola.
+    try {
+      var da = sessionStorage.getItem('fh_modulo_inviato');
+      if (da) { sessionStorage.removeItem('fh_modulo_inviato'); (window.dataLayer = window.dataLayer || []).push({ event: 'contatto', canale: 'modulo', pagina: da }); }
+    } catch (e) {}
+  </script>
 </Base>

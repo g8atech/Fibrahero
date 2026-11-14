@@ -51,7 +51,7 @@ const year = new Date().getFullYear();
       {SITE.roc && <> · Iscrizione al ROC n. {SITE.roc}</>}
       {SITE.mimit && <> · Autorizzazione generale MIMIT {SITE.mimit}</>}
     </span>
-    <a href="/privacy">Privacy</a>
+    <span class="ftr__pol"><a href="/privacy">Privacy</a> · <a href="/cookie-policy">Cookie policy</a> · <button type="button" class="ftr__ck" data-cookie-prefs>Preferenze cookie</button></span>
   </div>
 </footer>
 
@@ -68,6 +68,9 @@ const year = new Date().getFullYear();
   .ftr ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.55rem; }
   .ftr__addr { color: #8ea3c8; font-size: 0.86rem; }
   .ftr__g8a { display: inline-block; margin-top: 1.75rem; background: #fff; padding: 0.6rem 0.8rem; border-radius: var(--radius-s); }
+  .ftr__pol { white-space: nowrap; }
+  .ftr__ck { padding: 0; border: 0; background: none; color: inherit; font: inherit; text-decoration: underline; cursor: pointer; }
+  .ftr__ck:hover { color: #fff; }
   .ftr__legal { display: flex; justify-content: space-between; gap: 1rem; margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid #1d2f57; color: #8ea3c8; font-size: 0.85rem; }
   @media (max-width: 900px) { .ftr__grid { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 540px) { .ftr__grid { grid-template-columns: 1fr; } .ftr__legal { flex-direction: column; } }
