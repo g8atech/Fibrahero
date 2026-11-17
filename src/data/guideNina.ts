@@ -3,6 +3,152 @@
 /* eslint-disable */
 export const GUIDE_NINA: any[] = [
   {
+    "slug": "internet-lento-in-ufficio",
+    "titolo": "Internet lento in ufficio: linea o rete interna?",
+    "h1": "Internet lento in ufficio: è la linea o la rete interna? Come capirlo",
+    "descrizione": "Internet lento in ufficio? Scopri come capire se il problema è la linea o la rete interna, con prove semplici da fare da solo e quando chiamare un tecnico.",
+    "intro": "Se internet è lento in ufficio, la causa non è sempre la linea. Molto spesso il problema sta dentro la rete: Wi-Fi, cavi, switch, router o troppi dispositivi collegati. Con un confronto semplice, cavo contro Wi-Fi, in pochi minuti capisci da che parte guardare.",
+    "in_breve": [
+      "Prova la velocità con un PC collegato al router via cavo: se va bene, la linea funziona e il problema è nella rete interna (Wi-Fi, switch, cavi).",
+      "Se va male anche col cavo e con tutto il resto fermo, il sospetto passa alla linea o al router dell'operatore.",
+      "Per una prova con valore ufficiale esiste lo strumento AGCOM Ne.Me.Sys, da usare col cavo.",
+      "Non cambiare operatore prima di aver capito la causa: potresti ritrovarti con lo stesso problema."
+    ],
+    "sezioni": [
+      {
+        "punti": [
+          "Lento solo per un PC: guarda quel PC, la sua scheda di rete o il suo Wi-Fi.",
+          "Lento solo in una stanza: quasi sempre è il segnale Wi-Fi.",
+          "Lento a certe ore: può esserci troppo traffico interno, come backup, aggiornamenti o video.",
+          "Lento sempre e per tutti, anche via cavo: guarda la linea e il router."
+        ],
+        "titolo": "Come capisco se internet è lento solo per me o per tutto l'ufficio?",
+        "paragrafi": [
+          "Prima di misurare, osserva. Il rallentamento è per tutti o solo per una persona? È sempre o solo in certe ore? Riguarda tutto o solo alcuni servizi, come videochiamate, gestionale in cloud o posta?",
+          "Questi indizi valgono più di qualsiasi test, perché dicono dove cercare."
+        ]
+      },
+      {
+        "punti": [],
+        "titolo": "Come faccio la prova cavo contro Wi-Fi?",
+        "immagine": {
+          "alt": "Confronto tra prova con cavo ethernet e prova con Wi-Fi per misurare la velocità internet in ufficio",
+          "url": "https://ijrrnuurjbgugystlfry.supabase.co/storage/v1/object/public/guide-immagini/fibrahero/internet-lento-in-ufficio-f19f8ae5.jpg",
+          "fonte": "nina",
+          "didascalia": "La prova cavo contro Wi-Fi dice subito dove cercare il problema."
+        },
+        "paragrafi": [
+          "È la prova più utile e non costa niente. Ti serve un PC con la porta di rete e un cavo ethernet in buono stato.",
+          "Collega il PC direttamente al router o al primo apparecchio dopo la linea. Spegni il Wi-Fi del PC. Chiedi ai colleghi di fermare download pesanti e videochiamate per qualche minuto. Poi fai un test di velocità, meglio se due o tre volte in orari diversi.",
+          "Leggi il risultato così: se via cavo la velocità è buona e col Wi-Fi è molto più bassa, la linea è a posto e il problema è la rete wireless. Se è bassa anche via cavo, guarda la sezione sulla linea."
+        ]
+      },
+      {
+        "punti": [
+          "Wi-Fi debole o disturbato: un solo router in un angolo, muri spessi, troppi dispositivi sulla stessa rete.",
+          "Cavi ethernet vecchi o rovinati, o porte che lavorano a velocità più bassa di quella della linea.",
+          "Switch economici o sovraccarichi, collegati a catena uno dopo l'altro.",
+          "Router dell'operatore usato anche per Wi-Fi, ospiti e telefoni insieme, senza separare le reti.",
+          "Dispositivi che consumano banda senza che nessuno se ne accorga: backup, aggiornamenti, telecamere, cloud.",
+          "Nessun controllo centrale: nessuno vede cosa succede, quindi si procede per tentativi."
+        ],
+        "titolo": "Quali sono le cause più comuni della rete interna lenta?",
+        "paragrafi": [
+          "In un ufficio la rete cresce nel tempo: si aggiunge un access point, poi uno switch, poi un altro cavo. Dopo qualche anno nessuno sa più com'è fatta. Le cause più frequenti sono queste."
+        ]
+      },
+      {
+        "punti": [],
+        "titolo": "Quando il problema è la linea e come lo verifico?",
+        "paragrafi": [
+          "Se anche col cavo, con un solo PC e con la rete libera, la velocità resta molto sotto quella attesa, il sospetto è sulla linea. Può dipendere dalla tecnologia che arriva all'indirizzo, dal collegamento in strada o dall'apparecchio dell'operatore. Questa parte non la puoi sistemare tu.",
+          "Per una verifica formale esiste Ne.Me.Sys, il software gratuito del progetto Misura Internet di AGCOM. Misura la linea fissa e rilascia un certificato. Va usato con il PC collegato al router via cavo ethernet, senza Wi-Fi e senza altri usi della rete durante la misura. Per gli effetti sul contratto, come reclamo o recesso, sentì il tuo consulente e leggi le condizioni che hai firmato.",
+          "Per capire che tecnologia arriva al tuo indirizzo, leggi anche la guida su fibra FTTH o FTTC."
+        ]
+      },
+      {
+        "punti": [
+          "Non cambiare operatore alla prima giornata storta: se la causa è la rete interna, il problema resta uguale.",
+          "Non aggiungere ripetitori Wi-Fi a caso: spesso peggiorano la situazione.",
+          "Non toccare le impostazioni del router se non sai cosa fai: potresti bloccare telefoni, stampanti o accessi da remoto.",
+          "Non fidarti di un solo test fatto in un solo momento: ripeti la prova in orari diversi."
+        ],
+        "titolo": "Cosa non devo fare quando internet è lento?",
+        "paragrafi": []
+      },
+      {
+        "punti": [],
+        "titolo": "Quando conviene chiamare un tecnico e cosa succede?",
+        "paragrafi": [
+          "Chiama un tecnico se la prova col cavo non ti dà una risposta chiara, se i problemi tornano, o se in ufficio lavorate con gestionale, cloud, telefoni VoIP o videochiamate e ogni rallentamento costa lavoro fermo.",
+          "Il tecnico controlla la linea, il router, gli switch, i cavi e il Wi-Fi, e ti dice se il problema è dentro o fuori l'ufficio. Se è dentro, si può sistemare la rete: reti separate per ospiti e dispositivi, Wi-Fi ben coperto, firewall e controllo da remoto. Se la tua attività non può restare ferma, vale la pena pensare anche a un backup della connessione.",
+          "FibraHero by G8A lavora solo con aziende e partite IVA. Non controlliamo la rete in strada, ma progettiamo bene la rete del cliente. L'assistenza è diretta dei tecnici G8A negli orari della sede, con presa in carico in giornata. Scrivici su WhatsApp o chiama lo 0331 139 0950."
+        ]
+      }
+    ],
+    "faq": [
+      {
+        "d": "Un test di velocità online basta per capire se la linea è lenta?",
+        "r": "È un buon primo controllo, ma conta come lo fai: collegati con il cavo, ferma gli altri usi della rete e ripeti la prova in orari diversi. Un solo test via Wi-Fi dice poco."
+      },
+      {
+        "d": "Il Wi-Fi può essere lento anche se la fibra funziona bene?",
+        "r": "Sì. La linea può arrivare in ufficio senza problemi e il Wi-Fi può rallentarla per distanza, muri, interferenze o troppi dispositivi."
+      },
+      {
+        "d": "Che cos'è Ne.Me.Sys?",
+        "r": "È il software gratuito del progetto Misura Internet di AGCOM per misurare in modo certificato la linea fissa. Va usato con il cavo ethernet, come spiegato sul sito misurainternet.it."
+      },
+      {
+        "d": "Un backup della connessione risolve la lentezza?",
+        "r": "No. Il backup serve quando la linea si ferma, non a velocizzare una rete interna fatta male. Ti aiuta però a non fermare il lavoro."
+      },
+      {
+        "d": "Posso sapere che velocità arriva al mio indirizzo?",
+        "r": "Sì, con la verifica copertura sul sito: indichi l'indirizzo e vedi velocità reali e tempi di attivazione."
+      }
+    ],
+    "link": [
+      {
+        "url": "/guide/fibra-ftth-o-fttc-azienda",
+        "testo": "Fibra FTTH o FTTC per l'azienda"
+      },
+      {
+        "url": "/guide/backup-connessione-internet-azienda",
+        "testo": "Backup della connessione internet per l'azienda"
+      },
+      {
+        "url": "/gestione-rete-aziendale",
+        "testo": "Gestione della rete aziendale"
+      },
+      {
+        "url": "/firewall-aziendale",
+        "testo": "Firewall aziendale"
+      },
+      {
+        "url": "/verifica-copertura",
+        "testo": "Verifica la copertura al tuo indirizzo"
+      },
+      {
+        "url": "/assistenza",
+        "testo": "Assistenza FibraHero"
+      },
+      {
+        "url": "/fibra-ultraveloce-aziende",
+        "testo": "Fibra ultraveloce per aziende"
+      }
+    ],
+    "extra": {},
+    "copertina": {
+      "alt": "Schema di una rete d'ufficio con router, switch, cavo e Wi-Fi per capire perché internet è lento",
+      "url": "https://ijrrnuurjbgugystlfry.supabase.co/storage/v1/object/public/guide-immagini/fibrahero/internet-lento-in-ufficio-d61ec58c.jpg",
+      "fonte": "nina"
+    },
+    "firmato_da": "Antonio Arrigo",
+    "pubblicata_il": "2026-11-17",
+    "aggiornata_il": "2026-11-17"
+  },
+  {
     "slug": "backup-connessione-internet-azienda",
     "titolo": "Backup connessione internet azienda: serve davvero?",
     "h1": "Backup della connessione internet per l'azienda: serve davvero?",
